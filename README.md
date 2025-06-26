@@ -8,6 +8,13 @@ kubectl apply -f aws-eks-auto-mode-node-pools.yml
 kubectl apply -f aws-eks-auto-mode-storage-classes.yml
 ```
 
+Create the catalog secret:
+```
+export AWS_ACCESS_KEY_ID=<access-key> 
+export AWS_SECRET_ACCESS_KEY=<secret-key> 
+kubectl create secret generic catalog-server-s3-storage-creds --namespace $NAMESPACE --from-literal awsAccessKeyId=$AWS_ACCESS_KEY_ID --from-literal awsSecretAccessKey=$AWS_SECRET_ACCESS_KEY
+```
+
 Copy and use the following file `values-aws-eks-auto-mode-v26.0.2-override.yml` as a template. Do NOT modify `values-aws-eks-auto-mode-v26.0.2.yml`.
 ```
 helm upgrade --install dremio charts\dremio\ -f values-aws-eks-auto-mode-v26.0.2.yml -f values-aws-eks-auto-mode-v26.0.2-override.yml
