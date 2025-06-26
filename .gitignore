@@ -1,0 +1,5 @@
+.DS_Store
+charts/dremio/tests/__snapshot__
+*.tgz
+my/
+

@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: aws-cli
+spec:
+  serviceName: "aws-cli"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aws-cli
+  template:
+    metadata:
+      labels:
+        app: aws-cli
+    spec:
+      tolerations:
+        - key: dremio
+          operator: Exists
+          effect: NoExecute
+      terminationGracePeriodSeconds: 0
+      nodeSelector:
+        karpenter.sh/nodepool: dremio-executor-pool
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      containers:
+      - name: aws-cli
+        image: amazon/aws-cli
+        command: ["sleep", "infinity"]
+        volumeMounts:
+        - name: data-log-disk-test
+          mountPath: /data_log
+        - name: data-coord-disk-test
+          mountPath: /data_coord
+  volumeClaimTemplates:
+  - metadata:
+      name: data-log-disk-test
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "dremio-logs"
+      resources:
+        requests:
+          storage: 8Gi
+  - metadata:
+      name: data-coord-disk-test
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "dremio-coordinator"
+      resources:
+        requests:
+          storage: 8Gi
