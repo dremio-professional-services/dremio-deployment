@@ -16,10 +16,16 @@ kubectl create secret generic catalog-server-s3-storage-creds --namespace $NAMES
 ```
 
 Copy and use the following file `values-aws-eks-auto-mode-v26.0.2-override.yml` as a template. Do NOT modify `values-aws-eks-auto-mode-v26.0.2.yml`.
+
 ```
 helm upgrade --install dremio charts\dremio\ -f values-aws-eks-auto-mode-v26.0.2.yml -f values-aws-eks-auto-mode-v26.0.2-override.yml
 ```
 
+## Add engines via UI and set the node selector:
+
+```
+karpenter.sh/nodepool: dremio-executor
+```
 
 ## Carsten's commands
 ```
@@ -27,3 +33,4 @@ kubectl apply -f dremio-deployment\aws-eks-auto-mode\aws-eks-auto-mode-node-pool
 kubectl apply -f dremio-deployment\aws-eks-auto-mode\aws-eks-auto-mode-storage-classes.yml
 helm upgrade --install dremio helm-charts-v3\charts\dremio\ -f dremio-deployment\aws-eks-auto-mode\values-aws-eks-auto-mode-v26.0.2.yml -f dremio-deployment\my\values-aws-eks-auto-mode-v26.0.2-override.yml
 ```
+

@@ -17,9 +17,9 @@ metadata:
   name: dremio-logs
 provisioner: ebs.csi.eks.amazonaws.com
 volumeBindingMode: WaitForFirstConsumer
+# gp3 baseline is 3000 IOPS
 parameters:
   type: gp3
-  iops: "600"
   encrypted: "true"
 
 ---
@@ -41,9 +41,9 @@ metadata:
   name: dremio-nats
 provisioner: ebs.csi.eks.amazonaws.com
 volumeBindingMode: WaitForFirstConsumer
+# gp3 baseline is 3000 IOPS
 parameters:
   type: gp3
-  iops: "600"
   encrypted: "true"
 
 ---
@@ -53,9 +53,9 @@ metadata:
   name: dremio-opensearch
 provisioner: ebs.csi.eks.amazonaws.com
 volumeBindingMode: WaitForFirstConsumer
+# gp3 baseline is 3000 IOPS
 parameters:
   type: gp3
-  iops: "2000"
   encrypted: "true"
 
 ---
@@ -65,7 +65,7 @@ metadata:
   name: dremio-zk
 provisioner: ebs.csi.eks.amazonaws.com
 volumeBindingMode: WaitForFirstConsumer
+# gp3 baseline is 3000 IOPS
 parameters:
   type: gp3
-  iops: "600"
   encrypted: "true"

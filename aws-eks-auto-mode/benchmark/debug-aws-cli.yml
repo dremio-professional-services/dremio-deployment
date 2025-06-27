@@ -19,32 +19,11 @@ spec:
           effect: NoExecute
       terminationGracePeriodSeconds: 0
       nodeSelector:
-        karpenter.sh/nodepool: dremio-executor-pool
-      hostNetwork: true
+        karpenter.sh/nodepool: dremio-general
+#      hostNetwork: false
       dnsPolicy: ClusterFirstWithHostNet
       containers:
       - name: aws-cli
         image: amazon/aws-cli
         command: ["sleep", "infinity"]
-        volumeMounts:
-        - name: data-log-disk-test
-          mountPath: /data_log
-        - name: data-coord-disk-test
-          mountPath: /data_coord
-  volumeClaimTemplates:
-  - metadata:
-      name: data-log-disk-test
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: "dremio-logs"
-      resources:
-        requests:
-          storage: 8Gi
-  - metadata:
-      name: data-coord-disk-test
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: "dremio-coordinator"
-      resources:
-        requests:
-          storage: 8Gi
+

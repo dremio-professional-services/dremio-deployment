@@ -18,7 +18,7 @@ dremio:
   log:
     enabled: true
     volume:
-      size: 8Gi
+      size: 10Gi
 
 busyBox:
   image:
@@ -180,7 +180,7 @@ engine:
       log:
         pvc:
           storageClass: dremio-logs
-          size: 8Gi
+          size: 10Gi
       default:
         type: "emptyDir"
         emptyDir:

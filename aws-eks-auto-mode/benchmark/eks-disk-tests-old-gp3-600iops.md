@@ -81,170 +81,170 @@ Run status group 0 (all jobs):
    READ: bw=508MiB/s (533MB/s), 508MiB/s-508MiB/s (533MB/s-533MB/s), io=89.3GiB (95.9GB), run=180007-180007msec
   WRITE: bw=127MiB/s (133MB/s), 127MiB/s-127MiB/s (133MB/s-133MB/s), io=22.4GiB (24.0GB), run=180007-180007msec
 
-Storage Class: dremio-zk and dremio-nats and dremio-logs - gp3 - default IOPS - 10 GB
-=====================================================================================
+Storage Class: dremio-zk and dremio-nats and dremio-logs - gp3 - 600 IOPS - 10 GB
+=================================================================================
 Command: fio --name=kvstore_test  --directory=/opt/dremio/data --direct=0 --rw=randrw --rwmixread=80 --bs=8k --size=1G --numjobs=8 --iodepth=1 --ioengine=psync --runtime=180 --time_based --group_reporting
-Jobs: 8 (f=8): [m(8)][100.0%][r=15.4MiB/s,w=3859KiB/s][r=1975,w=482 IOPS][eta 00m:00s]
-kvstore_test: (groupid=0, jobs=8): err= 0: pid=40: Fri Jun 27 09:27:38 2025
-  read: IOPS=2455, BW=19.2MiB/s (20.1MB/s)(3453MiB/180005msec)
-    clat (usec): min=313, max=12698, avg=3254.69, stdev=843.77
-     lat (usec): min=313, max=12698, avg=3254.75, stdev=843.77
+Jobs: 8 (f=8): [m(8)][100.0%][r=17.0MiB/s,w=4656KiB/s][r=2174,w=582 IOPS][eta 00m:00s]
+kvstore_test: (groupid=0, jobs=8): err= 0: pid=40: Wed Jun 25 14:12:28 2025
+  read: IOPS=2492, BW=19.5MiB/s (20.4MB/s)(3505MiB/180002msec)
+    clat (usec): min=308, max=21639, avg=3206.21, stdev=871.32
+     lat (usec): min=308, max=21639, avg=3206.27, stdev=871.33
     clat percentiles (usec):
-     |  1.00th=[ 1598],  5.00th=[ 2278], 10.00th=[ 2507], 20.00th=[ 2638],
-     | 30.00th=[ 2671], 40.00th=[ 2769], 50.00th=[ 3064], 60.00th=[ 3326],
-     | 70.00th=[ 3621], 80.00th=[ 3982], 90.00th=[ 4424], 95.00th=[ 4686],
-     | 99.00th=[ 5669], 99.50th=[ 5997], 99.90th=[ 6652], 99.95th=[ 6980],
-     | 99.99th=[ 7570]
-   bw (  KiB/s): min=13552, max=71200, per=100.00%, avg=19661.06, stdev=566.37, samples=2872
-   iops        : min= 1694, max= 8900, avg=2457.63, stdev=70.80, samples=2872
-  write: IOPS=615, BW=4921KiB/s (5039kB/s)(865MiB/180005msec); 0 zone resets
-    clat (usec): min=3, max=5047, avg= 8.45, stdev=58.39
-     lat (usec): min=3, max=5047, avg= 8.55, stdev=58.40
+     |  1.00th=[ 1582],  5.00th=[ 2147], 10.00th=[ 2343], 20.00th=[ 2573],
+     | 30.00th=[ 2671], 40.00th=[ 2769], 50.00th=[ 2999], 60.00th=[ 3294],
+     | 70.00th=[ 3589], 80.00th=[ 3949], 90.00th=[ 4359], 95.00th=[ 4752],
+     | 99.00th=[ 5669], 99.50th=[ 5997], 99.90th=[ 6718], 99.95th=[ 7046],
+     | 99.99th=[ 8848]
+   bw (  KiB/s): min=13376, max=71184, per=100.00%, avg=19953.60, stdev=581.98, samples=2872
+   iops        : min= 1672, max= 8898, avg=2494.20, stdev=72.75, samples=2872
+  write: IOPS=624, BW=4998KiB/s (5118kB/s)(879MiB/180002msec); 0 zone resets
+    clat (usec): min=3, max=6717, avg= 7.77, stdev=53.04
+     lat (usec): min=3, max=6717, avg= 7.87, stdev=53.04
     clat percentiles (usec):
-     |  1.00th=[    5],  5.00th=[    5], 10.00th=[    5], 20.00th=[    6],
-     | 30.00th=[    7], 40.00th=[    7], 50.00th=[    7], 60.00th=[    8],
-     | 70.00th=[    8], 80.00th=[    9], 90.00th=[   10], 95.00th=[   11],
-     | 99.00th=[   16], 99.50th=[   49], 99.90th=[   80], 99.95th=[  545],
-     | 99.99th=[ 3458]
-   bw (  KiB/s): min= 1888, max=18624, per=100.00%, avg=4926.44, stdev=181.58, samples=2872
-   iops        : min=  236, max= 2328, avg=615.81, stdev=22.70, samples=2872
-  lat (usec)   : 4=0.03%, 10=18.78%, 20=1.07%, 50=0.06%, 100=0.08%
-  lat (usec)   : 250=0.01%, 500=0.01%, 750=0.60%, 1000=0.10%
-  lat (msec)   : 2=1.46%, 4=62.12%, 10=15.70%, 20=0.01%
-  cpu          : usr=0.08%, sys=0.37%, ctx=442249, majf=0, minf=141
+     |  1.00th=[    4],  5.00th=[    5], 10.00th=[    5], 20.00th=[    6],
+     | 30.00th=[    6], 40.00th=[    7], 50.00th=[    7], 60.00th=[    7],
+     | 70.00th=[    8], 80.00th=[    8], 90.00th=[    9], 95.00th=[   10],
+     | 99.00th=[   15], 99.50th=[   51], 99.90th=[  101], 99.95th=[  123],
+     | 99.99th=[ 2868]
+   bw (  KiB/s): min= 2048, max=18624, per=100.00%, avg=5001.45, stdev=186.01, samples=2872
+   iops        : min=  256, max= 2328, avg=625.18, stdev=23.25, samples=2872
+  lat (usec)   : 4=0.24%, 10=18.94%, 20=0.71%, 50=0.05%, 100=0.08%
+  lat (usec)   : 250=0.01%, 500=0.11%, 750=0.51%, 1000=0.06%
+  lat (msec)   : 2=1.82%, 4=62.74%, 10=14.72%, 20=0.01%, 50=0.01%
+  cpu          : usr=0.09%, sys=0.33%, ctx=448918, majf=0, minf=137
   IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
      submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
      complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
-     issued rwts: total=441995,110727,0,0 short=0,0,0,0 dropped=0,0,0,0
+     issued rwts: total=448686,112465,0,0 short=0,0,0,0 dropped=0,0,0,0
      latency   : target=0, window=0, percentile=100.00%, depth=1
 
 Run status group 0 (all jobs):
-   READ: bw=19.2MiB/s (20.1MB/s), 19.2MiB/s-19.2MiB/s (20.1MB/s-20.1MB/s), io=3453MiB (3621MB), run=180005-180005msec
-  WRITE: bw=4921KiB/s (5039kB/s), 4921KiB/s-4921KiB/s (5039kB/s-5039kB/s), io=865MiB (907MB), run=180005-180005msec
-
+   READ: bw=19.5MiB/s (20.4MB/s), 19.5MiB/s-19.5MiB/s (20.4MB/s-20.4MB/s), io=3505MiB (3676MB), run=180002-180002msec
+  WRITE: bw=4998KiB/s (5118kB/s), 4998KiB/s-4998KiB/s (5118kB/s-5118kB/s), io=879MiB (921MB), run=180002-180002msec
 ------------------------------------------------------------
 Command: fio --name=kvstore_test  --directory=/opt/dremio/data --direct=0 --rw=rw --rwmixread=80 --bs=8k --size=1G --numjobs=8 --iodepth=1 --ioengine=psync --runtime=180 --time_based --group_reporting
-Jobs: 2 (f=2): [_(3),M(1),_(1),M(1),_(2)][100.0%][eta 00m:00s]
-kvstore_test: (groupid=0, jobs=8): err= 0: pid=66: Fri Jun 27 09:31:23 2025
-  read: IOPS=13.7k, BW=107MiB/s (112MB/s)(19.3GiB/184811msec)
-    clat (nsec): min=1015, max=76337k, avg=437240.53, stdev=3232373.71
-     lat (nsec): min=1045, max=76337k, avg=437271.03, stdev=3232373.51
+Jobs: 1 (f=1): [M(1),_(7)][100.0%][eta 00m:00s]
+kvstore_test: (groupid=0, jobs=8): err= 0: pid=66: Wed Jun 25 14:16:47 2025
+  read: IOPS=13.7k, BW=107MiB/s (113MB/s)(19.1GiB/182246msec)
+    clat (nsec): min=1009, max=76651k, avg=458170.21, stdev=3292483.89
+     lat (nsec): min=1037, max=76651k, avg=458200.88, stdev=3292483.72
     clat percentiles (nsec):
-     |  1.00th=[    1320],  5.00th=[    1464], 10.00th=[    1528],
-     | 20.00th=[    1592], 30.00th=[    1656], 40.00th=[    1704],
-     | 50.00th=[    1768], 60.00th=[    1832], 70.00th=[    1912],
-     | 80.00th=[    2008], 90.00th=[    2128], 95.00th=[    2320],
-     | 99.00th=[17956864], 99.50th=[29753344], 99.90th=[38535168],
-     | 99.95th=[42205184], 99.99th=[46399488]
-   bw (  KiB/s): min=36560, max=2074144, per=100.00%, avg=143403.22, stdev=17710.38, samples=2237
-   iops        : min= 4570, max=259270, avg=17925.41, stdev=2213.81, samples=2237
-  write: IOPS=3432, BW=26.8MiB/s (28.1MB/s)(4957MiB/184811msec); 0 zone resets
-    clat (nsec): min=1778, max=35597k, avg=4768.18, stdev=122768.14
-     lat (nsec): min=1829, max=35597k, avg=4828.25, stdev=122768.33
+     |  1.00th=[    1288],  5.00th=[    1352], 10.00th=[    1384],
+     | 20.00th=[    1448], 30.00th=[    1496], 40.00th=[    1544],
+     | 50.00th=[    1592], 60.00th=[    1656], 70.00th=[    1720],
+     | 80.00th=[    1832], 90.00th=[    1976], 95.00th=[    2160],
+     | 99.00th=[21889024], 99.50th=[28704768], 99.90th=[37486592],
+     | 99.95th=[40108032], 99.99th=[46399488]
+   bw (  KiB/s): min=40992, max=1909680, per=100.00%, avg=137968.48, stdev=15938.62, samples=2310
+   iops        : min= 5124, max=238710, avg=17246.06, stdev=1992.33, samples=2310
+  write: IOPS=3443, BW=26.9MiB/s (28.2MB/s)(4904MiB/182246msec); 0 zone resets
+    clat (nsec): min=1810, max=35254k, avg=4628.36, stdev=133304.31
+     lat (nsec): min=1888, max=35254k, avg=4685.63, stdev=133304.57
     clat percentiles (nsec):
-     |  1.00th=[ 3120],  5.00th=[ 3280], 10.00th=[ 3376], 20.00th=[ 3472],
-     | 30.00th=[ 3568], 40.00th=[ 3664], 50.00th=[ 3760], 60.00th=[ 3856],
-     | 70.00th=[ 4048], 80.00th=[ 4448], 90.00th=[ 5536], 95.00th=[ 6176],
-     | 99.00th=[ 9408], 99.50th=[22656], 99.90th=[45312], 99.95th=[51456],
-     | 99.99th=[70144]
-   bw (  KiB/s): min= 9456, max=522080, per=100.00%, avg=35945.46, stdev=4475.57, samples=2236
-   iops        : min= 1182, max=65260, avg=4493.18, stdev=559.45, samples=2236
-  lat (usec)   : 2=63.54%, 4=27.73%, 10=6.17%, 20=0.09%, 50=0.11%
-  lat (usec)   : 100=0.01%, 250=0.01%, 500=0.01%, 750=0.01%, 1000=0.01%
-  lat (msec)   : 2=0.27%, 4=0.22%, 10=0.64%, 20=0.44%, 50=0.75%
+     |  1.00th=[ 2992],  5.00th=[ 3024], 10.00th=[ 3088], 20.00th=[ 3184],
+     | 30.00th=[ 3280], 40.00th=[ 3376], 50.00th=[ 3504], 60.00th=[ 3600],
+     | 70.00th=[ 3760], 80.00th=[ 4320], 90.00th=[ 5152], 95.00th=[ 5792],
+     | 99.00th=[ 9024], 99.50th=[22400], 99.90th=[50432], 99.95th=[58624],
+     | 99.99th=[81408]
+   bw (  KiB/s): min= 9712, max=478784, per=100.00%, avg=34596.61, stdev=4009.15, samples=2310
+   iops        : min= 1214, max=59848, avg=4324.58, stdev=501.14, samples=2310
+  lat (usec)   : 2=73.18%, 4=19.80%, 10=4.48%, 20=0.07%, 50=0.10%
+  lat (usec)   : 100=0.02%, 250=0.01%, 500=0.01%, 750=0.01%, 1000=0.01%
+  lat (msec)   : 2=0.19%, 4=0.21%, 10=0.66%, 20=0.41%, 50=0.86%
   lat (msec)   : 100=0.01%
-  cpu          : usr=0.14%, sys=0.84%, ctx=86694, majf=1, minf=182
+  cpu          : usr=0.15%, sys=0.77%, ctx=86006, majf=0, minf=176
   IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
      submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
      complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
-     issued rwts: total=2531997,634432,0,0 short=0,0,0,0 dropped=0,0,0,0
+     issued rwts: total=2502876,627653,0,0 short=0,0,0,0 dropped=0,0,0,0
      latency   : target=0, window=0, percentile=100.00%, depth=1
 
 Run status group 0 (all jobs):
-   READ: bw=107MiB/s (112MB/s), 107MiB/s-107MiB/s (112MB/s-112MB/s), io=19.3GiB (20.7GB), run=184811-184811msec
-  WRITE: bw=26.8MiB/s (28.1MB/s), 26.8MiB/s-26.8MiB/s (28.1MB/s-28.1MB/s), io=4957MiB (5197MB), run=184811-184811msec
+   READ: bw=107MiB/s (113MB/s), 107MiB/s-107MiB/s (113MB/s-113MB/s), io=19.1GiB (20.5GB), run=182246-182246msec
+  WRITE: bw=26.9MiB/s (28.2MB/s), 26.9MiB/s-26.9MiB/s (28.2MB/s-28.2MB/s), io=4904MiB (5142MB), run=182246-182246msec
 
-Storage Class: dremio-opensearch - gp3 - default IOPS - 128 GB
-==============================================================
+Storage Class: dremio-opensearch - gp3 - 2000 IOPS - 128 GB
+============================================================
 Command: fio --name=kvstore_test  --directory=/opt/dremio/data --direct=0 --rw=randrw --rwmixread=80 --bs=8k --size=8G --numjobs=8 --iodepth=1 --ioengine=psync --runtime=180 --time_based --group_reporting
-Jobs: 8 (f=8): [m(8)][100.0%][r=20.2MiB/s,w=5232KiB/s][r=2582,w=654 IOPS][eta 00m:00s]
-kvstore_test: (groupid=0, jobs=8): err= 0: pid=40: Fri Jun 27 09:46:49 2025
-  read: IOPS=2451, BW=19.2MiB/s (20.1MB/s)(3447MiB/180005msec)
-    clat (usec): min=445, max=21235, avg=3260.16, stdev=812.49
-     lat (usec): min=445, max=21236, avg=3260.23, stdev=812.49
+Jobs: 8 (f=8): [m(8)][100.0%][r=18.4MiB/s,w=4912KiB/s][r=2350,w=614 IOPS][eta 00m:00s]
+kvstore_test: (groupid=0, jobs=8): err= 0: pid=40: Wed Jun 25 14:33:10 2025
+  read: IOPS=2453, BW=19.2MiB/s (20.1MB/s)(3450MiB/180003msec)
+    clat (usec): min=445, max=15375, avg=3257.86, stdev=844.33
+     lat (usec): min=445, max=15375, avg=3257.93, stdev=844.33
     clat percentiles (usec):
-     |  1.00th=[ 1614],  5.00th=[ 2245], 10.00th=[ 2442], 20.00th=[ 2638],
-     | 30.00th=[ 2704], 40.00th=[ 2933], 50.00th=[ 3163], 60.00th=[ 3326],
-     | 70.00th=[ 3621], 80.00th=[ 3949], 90.00th=[ 4293], 95.00th=[ 4686],
-     | 99.00th=[ 5604], 99.50th=[ 5932], 99.90th=[ 6652], 99.95th=[ 6915],
-     | 99.99th=[ 7570]
-   bw (  KiB/s): min=13888, max=71968, per=100.00%, avg=19621.88, stdev=538.38, samples=2872
-   iops        : min= 1736, max= 8996, avg=2452.74, stdev=67.30, samples=2872
-  write: IOPS=614, BW=4914KiB/s (5031kB/s)(864MiB/180005msec); 0 zone resets
-    clat (usec): min=3, max=4497, avg= 8.39, stdev=44.76
-     lat (usec): min=3, max=4497, avg= 8.50, stdev=44.76
+     |  1.00th=[ 1598],  5.00th=[ 2212], 10.00th=[ 2409], 20.00th=[ 2606],
+     | 30.00th=[ 2704], 40.00th=[ 2900], 50.00th=[ 3130], 60.00th=[ 3326],
+     | 70.00th=[ 3621], 80.00th=[ 3982], 90.00th=[ 4359], 95.00th=[ 4752],
+     | 99.00th=[ 5669], 99.50th=[ 5997], 99.90th=[ 6783], 99.95th=[ 7046],
+     | 99.99th=[ 8291]
+   bw (  KiB/s): min=13504, max=71968, per=100.00%, avg=19636.95, stdev=557.08, samples=2872
+   iops        : min= 1688, max= 8996, avg=2454.62, stdev=69.63, samples=2872
+  write: IOPS=614, BW=4916KiB/s (5033kB/s)(864MiB/180003msec); 0 zone resets
+    clat (usec): min=3, max=5596, avg= 7.87, stdev=42.58
+     lat (usec): min=3, max=5596, avg= 7.97, stdev=42.58
     clat percentiles (usec):
-     |  1.00th=[    5],  5.00th=[    6], 10.00th=[    6], 20.00th=[    6],
-     | 30.00th=[    7], 40.00th=[    7], 50.00th=[    8], 60.00th=[    8],
-     | 70.00th=[    8], 80.00th=[    9], 90.00th=[   10], 95.00th=[   12],
-     | 99.00th=[   18], 99.50th=[   47], 99.90th=[   76], 99.95th=[  100],
-     | 99.99th=[ 2769]
-   bw (  KiB/s): min= 2224, max=18864, per=100.00%, avg=4916.32, stdev=176.55, samples=2872
-   iops        : min=  278, max= 2358, avg=614.54, stdev=22.07, samples=2872
-  lat (usec)   : 4=0.01%, 10=18.30%, 20=1.57%, 50=0.07%, 100=0.08%
-  lat (usec)   : 250=0.01%, 500=0.11%, 750=0.53%, 1000=0.04%
-  lat (msec)   : 2=1.39%, 4=63.70%, 10=14.19%, 20=0.01%, 50=0.01%
-  cpu          : usr=0.08%, sys=0.37%, ctx=441489, majf=0, minf=127
+     |  1.00th=[    5],  5.00th=[    5], 10.00th=[    5], 20.00th=[    6],
+     | 30.00th=[    6], 40.00th=[    7], 50.00th=[    7], 60.00th=[    8],
+     | 70.00th=[    8], 80.00th=[    8], 90.00th=[   10], 95.00th=[   11],
+     | 99.00th=[   16], 99.50th=[   52], 99.90th=[   99], 99.95th=[  113],
+     | 99.99th=[ 2147]
+   bw (  KiB/s): min= 2016, max=18864, per=100.00%, avg=4918.69, stdev=179.77, samples=2872
+   iops        : min=  252, max= 2358, avg=614.84, stdev=22.47, samples=2872
+  lat (usec)   : 4=0.03%, 10=18.79%, 20=1.07%, 50=0.05%, 100=0.09%
+  lat (usec)   : 250=0.01%, 500=0.10%, 750=0.55%, 1000=0.04%
+  lat (msec)   : 2=1.59%, 4=62.87%, 10=14.82%, 20=0.01%
+  cpu          : usr=0.11%, sys=0.33%, ctx=441828, majf=0, minf=139
   IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
      submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
      complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
-     issued rwts: total=441251,110557,0,0 short=0,0,0,0 dropped=0,0,0,0
+     issued rwts: total=441571,110601,0,0 short=0,0,0,0 dropped=0,0,0,0
      latency   : target=0, window=0, percentile=100.00%, depth=1
 
 Run status group 0 (all jobs):
-   READ: bw=19.2MiB/s (20.1MB/s), 19.2MiB/s-19.2MiB/s (20.1MB/s-20.1MB/s), io=3447MiB (3615MB), run=180005-180005msec
-  WRITE: bw=4914KiB/s (5031kB/s), 4914KiB/s-4914KiB/s (5031kB/s-5031kB/s), io=864MiB (906MB), run=180005-180005msec
+   READ: bw=19.2MiB/s (20.1MB/s), 19.2MiB/s-19.2MiB/s (20.1MB/s-20.1MB/s), io=3450MiB (3617MB), run=180003-180003msec
+  WRITE: bw=4916KiB/s (5033kB/s), 4916KiB/s-4916KiB/s (5033kB/s-5033kB/s), io=864MiB (906MB), run=180003-180003msec
 ------------------------------------------------------------
 Command: fio --name=kvstore_test  --directory=/opt/dremio/data --direct=0 --rw=rw --rwmixread=80 --bs=8k --size=8G --numjobs=8 --iodepth=1 --ioengine=psync --runtime=180 --time_based --group_reporting
-Jobs: 8 (f=8): [M(8)][100.0%][r=114MiB/s,w=28.5MiB/s][r=14.6k,w=3646 IOPS][eta 00m:00s]
-kvstore_test: (groupid=0, jobs=8): err= 0: pid=66: Fri Jun 27 09:50:29 2025
-  read: IOPS=14.9k, BW=116MiB/s (122MB/s)(20.5GiB/180027msec)
-    clat (nsec): min=1126, max=75330k, avg=534623.25, stdev=3637278.99
-     lat (nsec): min=1170, max=75330k, avg=534654.17, stdev=3637278.75
+Jobs: 8 (f=8): [M(8)][100.0%][r=116MiB/s,w=29.8MiB/s][r=14.9k,w=3819 IOPS][eta 00m:00s]
+kvstore_test: (groupid=0, jobs=8): err= 0: pid=66: Wed Jun 25 14:39:24 2025
+  read: IOPS=14.9k, BW=116MiB/s (122MB/s)(20.5GiB/180034msec)
+    clat (nsec): min=1121, max=69542k, avg=534778.71, stdev=3660959.23
+     lat (nsec): min=1159, max=69542k, avg=534809.36, stdev=3660959.02
     clat percentiles (nsec):
-     |  1.00th=[    1480],  5.00th=[    1576], 10.00th=[    1640],
-     | 20.00th=[    1704], 30.00th=[    1768], 40.00th=[    1816],
-     | 50.00th=[    1864], 60.00th=[    1928], 70.00th=[    2008],
-     | 80.00th=[    2096], 90.00th=[    2224], 95.00th=[    2416],
-     | 99.00th=[25559040], 99.50th=[30539776], 99.90th=[39059456],
-     | 99.95th=[42205184], 99.99th=[47972352]
-   bw (  KiB/s): min=98304, max=349744, per=100.00%, avg=119313.25, stdev=1702.61, samples=2872
-   iops        : min=12288, max=43718, avg=14914.16, stdev=212.83, samples=2872
-  write: IOPS=3739, BW=29.2MiB/s (30.6MB/s)(5259MiB/180027msec); 0 zone resets
-    clat (nsec): min=1824, max=37883k, avg=4885.55, stdev=129622.20
-     lat (nsec): min=1876, max=37883k, avg=4944.20, stdev=129622.45
+     |  1.00th=[    1320],  5.00th=[    1384], 10.00th=[    1416],
+     | 20.00th=[    1480], 30.00th=[    1528], 40.00th=[    1576],
+     | 50.00th=[    1640], 60.00th=[    1688], 70.00th=[    1768],
+     | 80.00th=[    1864], 90.00th=[    2008], 95.00th=[    2224],
+     | 99.00th=[25559040], 99.50th=[30801920], 99.90th=[40108032],
+     | 99.95th=[43778048], 99.99th=[50069504]
+   bw (  KiB/s): min=95232, max=352304, per=100.00%, avg=119326.04, stdev=1760.97, samples=2872
+   iops        : min=11904, max=44038, avg=14915.76, stdev=220.12, samples=2872
+  write: IOPS=3740, BW=29.2MiB/s (30.6MB/s)(5260MiB/180034msec); 0 zone resets
+    clat (nsec): min=1842, max=34194k, avg=4179.85, stdev=92273.48
+     lat (nsec): min=1905, max=34194k, avg=4237.01, stdev=92273.67
     clat percentiles (nsec):
-     |  1.00th=[ 3216],  5.00th=[ 3408], 10.00th=[ 3504], 20.00th=[ 3600],
-     | 30.00th=[ 3696], 40.00th=[ 3760], 50.00th=[ 3824], 60.00th=[ 3920],
-     | 70.00th=[ 4048], 80.00th=[ 4320], 90.00th=[ 5728], 95.00th=[ 6304],
-     | 99.00th=[ 9408], 99.50th=[26496], 99.90th=[49408], 99.95th=[55040],
-     | 99.99th=[70144]
-   bw (  KiB/s): min=21968, max=89696, per=100.00%, avg=29927.44, stdev=517.77, samples=2872
-   iops        : min= 2746, max=11212, avg=3740.93, stdev=64.72, samples=2872
-  lat (usec)   : 2=55.67%, 4=35.07%, 10=6.55%, 20=0.08%, 50=0.11%
+     |  1.00th=[ 2992],  5.00th=[ 3056], 10.00th=[ 3120], 20.00th=[ 3184],
+     | 30.00th=[ 3248], 40.00th=[ 3312], 50.00th=[ 3408], 60.00th=[ 3504],
+     | 70.00th=[ 3632], 80.00th=[ 3888], 90.00th=[ 5088], 95.00th=[ 5600],
+     | 99.00th=[ 8160], 99.50th=[23680], 99.90th=[49920], 99.95th=[56064],
+     | 99.99th=[76288]
+   bw (  KiB/s): min=22000, max=89792, per=100.00%, avg=29935.06, stdev=523.90, samples=2872
+   iops        : min= 2750, max=11224, avg=3741.88, stdev=65.49, samples=2872
+  lat (usec)   : 2=71.87%, 4=21.96%, 10=3.50%, 20=0.06%, 50=0.11%
   lat (usec)   : 100=0.02%, 250=0.01%, 500=0.01%, 750=0.01%, 1000=0.01%
-  lat (msec)   : 2=0.11%, 4=0.16%, 10=0.79%, 20=0.38%, 50=1.04%
+  lat (msec)   : 2=0.15%, 4=0.19%, 10=0.67%, 20=0.44%, 50=1.02%
   lat (msec)   : 100=0.01%
-  cpu          : usr=0.17%, sys=0.77%, ctx=84029, majf=0, minf=178
+  cpu          : usr=0.16%, sys=0.70%, ctx=84035, majf=0, minf=161
   IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
      submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
      complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
-     issued rwts: total=2683627,673122,0,0 short=0,0,0,0 dropped=0,0,0,0
+     issued rwts: total=2683922,673337,0,0 short=0,0,0,0 dropped=0,0,0,0
      latency   : target=0, window=0, percentile=100.00%, depth=1
 
 Run status group 0 (all jobs):
-   READ: bw=116MiB/s (122MB/s), 116MiB/s-116MiB/s (122MB/s-122MB/s), io=20.5GiB (22.0GB), run=180027-180027msec
-  WRITE: bw=29.2MiB/s (30.6MB/s), 29.2MiB/s-29.2MiB/s (30.6MB/s-30.6MB/s), io=5259MiB (5514MB), run=180027-180027msec
+   READ: bw=116MiB/s (122MB/s), 116MiB/s-116MiB/s (122MB/s-122MB/s), io=20.5GiB (22.0GB), run=180034-180034msec
+  WRITE: bw=29.2MiB/s (30.6MB/s), 29.2MiB/s-29.2MiB/s (30.6MB/s-30.6MB/s), io=5260MiB (5516MB), run=180034-180034msec
+
 
 Storage Class: none - emptyDir on r5dn.4xlarge
 ============================================================
