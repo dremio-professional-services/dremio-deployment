@@ -19,13 +19,13 @@ spec:
       requirements:
         - key: "node.kubernetes.io/instance-type"
           operator: In
-          values: [ "m5a.4xlarge" ]
+          values: [ "m6g.4xlarge" ]
         - key: "topology.kubernetes.io/zone"
           operator: In
           values: [ "eu-central-1c" ]
         - key: "kubernetes.io/arch"
           operator: In
-          values: [ "amd64" ]
+          values: [ "arm64" ]
         - key: "karpenter.sh/capacity-type"
           operator: In
           values: [ "on-demand" ]
@@ -54,13 +54,13 @@ spec:
       requirements:
         - key: "node.kubernetes.io/instance-type"
           operator: In
-          values: [ "r5n.4xlarge", "m5n.8xlarge" ]
+          values: [ "r6gd.4xlarge", "m6gd.8xlarge" ]
         - key: "topology.kubernetes.io/zone"
           operator: In
           values: [ "eu-central-1c" ]
         - key: "kubernetes.io/arch"
           operator: In
-          values: [ "amd64" ]
+          values: [ "arm64" ]
         - key: "karpenter.sh/capacity-type"
           operator: In
           values: [ "on-demand" ]
@@ -91,14 +91,13 @@ spec:
       requirements:
         - key: "node.kubernetes.io/instance-type"
           operator: In
-          values: [ "r5dn.4xlarge", "m5dn.8xlarge"]
-#          values: [ "r5d.4xlarge", "m5d.8xlarge", "c5ad.8xlarge", "m6gd.4xlarge" ]
+          values: [ "r6gd.4xlarge", "m6gd.8xlarge" ]
         - key: "topology.kubernetes.io/zone"
           operator: In
           values: [ "eu-central-1a", "eu-central-1b", "eu-central-1c"]
         - key: "kubernetes.io/arch"
           operator: In
-          values: [ "amd64" ]
+          values: [ "arm64" ]
         - key: "karpenter.sh/capacity-type"
           operator: In
           values: [ "on-demand" ]

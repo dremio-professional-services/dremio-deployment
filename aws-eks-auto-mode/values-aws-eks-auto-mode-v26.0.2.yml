@@ -309,6 +309,11 @@ catalogservices:
     limits:
       cpu: "4"
       memory: "8Gi"
+  extraEnvs: []
+  extraVolumeMounts: []
+  extraVolumes: []
+  extraInitContainers: []
+  extraStartParams: ""
 
 mongodb:
   image:
@@ -348,7 +353,7 @@ mongodb:
     labels: {}
     resources:
       requests:
-        storage: 256Gi
+        storage: 512Gi
     accessModes:
     - ReadWriteOnce
 
