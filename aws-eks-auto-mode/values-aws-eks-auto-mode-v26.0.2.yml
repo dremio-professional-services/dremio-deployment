@@ -7,7 +7,7 @@ dremio:
   license: "NOT_SET"
   image:
     repository: quay.io/dremio/dremio-enterprise
-    tag: 26.0.0
+    tag: 26.0.2
     pullPolicy: IfNotPresent
   dremioConfExtraOptions: {}
   advancedConfigs: {}
@@ -18,7 +18,7 @@ dremio:
   log:
     enabled: true
     volume:
-      size: 10Gi
+      size: 16Gi
 
 busyBox:
   image:
@@ -169,7 +169,7 @@ engine:
       karpenter.sh/nodepool: dremio-general
     image:
       repository: quay.io/dremio/dremio-engine-operator
-      tag: 26.0.0
+      tag: 26.0.2
       pullPolicy: IfNotPresent
     serviceAccount: dremio-engine-operator
     serviceAccountAnnotations: {}
@@ -180,7 +180,7 @@ engine:
       log:
         pvc:
           storageClass: dremio-logs
-          size: 10Gi
+          size: 16Gi
       default:
         type: "emptyDir"
         emptyDir:
@@ -204,7 +204,7 @@ zookeeper:
     limits:
       memory: "2Gi"
   count: 3
-  volumeSize: 10Gi
+  volumeSize: 16Gi
   storageClass: dremio-zk
   serviceAccount: zookeeper
   serviceAccountAnnotations: {}
@@ -249,7 +249,7 @@ ddc:
 catalog:
   image:
     repository: quay.io/dremio/dremio-catalog-server
-    tag: 26.0.0
+    tag: 26.0.2
     pullPolicy: IfNotPresent
   replicas: 1
   serviceAccount: dremio-catalog-server
@@ -279,7 +279,7 @@ catalog:
     enabled: true
     image:
       repository: quay.io/dremio/dremio-catalog-server-external
-      tag: 26.0.0
+      tag: 26.0.2
       pullPolicy: IfNotPresent
     replicas: 1
     authentication:
@@ -297,7 +297,7 @@ catalogservices:
     karpenter.sh/nodepool: dremio-general
   image:
     repository: quay.io/dremio/dremio-catalog-services-server
-    tag: 26.0.0
+    tag: 26.0.2
     pullPolicy: IfNotPresent
   serviceAccount: dremio-catalog-services
   serviceAccountAnnotations: {}
@@ -347,13 +347,13 @@ mongodb:
     limits:
       cpu: 4
       memory: 2Gi
-  enableVolumeExpansion: false
+  enableVolumeExpansion: true
   storage:
     annotations: {}
     labels: {}
     resources:
       requests:
-        storage: 512Gi
+        storage: 256Gi
     accessModes:
     - ReadWriteOnce
 
@@ -403,11 +403,11 @@ opensearch:
     karpenter.sh/nodepool: dremio-general
   image:
     repository: quay.io/dremio/dremio-search-opensearch
-    tag: 26.0.0
+    tag: 26.0.2
   version: "2.19.2"
   replicas: 3
   affinity: {}
-  volumeSize: "128Gi"
+  volumeSize: "256Gi"
   storageClass: dremio-opensearch
   opensearchJavaOpts: "-XX:InitialRAMPercentage=70.0 -XX:MaxRAMPercentage=70.0"
   # This can be disabled to prevent privileged container, in that
@@ -439,7 +439,7 @@ opensearch:
   preInstallJob:
     image:
       repository: quay.io/dremio/dremio-search-init
-      tag: 26.0.0
+      tag: 26.0.2
     nodeSelector:
       karpenter.sh/nodepool: dremio-general
     serviceAccountAnnotations: {}
@@ -468,7 +468,7 @@ nats:
       enabled: true
       fileStore:
         pvc:
-          size: 10Gi
+          size: 16Gi
           storageClassName: dremio-nats
     cluster:
       enabled: true
@@ -495,6 +495,13 @@ nats:
       tag: 0.17.1
   natsBox:
     enabled: true
+    podTemplate:
+      merge:
+        spec:
+          serviceAccountName: dremio-nats
+    serviceAccount:
+      name: dremio-nats
+      annotations: {}
     container:
       image:
         repository: quay.io/dremio/natsio/nats-box

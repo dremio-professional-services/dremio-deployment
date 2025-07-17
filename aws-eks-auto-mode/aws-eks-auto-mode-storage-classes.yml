@@ -53,9 +53,9 @@ metadata:
   name: dremio-opensearch
 provisioner: ebs.csi.eks.amazonaws.com
 volumeBindingMode: WaitForFirstConsumer
-# gp3 baseline is 3000 IOPS
 parameters:
-  type: gp3
+  type: io2
+  iops: "6000"
   encrypted: "true"
 
 ---

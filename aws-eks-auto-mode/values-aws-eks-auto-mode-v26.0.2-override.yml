@@ -40,7 +40,7 @@ coordinator:
 engine:
   operator:
     image:
-      repository: dremiops.azurecr.io/dremio-ee-engine-operator
+      repository: quay.io/dremio/dremio-engine-operator
 
 zookeeper:
   image:
@@ -103,7 +103,7 @@ opensearchOperator:
       repository: quay.io/dremio/dremio-opensearch-operator
   kubeRbacProxy:
     image:
-      repository: "quay.io/dremio/kubebuilder/kube-rbac-proxy"
+      repository: quay.io/dremio/kubebuilder/kube-rbac-proxy
 
 opensearch:
   enabled: true
