@@ -37,7 +37,7 @@ spec:
         sizeLimit: 600Gi
   containers:
     - name: job
-      image: dremiops.azurecr.io/dremio-k8s-tools:v1.21
+      image: openeuler/fio:latest
       imagePullPolicy: Always
       command:
         - sleep
