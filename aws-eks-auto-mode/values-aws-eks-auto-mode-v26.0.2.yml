@@ -52,7 +52,7 @@ coordinator:
       memory: "112Gi"
   log:
     volume:
-      size: 32Gi
+      size: 64Gi
   count: 0
   volumeSize: 512Gi
   storageClass: dremio-coordinator
@@ -178,9 +178,9 @@ engine:
     serviceAccountAnnotations: {}
     volumes:
       log:
+        size: 16Gi
         pvc:
           storageClass: dremio-logs
-          size: 16Gi
       default:
         type: "emptyDir"
         emptyDir:

@@ -1,0 +1,82 @@
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: dremio-logs
+provisioner: disk.csi.azure.com
+parameters:
+   skuName: StandardSSD_ZRS
+allowVolumeExpansion: true
+reclaimPolicy: Delete
+volumeBindingMode: WaitForFirstConsumer
+
+---
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: dremio-k8s-tools
+  namespace: default
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: dremio-k8s-tools
+subjects:
+- kind: ServiceAccount
+  name: dremio-k8s-tools
+  namespace: default
+roleRef:
+  # "roleRef" specifies the binding to a Role / ClusterRole
+  kind: ClusterRole #this must be Role or ClusterRole
+  name: cluster-admin
+  apiGroup: rbac.authorization.k8s.io
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: dremio-k8s-tools-data
+spec:
+  storageClassName: dremio-logs
+  resources:
+    requests:
+      storage: 16Gi
+  accessModes:
+    - ReadWriteOnce
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dremio-k8s-tools
+spec:
+  nodeSelector:
+    agentpool: benchmark
+  serviceAccountName: dremio-k8s-tools
+  automountServiceAccountToken: true
+  volumes:
+    - name: dremio-k8s-tools-data
+      persistentVolumeClaim:
+        claimName: dremio-k8s-tools-data
+  containers:
+    - name: job
+      image: dremiops.azurecr.io/dremio-k8s-tools:v1.21
+      imagePullPolicy: Always
+      command:
+        - sleep
+        - infinity
+      volumeMounts:
+        - mountPath: "/opt/dremio/data"
+          name: dremio-k8s-tools-data
+      resources:
+        requests:
+          cpu: "12"
+          memory: 92Gi
+        limits:
+          cpu: "12"
+          memory: 92Gi
