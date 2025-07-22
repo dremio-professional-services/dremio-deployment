@@ -261,10 +261,10 @@ catalog:
   extraVolumes: []
   resources:
     requests:
-      cpu: "4"
+      cpu: "2"
       memory: "8Gi"
     limits:
-      cpu: "4"
+      cpu: "2"
       memory: "8Gi"
   storage:
     location: NOT_SET
@@ -304,10 +304,10 @@ catalogservices:
   replicas: 1
   resources:
     requests:
-      cpu: "4"
+      cpu: "2"
       memory: "8Gi"
     limits:
-      cpu: "4"
+      cpu: "2"
       memory: "8Gi"
   extraEnvs: []
   extraVolumeMounts: []
