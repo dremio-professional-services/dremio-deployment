@@ -457,35 +457,362 @@ Run status group 0 (all jobs):
 Disk stats (read/write):
   nvme0n2: ios=310309/96493, merge=0/133, ticks=7776583/84545038, in_queue=92321624, util=99.93%
 
-Storage Class: none - hostPath on Standard_E16ds_v6 (16 CPUs) - Azure Linux
+Storage Class: none - hostPath on Standard_E16ds_v5 (16 CPUs) - Azure Linux
 ============================================================
 Command: fio --name=kvstore_test  --directory=/opt/dremio/data --direct=0 --rw=randrw --rwmixread=80 --bs=8k --size=8G --numjobs=8 --iodepth=1 --ioengine=psync --runtime=180 --time_based --group_reporting
+kvstore_test: Laying out IO file (1 file / 8192MiB)
+Jobs: 8 (f=8): [m(8)][100.0%][r=417MiB/s,w=104MiB/s][r=53.4k,w=13.3k IOPS][eta 00m:00s]
+kvstore_test: (groupid=0, jobs=8): err= 0: pid=83: Tue Jul 22 12:38:46 2025
+  read: IOPS=46.0k, BW=360MiB/s (377MB/s)(63.2GiB/180001msec)
+    clat (usec): min=90, max=82921, avg=170.67, stdev=784.21
+     lat (usec): min=90, max=82921, avg=170.74, stdev=784.21
+    clat percentiles (usec):
+     |  1.00th=[  110],  5.00th=[  117], 10.00th=[  121], 20.00th=[  127],
+     | 30.00th=[  133], 40.00th=[  137], 50.00th=[  141], 60.00th=[  147],
+     | 70.00th=[  153], 80.00th=[  161], 90.00th=[  182], 95.00th=[  208],
+     | 99.00th=[  449], 99.50th=[  562], 99.90th=[ 1663], 99.95th=[26608],
+     | 99.99th=[35914]
+   bw (  KiB/s): min=34976, max=450832, per=100.00%, avg=369963.95, stdev=14786.01, samples=2859
+   iops        : min= 4372, max=56354, avg=46245.49, stdev=1848.25, samples=2859
+  write: IOPS=11.5k, BW=90.1MiB/s (94.4MB/s)(15.8GiB/180001msec); 0 zone resets
+    clat (usec): min=2, max=3303, avg= 5.06, stdev= 6.13
+     lat (usec): min=2, max=3303, avg= 5.15, stdev= 6.14
+    clat percentiles (usec):
+     |  1.00th=[    3],  5.00th=[    4], 10.00th=[    4], 20.00th=[    4],
+     | 30.00th=[    4], 40.00th=[    5], 50.00th=[    5], 60.00th=[    5],
+     | 70.00th=[    6], 80.00th=[    6], 90.00th=[    8], 95.00th=[    9],
+     | 99.00th=[   15], 99.50th=[   18], 99.90th=[   50], 99.95th=[   69],
+     | 99.99th=[  206]
+   bw (  KiB/s): min= 7968, max=119360, per=100.00%, avg=92669.05, stdev=3734.85, samples=2859
+   iops        : min=  996, max=14920, avg=11583.63, stdev=466.86, samples=2859
+  lat (usec)   : 4=7.94%, 10=11.44%, 20=0.57%, 50=0.05%, 100=0.06%
+  lat (usec)   : 250=77.83%, 500=1.51%, 750=0.40%, 1000=0.07%
+  lat (msec)   : 2=0.05%, 4=0.02%, 10=0.01%, 20=0.01%, 50=0.04%
+  lat (msec)   : 100=0.01%
+  cpu          : usr=0.81%, sys=6.91%, ctx=8287186, majf=0, minf=88
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued rwts: total=8283966,2074898,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
 
+Run status group 0 (all jobs):
+   READ: bw=360MiB/s (377MB/s), 360MiB/s-360MiB/s (377MB/s-377MB/s), io=63.2GiB (67.9GB), run=180001-180001msec
+  WRITE: bw=90.1MiB/s (94.4MB/s), 90.1MiB/s-90.1MiB/s (94.4MB/s-94.4MB/s), io=15.8GiB (17.0GB), run=180001-180001msec
+
+Disk stats (read/write):
+  sdb: ios=8276855/1866285, sectors=132429680/32038120, merge=0/97, ticks=1298544/2753907, in_queue=4052451, util=77.65%
+
+------------------------------------------------------------
+Command: fio --name=kvstore_test  --directory=/opt/dremio/data --direct=0 --rw=rw --rwmixread=80 --bs=8k --size=8G --numjobs=8 --iodepth=1 --ioengine=psync --runtime=180 --time_based --group_reporting
+kvstore_test: (groupid=0, jobs=8): err= 0: pid=109: Tue Jul 22 12:45:56 2025
+  read: IOPS=172k, BW=1348MiB/s (1413MB/s)(238GiB/180899msec)
+    clat (nsec): min=480, max=301175k, avg=44007.54, stdev=1357052.12
+     lat (nsec): min=505, max=301175k, avg=44041.35, stdev=1357052.13
+    clat percentiles (nsec):
+     |  1.00th=[     596],  5.00th=[     620], 10.00th=[     644],
+     | 20.00th=[     676], 30.00th=[     716], 40.00th=[     756],
+     | 50.00th=[     812], 60.00th=[     884], 70.00th=[     980],
+     | 80.00th=[    1112], 90.00th=[    1320], 95.00th=[    1608],
+     | 99.00th=[  220160], 99.50th=[  292864], 99.90th=[  880640],
+     | 99.95th=[38010880], 99.99th=[53739520]
+   bw (  MiB/s): min=    9, max=18571, per=100.00%, avg=1375.65, stdev=167.03, samples=2835
+   iops        : min= 1276, max=2377130, avg=176083.58, stdev=21379.48, samples=2835
+  write: IOPS=43.1k, BW=337MiB/s (353MB/s)(59.5GiB/180899msec); 0 zone resets
+    clat (nsec): min=1284, max=46407k, avg=3440.02, stdev=23360.45
+     lat (nsec): min=1325, max=46407k, avg=3499.14, stdev=23410.57
+    clat percentiles (nsec):
+     |  1.00th=[  1944],  5.00th=[  2064], 10.00th=[  2192], 20.00th=[  2416],
+     | 30.00th=[  2576], 40.00th=[  2736], 50.00th=[  2928], 60.00th=[  3120],
+     | 70.00th=[  3440], 80.00th=[  3920], 90.00th=[  4704], 95.00th=[  5728],
+     | 99.00th=[ 11072], 99.50th=[ 14912], 99.90th=[ 35584], 99.95th=[ 48896],
+     | 99.99th=[102912]
+   bw (  KiB/s): min= 3568, max=4742048, per=100.00%, avg=352369.75, stdev=42741.18, samples=2834
+   iops        : min=  446, max=592756, avg=44046.22, stdev=5342.65, samples=2834
+  lat (nsec)   : 500=0.01%, 750=30.26%, 1000=27.44%
+  lat (usec)   : 2=19.93%, 4=16.09%, 10=3.63%, 20=0.26%, 50=0.07%
+  lat (usec)   : 100=0.68%, 250=1.03%, 500=0.49%, 750=0.03%, 1000=0.01%
+  lat (msec)   : 2=0.01%, 4=0.01%, 10=0.01%, 20=0.01%, 50=0.06%
+  lat (msec)   : 100=0.01%, 250=0.01%, 500=0.01%
+  cpu          : usr=1.05%, sys=9.69%, ctx=678268, majf=0, minf=99
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued rwts: total=31203103,7802492,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+   READ: bw=1348MiB/s (1413MB/s), 1348MiB/s-1348MiB/s (1413MB/s-1413MB/s), io=238GiB (256GB), run=180899-180899msec
+  WRITE: bw=337MiB/s (353MB/s), 337MiB/s-337MiB/s (353MB/s-353MB/s), io=59.5GiB (63.9GB), run=180899-180899msec
+
+Storage Class: none - hostPath on Standard_D32ds_v5 (32 CPUs)
+============================================================
+Command: fio --name=kvstore_test  --directory=/opt/dremio/data --direct=0 --rw=randrw --rwmixread=80 --bs=8k --size=8G --numjobs=8 --iodepth=1 --ioengine=psync --runtime=180 --time_based --group_reporting
+Jobs: 8 (f=8): [m(8)][100.0%][r=467MiB/s,w=115MiB/s][r=59.8k,w=14.7k IOPS][eta 00m:00s]
+kvstore_test: (groupid=0, jobs=8): err= 0: pid=98: Tue Jul 22 13:01:57 2025
+  read: IOPS=57.3k, BW=447MiB/s (469MB/s)(78.6GiB/180001msec)
+    clat (usec): min=66, max=128277, avg=136.99, stdev=400.80
+     lat (usec): min=66, max=128277, avg=137.05, stdev=400.80
+    clat percentiles (usec):
+     |  1.00th=[  106],  5.00th=[  111], 10.00th=[  114], 20.00th=[  118],
+     | 30.00th=[  121], 40.00th=[  124], 50.00th=[  126], 60.00th=[  129],
+     | 70.00th=[  133], 80.00th=[  137], 90.00th=[  143], 95.00th=[  153],
+     | 99.00th=[  265], 99.50th=[  437], 99.90th=[  750], 99.95th=[ 1188],
+     | 99.99th=[23725]
+   bw (  KiB/s): min=46032, max=510048, per=100.00%, avg=460061.96, stdev=11484.25, samples=2861
+   iops        : min= 5754, max=63756, avg=57507.75, stdev=1435.53, samples=2861
+  write: IOPS=14.3k, BW=112MiB/s (117MB/s)(19.7GiB/180001msec); 0 zone resets
+    clat (usec): min=2, max=2792, avg= 4.58, stdev= 5.52
+     lat (usec): min=2, max=2792, avg= 4.67, stdev= 5.57
+    clat percentiles (usec):
+     |  1.00th=[    3],  5.00th=[    4], 10.00th=[    4], 20.00th=[    4],
+     | 30.00th=[    4], 40.00th=[    4], 50.00th=[    4], 60.00th=[    5],
+     | 70.00th=[    5], 80.00th=[    6], 90.00th=[    6], 95.00th=[    8],
+     | 99.00th=[   12], 99.50th=[   15], 99.90th=[   47], 99.95th=[   68],
+     | 99.99th=[  163]
+   bw (  KiB/s): min=11424, max=136512, per=100.00%, avg=115156.24, stdev=2915.34, samples=2861
+   iops        : min= 1428, max=17064, avg=14394.53, stdev=364.42, samples=2861
+  lat (usec)   : 4=10.42%, 10=9.27%, 20=0.27%, 50=0.04%, 100=0.09%
+  lat (usec)   : 250=79.05%, 500=0.59%, 750=0.19%, 1000=0.03%
+  lat (msec)   : 2=0.02%, 4=0.01%, 10=0.01%, 20=0.01%, 50=0.01%
+  lat (msec)   : 100=0.01%, 250=0.01%
+  cpu          : usr=0.79%, sys=7.82%, ctx=10310143, majf=0, minf=85
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued rwts: total=10307066,2579840,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+   READ: bw=447MiB/s (469MB/s), 447MiB/s-447MiB/s (469MB/s-469MB/s), io=78.6GiB (84.4GB), run=180001-180001msec
+  WRITE: bw=112MiB/s (117MB/s), 112MiB/s-112MiB/s (117MB/s-117MB/s), io=19.7GiB (21.1GB), run=180001-180001msec
+
+Disk stats (read/write):
+  sdb: ios=10300362/2219104, sectors=164805792/45400496, merge=0/172, ticks=1284423/2095772, in_queue=3380195, util=71.78%
 
 ------------------------------------------------------------
 Command: fio --name=kvstore_test  --directory=/opt/dremio/data --direct=0 --rw=rw --rwmixread=80 --bs=8k --size=8G --numjobs=8 --iodepth=1 --ioengine=psync --runtime=180 --time_based --group_reporting
 
+Jobs: 8 (f=8): [M(8)][100.0%][r=80.0MiB/s,w=19.3MiB/s][r=10.2k,w=2469 IOPS][eta 00m:00s]
+kvstore_test: (groupid=0, jobs=8): err= 0: pid=140: Tue Jul 22 13:05:21 2025
+  read: IOPS=216k, BW=1685MiB/s (1766MB/s)(296GiB/180016msec)
+    clat (nsec): min=480, max=254172k, avg=34938.97, stdev=1130804.48
+     lat (nsec): min=504, max=254172k, avg=34968.99, stdev=1130804.48
+    clat percentiles (nsec):
+     |  1.00th=[     604],  5.00th=[     636], 10.00th=[     660],
+     | 20.00th=[     708], 30.00th=[     764], 40.00th=[     836],
+     | 50.00th=[     916], 60.00th=[     988], 70.00th=[    1064],
+     | 80.00th=[    1176], 90.00th=[    1416], 95.00th=[    1688],
+     | 99.00th=[  193536], 99.50th=[  254976], 99.90th=[  577536],
+     | 99.95th=[36438016], 99.99th=[51118080]
+   bw (  MiB/s): min=   17, max=23701, per=100.00%, avg=1716.82, stdev=227.23, samples=2826
+   iops        : min= 2248, max=3033850, avg=219752.77, stdev=29085.60, samples=2826
+  write: IOPS=53.9k, BW=421MiB/s (442MB/s)(74.0GiB/180016msec); 0 zone resets
+    clat (nsec): min=1281, max=48692k, avg=3218.22, stdev=23201.65
+     lat (nsec): min=1324, max=48693k, avg=3271.57, stdev=23373.49
+    clat percentiles (nsec):
+     |  1.00th=[ 1960],  5.00th=[ 2096], 10.00th=[ 2192], 20.00th=[ 2352],
+     | 30.00th=[ 2512], 40.00th=[ 2640], 50.00th=[ 2768], 60.00th=[ 2928],
+     | 70.00th=[ 3152], 80.00th=[ 3472], 90.00th=[ 4192], 95.00th=[ 5024],
+     | 99.00th=[ 9664], 99.50th=[13504], 99.90th=[36608], 99.95th=[50432],
+     | 99.99th=[97792]
+   bw (  KiB/s): min= 4848, max=6055360, per=100.00%, avg=439575.84, stdev=58070.42, samples=2825
+   iops        : min=  606, max=756920, avg=54946.98, stdev=7258.80, samples=2825
+  lat (nsec)   : 500=0.01%, 750=21.96%, 1000=27.65%
+  lat (usec)   : 2=27.87%, 4=17.68%, 10=2.37%, 20=0.16%, 50=0.07%
+  lat (usec)   : 100=0.72%, 250=1.10%, 500=0.34%, 750=0.02%, 1000=0.01%
+  lat (msec)   : 2=0.01%, 4=0.01%, 10=0.01%, 20=0.01%, 50=0.05%
+  lat (msec)   : 100=0.01%, 250=0.01%, 500=0.01%
+  cpu          : usr=1.19%, sys=11.71%, ctx=811054, majf=0, minf=99
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued rwts: total=38817645,9702489,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
 
-Storage Class: none - hostPath on Standard_D32dsv6 (32 CPUs)
+Run status group 0 (all jobs):
+   READ: bw=1685MiB/s (1766MB/s), 1685MiB/s-1685MiB/s (1766MB/s-1766MB/s), io=296GiB (318GB), run=180016-180016msec
+  WRITE: bw=421MiB/s (442MB/s), 421MiB/s-421MiB/s (442MB/s-442MB/s), io=74.0GiB (79.5GB), run=180016-180016msec
+
+Disk stats (read/write):
+  sdb: ios=1082833/148326, sectors=554229136/160743840, merge=0/183, ticks=2597704/4902231, in_queue=7499936, util=83.38%
+
+Storage Class: none - hostPath on Standard_E16pds_v5 (ARM 16 CPUs)
 ============================================================
 Command: fio --name=kvstore_test  --directory=/opt/dremio/data --direct=0 --rw=randrw --rwmixread=80 --bs=8k --size=8G --numjobs=8 --iodepth=1 --ioengine=psync --runtime=180 --time_based --group_reporting
+Jobs: 8 (f=8): [m(8)][100.0%][r=455MiB/s,w=115MiB/s][r=58.2k,w=14.7k IOPS][eta 00m:00s]
+kvstore_test: (groupid=0, jobs=8): err= 0: pid=84: Tue Jul 22 13:34:32 2025
+  read: IOPS=50.3k, BW=393MiB/s (412MB/s)(69.1GiB/180001msec)
+    clat (usec): min=73, max=40128, avg=155.11, stdev=578.03
+     lat (usec): min=73, max=40128, avg=155.20, stdev=578.04
+    clat percentiles (usec):
+     |  1.00th=[  111],  5.00th=[  117], 10.00th=[  120], 20.00th=[  124],
+     | 30.00th=[  128], 40.00th=[  131], 50.00th=[  135], 60.00th=[  137],
+     | 70.00th=[  141], 80.00th=[  147], 90.00th=[  157], 95.00th=[  172],
+     | 99.00th=[  277], 99.50th=[  627], 99.90th=[ 1319], 99.95th=[19530],
+     | 99.99th=[23462]
+   bw (  KiB/s): min=28416, max=477168, per=100.00%, avg=405117.14, stdev=14844.09, samples=2852
+   iops        : min= 3552, max=59646, avg=50639.49, stdev=1855.52, samples=2852
+  write: IOPS=12.6k, BW=98.4MiB/s (103MB/s)(17.3GiB/180001msec); 0 zone resets
+    clat (usec): min=2, max=1596, avg= 5.70, stdev= 5.30
+     lat (usec): min=2, max=1596, avg= 5.84, stdev= 5.31
+    clat percentiles (usec):
+     |  1.00th=[    4],  5.00th=[    4], 10.00th=[    5], 20.00th=[    5],
+     | 30.00th=[    5], 40.00th=[    5], 50.00th=[    5], 60.00th=[    6],
+     | 70.00th=[    6], 80.00th=[    7], 90.00th=[    8], 95.00th=[   10],
+     | 99.00th=[   14], 99.50th=[   17], 99.90th=[   43], 99.95th=[   69],
+     | 99.99th=[  273]
+   bw (  KiB/s): min= 6113, max=129504, per=100.00%, avg=101455.63, stdev=3748.86, samples=2852
+   iops        : min=  764, max=16188, avg=12681.77, stdev=468.61, samples=2852
+  lat (usec)   : 4=1.90%, 10=17.33%, 20=0.75%, 50=0.03%, 100=0.02%
+  lat (usec)   : 250=79.08%, 500=0.37%, 750=0.20%, 1000=0.05%
+  lat (msec)   : 2=0.21%, 4=0.01%, 10=0.01%, 20=0.01%, 50=0.04%
+  cpu          : usr=1.04%, sys=8.67%, ctx=9058110, majf=0, minf=77
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued rwts: total=9050760,2266570,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+   READ: bw=393MiB/s (412MB/s), 393MiB/s-393MiB/s (412MB/s-412MB/s), io=69.1GiB (74.1GB), run=180001-180001msec
+  WRITE: bw=98.4MiB/s (103MB/s), 98.4MiB/s-98.4MiB/s (103MB/s-103MB/s), io=17.3GiB (18.6GB), run=180001-180001msec
+
+Disk stats (read/write):
+  sdb: ios=9040250/1932420, sectors=144644016/34824832, merge=0/141, ticks=1301959/3518088, in_queue=4820047, util=78.38%
 
 ------------------------------------------------------------
 Command: fio --name=kvstore_test  --directory=/opt/dremio/data --direct=0 --rw=rw --rwmixread=80 --bs=8k --size=8G --numjobs=8 --iodepth=1 --ioengine=psync --runtime=180 --time_based --group_reporting
+Jobs: 8 (f=8): [M(8)][100.0%][r=1557MiB/s,w=388MiB/s][r=199k,w=49.7k IOPS][eta 00m:00s]
+kvstore_test: (groupid=0, jobs=8): err= 0: pid=110: Tue Jul 22 13:39:20 2025
+  read: IOPS=169k, BW=1323MiB/s (1387MB/s)(233GiB/180031msec)
+    clat (nsec): min=760, max=203083k, avg=44739.99, stdev=1254001.74
+     lat (nsec): min=800, max=203083k, avg=44782.94, stdev=1254001.73
+    clat percentiles (nsec):
+     |  1.00th=[    1080],  5.00th=[    1160], 10.00th=[    1208],
+     | 20.00th=[    1240], 30.00th=[    1288], 40.00th=[    1368],
+     | 50.00th=[    1400], 60.00th=[    1528], 70.00th=[    1608],
+     | 80.00th=[    1720], 90.00th=[    1928], 95.00th=[    2160],
+     | 99.00th=[  301056], 99.50th=[  428032], 99.90th=[ 1089536],
+     | 99.95th=[35389440], 99.99th=[50593792]
+   bw (  MiB/s): min=   17, max=19722, per=100.00%, avg=1343.30, stdev=160.83, samples=2829
+   iops        : min= 2182, max=2524512, avg=171941.89, stdev=20586.63, samples=2829
+  write: IOPS=42.3k, BW=331MiB/s (347MB/s)(58.1GiB/180031msec); 0 zone resets
+    clat (nsec): min=1600, max=54275k, avg=3682.85, stdev=20244.58
+     lat (nsec): min=1640, max=54275k, avg=3755.71, stdev=20327.82
+    clat percentiles (nsec):
+     |  1.00th=[ 2288],  5.00th=[ 2448], 10.00th=[ 2512], 20.00th=[ 2736],
+     | 30.00th=[ 2896], 40.00th=[ 3056], 50.00th=[ 3216], 60.00th=[ 3376],
+     | 70.00th=[ 3568], 80.00th=[ 4016], 90.00th=[ 4896], 95.00th=[ 5664],
+     | 99.00th=[13376], 99.50th=[17024], 99.90th=[32640], 99.95th=[45824],
+     | 99.99th=[86528]
+   bw (  KiB/s): min= 3984, max=5033360, per=100.00%, avg=343955.22, stdev=41102.00, samples=2829
+   iops        : min=  498, max=629170, avg=42994.40, stdev=5137.75, samples=2829
+  lat (nsec)   : 1000=0.12%
+  lat (usec)   : 2=73.41%, 4=19.77%, 10=3.77%, 20=0.51%, 50=0.07%
+  lat (usec)   : 100=0.61%, 250=0.70%, 500=0.77%, 750=0.16%, 1000=0.02%
+  lat (msec)   : 2=0.01%, 4=0.01%, 10=0.01%, 20=0.01%, 50=0.06%
+  lat (msec)   : 100=0.01%, 250=0.01%
+  cpu          : usr=1.05%, sys=11.53%, ctx=676822, majf=0, minf=93
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued rwts: total=30480328,7621559,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
 
+Run status group 0 (all jobs):
+   READ: bw=1323MiB/s (1387MB/s), 1323MiB/s-1323MiB/s (1387MB/s-1387MB/s), io=233GiB (250GB), run=180031-180031msec
+  WRITE: bw=331MiB/s (347MB/s), 331MiB/s-331MiB/s (347MB/s-347MB/s), io=58.1GiB (62.4GB), run=180031-180031msec
 
-Storage Class: none - hostPath on Standard_E16pds_v6 (ARM 16 CPUs)
+Disk stats (read/write):
+  sdb: ios=886704/48466, sectors=453852448/116858936, merge=0/115, ticks=2623500/2928636, in_queue=5552135, util=84.47%
+
+Storage Class: none - hostPath on Standard_D32pds_v5 (ARM 32 CPUs)	
 ============================================================
 Command: fio --name=kvstore_test  --directory=/opt/dremio/data --direct=0 --rw=randrw --rwmixread=80 --bs=8k --size=8G --numjobs=8 --iodepth=1 --ioengine=psync --runtime=180 --time_based --group_reporting
+Jobs: 8 (f=8): [m(8)][100.0%][r=451MiB/s,w=114MiB/s][r=57.8k,w=14.5k IOPS][eta 00m:00s]
+kvstore_test: (groupid=0, jobs=8): err= 0: pid=99: Tue Jul 22 14:13:14 2025
+  read: IOPS=55.1k, BW=431MiB/s (452MB/s)(75.7GiB/180001msec)
+    clat (usec): min=74, max=32793, avg=140.26, stdev=121.96
+     lat (usec): min=74, max=32793, avg=140.41, stdev=121.96
+    clat percentiles (usec):
+     |  1.00th=[  115],  5.00th=[  120], 10.00th=[  123], 20.00th=[  126],
+     | 30.00th=[  129], 40.00th=[  133], 50.00th=[  135], 60.00th=[  137],
+     | 70.00th=[  141], 80.00th=[  145], 90.00th=[  153], 95.00th=[  167],
+     | 99.00th=[  235], 99.50th=[  351], 99.90th=[  717], 99.95th=[ 1188],
+     | 99.99th=[ 1532]
+   bw (  KiB/s): min=102576, max=470448, per=100.00%, avg=444832.63, stdev=6068.97, samples=2848
+   iops        : min=12822, max=58806, avg=55604.08, stdev=758.62, samples=2848
+  write: IOPS=13.8k, BW=108MiB/s (113MB/s)(19.0GiB/180001msec); 0 zone resets
+    clat (usec): min=2, max=685, avg= 5.95, stdev= 4.24
+     lat (usec): min=2, max=685, avg= 6.16, stdev= 4.26
+    clat percentiles (usec):
+     |  1.00th=[    4],  5.00th=[    4], 10.00th=[    5], 20.00th=[    5],
+     | 30.00th=[    5], 40.00th=[    5], 50.00th=[    6], 60.00th=[    6],
+     | 70.00th=[    7], 80.00th=[    7], 90.00th=[    9], 95.00th=[   11],
+     | 99.00th=[   15], 99.50th=[   17], 99.90th=[   45], 99.95th=[   69],
+     | 99.99th=[  169]
+   bw (  KiB/s): min=25152, max=128464, per=100.00%, avg=111371.73, stdev=1593.26, samples=2848
+   iops        : min= 3144, max=16058, avg=13921.47, stdev=199.16, samples=2848
+  lat (usec)   : 4=1.77%, 10=17.24%, 20=0.97%, 50=0.03%, 100=0.01%
+  lat (usec)   : 250=79.32%, 500=0.47%, 750=0.11%, 1000=0.02%
+  lat (msec)   : 2=0.06%, 4=0.01%, 10=0.01%, 20=0.01%, 50=0.01%
+  cpu          : usr=1.68%, sys=10.07%, ctx=9939054, majf=0, minf=76
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued rwts: total=9921770,2484188,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+   READ: bw=431MiB/s (452MB/s), 431MiB/s-431MiB/s (452MB/s-452MB/s), io=75.7GiB (81.3GB), run=180001-180001msec
+  WRITE: bw=108MiB/s (113MB/s), 108MiB/s-108MiB/s (113MB/s-113MB/s), io=19.0GiB (20.3GB), run=180001-180001msec
+
+Disk stats (read/write):
+  sdb: ios=9918473/2154590, sectors=158695568/42258344, merge=0/99, ticks=1279878/2119221, in_queue=3399099, util=74.90%
 
 ------------------------------------------------------------
 Command: fio --name=kvstore_test  --directory=/opt/dremio/data --direct=0 --rw=rw --rwmixread=80 --bs=8k --size=8G --numjobs=8 --iodepth=1 --ioengine=psync --runtime=180 --time_based --group_reporting
+Jobs: 8 (f=8): [M(8)][100.0%][r=1857MiB/s,w=460MiB/s][r=238k,w=58.9k IOPS][eta 00m:00s]
+kvstore_test: (groupid=0, jobs=8): err= 0: pid=141: Tue Jul 22 14:16:50 2025
+  read: IOPS=216k, BW=1689MiB/s (1771MB/s)(297GiB/180001msec)
+    clat (nsec): min=760, max=301700k, avg=34192.37, stdev=1023280.12
+     lat (nsec): min=800, max=301700k, avg=34235.31, stdev=1023280.10
+    clat percentiles (nsec):
+     |  1.00th=[    1080],  5.00th=[    1160], 10.00th=[    1240],
+     | 20.00th=[    1288], 30.00th=[    1320], 40.00th=[    1400],
+     | 50.00th=[    1528], 60.00th=[    1608], 70.00th=[    1688],
+     | 80.00th=[    1800], 90.00th=[    1960], 95.00th=[    2192],
+     | 99.00th=[  280576], 99.50th=[  399360], 99.90th=[  716800],
+     | 99.95th=[31850496], 99.99th=[47448064]
+   bw (  MiB/s): min=   45, max=20593, per=100.00%, avg=1742.32, stdev=211.56, samples=2785
+   iops        : min= 5852, max=2635932, avg=223016.68, stdev=27079.13, samples=2785
+  write: IOPS=54.0k, BW=422MiB/s (443MB/s)(74.2GiB/180001msec); 0 zone resets
+    clat (nsec): min=1600, max=54448k, avg=3623.26, stdev=23411.54
+     lat (nsec): min=1640, max=54448k, avg=3698.11, stdev=23461.19
+    clat percentiles (nsec):
+     |  1.00th=[ 2320],  5.00th=[ 2448], 10.00th=[ 2512], 20.00th=[ 2672],
+     | 30.00th=[ 2896], 40.00th=[ 3056], 50.00th=[ 3216], 60.00th=[ 3376],
+     | 70.00th=[ 3568], 80.00th=[ 3920], 90.00th=[ 4832], 95.00th=[ 5536],
+     | 99.00th=[11072], 99.50th=[15680], 99.90th=[33024], 99.95th=[44288],
+     | 99.99th=[76288]
+   bw (  KiB/s): min=11152, max=5262880, per=100.00%, avg=445947.26, stdev=54062.52, samples=2785
+   iops        : min= 1394, max=657860, avg=55743.41, stdev=6757.81, samples=2785
+  lat (nsec)   : 1000=0.11%
+  lat (usec)   : 2=72.25%, 4=21.33%, 10=3.63%, 20=0.39%, 50=0.05%
+  lat (usec)   : 100=0.60%, 250=0.70%, 500=0.73%, 750=0.14%, 1000=0.01%
+  lat (msec)   : 2=0.01%, 4=0.01%, 10=0.01%, 20=0.01%, 50=0.05%
+  lat (msec)   : 100=0.01%, 250=0.01%, 500=0.01%
+  cpu          : usr=1.35%, sys=14.64%, ctx=827416, majf=0, minf=94
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued rwts: total=38920227,9727993,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
 
+Run status group 0 (all jobs):
+   READ: bw=1689MiB/s (1771MB/s), 1689MiB/s-1689MiB/s (1771MB/s-1771MB/s), io=297GiB (319GB), run=180001-180001msec
+  WRITE: bw=422MiB/s (443MB/s), 422MiB/s-422MiB/s (443MB/s-443MB/s), io=74.2GiB (79.7GB), run=180001-180001msec
 
-Storage Class: none - hostPath on Standard_D32pds_v6 (ARM 32 CPUs)	
-============================================================
-Command: fio --name=kvstore_test  --directory=/opt/dremio/data --direct=0 --rw=randrw --rwmixread=80 --bs=8k --size=8G --numjobs=8 --iodepth=1 --ioengine=psync --runtime=180 --time_based --group_reporting
-
-
-------------------------------------------------------------
-Command: fio --name=kvstore_test  --directory=/opt/dremio/data --direct=0 --rw=rw --rwmixread=80 --bs=8k --size=8G --numjobs=8 --iodepth=1 --ioengine=psync --runtime=180 --time_based --group_reporting
+Disk stats (read/write):
+  sdb: ios=1085045/67217, sectors=555361504/156299392, merge=0/132, ticks=2529912/4554535, in_queue=7084447, util=72.70%

@@ -32,6 +32,9 @@ spec:
   disruption:
     consolidationPolicy: WhenEmpty
     consolidateAfter: 30s
+  limits:
+    resources:
+      cpu: "48"
 
 ---
 apiVersion: karpenter.sh/v1
