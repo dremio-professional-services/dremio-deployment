@@ -7,7 +7,7 @@ spec:
   template:
     metadata:
       labels:
-        pool: dremio-general
+        pool: dremio-common
     spec:
       nodeClassRef:
         group: eks.amazonaws.com
