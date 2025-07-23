@@ -46,10 +46,12 @@ tolerations:
 coordinator:
   resources:
     requests:
-      cpu: "30"
-      memory: "112Gi"
+      cpu: "15"
+      memory: "56Gi"
     limits:
-      memory: "112Gi"
+      memory: "56Gi"
+  extraStartParams:
+    -Xms31g -Xmx31g -XX:+AlwaysPreTouch -XX:MaxDirectMemorySize=16g
   log:
     volume:
       size: 64Gi

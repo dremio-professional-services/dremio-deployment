@@ -16,6 +16,10 @@ k8s:
     repository: quay.io/dremio/alpine/k8s
 
 coordinator:
+  resources:
+    requests:
+      # use 15 or 30
+      cpu: "15"
   volumeSize: 512Gi
   web:
     auth:
