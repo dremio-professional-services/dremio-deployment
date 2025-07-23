@@ -18,7 +18,7 @@ dremio:
   log:
     enabled: true
     volume:
-      size: 32Gi
+      size: 8Gi
 
 busyBox:
   image:
