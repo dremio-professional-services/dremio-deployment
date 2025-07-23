@@ -16,6 +16,10 @@ k8s:
     repository: quay.io/dremio/alpine/k8s
 
 coordinator:
+  resources:
+    requests:
+      # change to 30 if you have more CPUs selected.
+      cpu: "15"
   volumeSize: 512Gi
   web:
     auth:
@@ -49,6 +53,7 @@ zookeeper:
 distStorage:
   azureStorage:
     accountName: "NOT_SET"
+    # entraID or accessKey
     authentication: "accessKey"
     filesystem: "NOT_SET"
     path: "/"

@@ -46,7 +46,7 @@ tolerations:
 coordinator:
   resources:
     requests:
-      cpu: "30"
+      cpu: "15"
       memory: "112Gi"
     limits:
       memory: "112Gi"
@@ -135,11 +135,11 @@ engine:
       defaultCapacity: 16C
     resourceAllocationOffsets:
       offsets:
-        - name: reserve-1-12
+        - name: reserve-1-8
           cpu: 1
-          memory: 12Gi
+          memory: 8Gi
           action: Reserve
-      defaultOffset: reserve-1-12
+      defaultOffset: reserve-1-8
     storage:
       spillStorageSizes:
         - name: 300GB
@@ -353,7 +353,7 @@ mongodb:
     labels: {}
     resources:
       requests:
-        storage: 256Gi
+        storage: 1024Gi
     accessModes:
     - ReadWriteOnce
 
@@ -407,7 +407,7 @@ opensearch:
   version: "2.19.2"
   replicas: 3
   affinity: {}
-  volumeSize: "256Gi"
+  volumeSize: "512Gi"
   storageClass: dremio-opensearch
   opensearchJavaOpts: "-XX:InitialRAMPercentage=70.0 -XX:MaxRAMPercentage=70.0"
   # This can be disabled to prevent privileged container, in that
