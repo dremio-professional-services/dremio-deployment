@@ -18,7 +18,7 @@ dremio:
   log:
     enabled: true
     volume:
-      size: 16Gi
+      size: 32Gi
 
 busyBox:
   image:
@@ -178,7 +178,7 @@ engine:
     serviceAccountAnnotations: {}
     volumes:
       log:
-        size: 16Gi
+        size: 8Gi
         pvc:
           storageClass: dremio-logs
       default:
@@ -204,7 +204,7 @@ zookeeper:
     limits:
       memory: "2Gi"
   count: 3
-  volumeSize: 16Gi
+  volumeSize: 8Gi
   storageClass: dremio-zk
   serviceAccount: zookeeper
   serviceAccountAnnotations: {}
@@ -468,7 +468,7 @@ nats:
       enabled: true
       fileStore:
         pvc:
-          size: 16Gi
+          size: 8Gi
           storageClassName: dremio-nats
     cluster:
       enabled: true
