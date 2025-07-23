@@ -18,7 +18,9 @@ Graviton instance types:
 If the customer prefers x86 intel use: aws-eks-auto-mode-node-pools-x86.yml
 Generally, Graviton instances provide a better cost and performance ratio.
     
-Run the following commands to deploy the storage classes and node pools. If you want to modify the zones change it in `aws-eks-auto-mode-node-pools-graviton.yml`
+Run the following commands to deploy the storage classes and node pools. 
+Please change the zone in before applying it: `aws-eks-auto-mode-node-pools-graviton.yml`
+
 ```
 kubectl apply -f aws-eks-auto-mode-node-pools-graviton.yml
 kubectl apply -f aws-eks-auto-mode-storage-classes.yml
