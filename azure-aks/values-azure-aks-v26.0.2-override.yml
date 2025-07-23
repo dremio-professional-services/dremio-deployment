@@ -1,0 +1,134 @@
+# https://docs.dremio.com/current/deploy-dremio/configuring-kubernetes/#recommended-resources-configuration
+imagePullSecrets: []
+
+dremio:
+  trialImagePullCredentials: "PLEASE_SET"
+  license: "PLEASE_SET"
+  image:
+    repository: quay.io/dremio/dremio-enterprise
+
+busyBox:
+  image:
+    repository: quay.io/dremio/busybox
+
+k8s:
+  image:
+    repository: quay.io/dremio/alpine/k8s
+
+coordinator:
+  volumeSize: 512Gi
+  web:
+    auth:
+      enabled: true
+      type: "internal"
+    port: 9047
+    tls:
+      enabled: false
+      secret: dremio-tls-secret-ui
+  client:
+    port: 31010
+    tls:
+      enabled: false
+      secret: dremio-tls-secret-client
+  flight:
+    port: 32010
+    tls:
+      enabled: false
+      secret: dremio-tls-secret-flight
+
+
+engine:
+  operator:
+    image:
+      repository: quay.io/dremio/dremio-engine-operator
+
+zookeeper:
+  image:
+    repository: quay.io/dremio/zookeeper
+
+distStorage:
+  azureStorage:
+    accountName: "NOT_SET"
+    authentication: "accessKey"
+    filesystem: "NOT_SET"
+    path: "/"
+    credentials:
+      accessKey: "NOT_SET"
+      #clientId: "Azure Application Client ID"
+      #tokenEndpoint: "Azure Entra ID Token Endpoint"
+      #clientSecret: "Azure Application Client Secret"
+
+service:
+  type: LoadBalancer
+  internalLoadBalancer: true
+  annotations: {}
+
+catalog:
+  image:
+    repository: quay.io/dremio/dremio-catalog-server
+  replicas: 1
+  storage:
+    location: abfss://<container_name>@<storage_account>.dfs.core.windows.net/<path>
+    azure:
+      tenantId: <Your Azure's directory tenant Id>
+      secretName: catalog-server-azure-storage-creds
+      multiTenantAppName: ~
+      useClientSecrets: true
+  externalAccess:
+    enabled: false
+    image:
+      repository: quay.io/dremio/dremio-catalog-server-external
+    replicas: 1
+
+catalogservices:
+  image:
+    repository: quay.io/dremio/dremio-catalog-services-server
+
+mongodb:
+  image:
+    repository: quay.io/dremio/percona/percona-server-mongodb
+  metrics:
+    image:
+      repository: quay.io/dremio/percona/mongodb_exporter
+
+mongodbOperator:
+  image:
+    repository: quay.io/dremio/dremio-mongodb-operator
+
+opensearchOperator:
+  manager:
+    image:
+      repository: quay.io/dremio/dremio-opensearch-operator
+  kubeRbacProxy:
+    image:
+      repository: quay.io/dremio/kubebuilder/kube-rbac-proxy
+
+opensearch:
+  enabled: true
+  image:
+    repository: quay.io/dremio/dremio-search-opensearch
+  initialAdminPassword: "PLEASE_SET"
+  preInstallJob:
+    image:
+      repository: quay.io/dremio/dremio-search-init
+
+nats:
+  enabled: true
+  container:
+    image:
+      repository: quay.io/dremio/nats
+  reloader:
+    enabled: true
+    image:
+      repository: quay.io/dremio/natsio/nats-server-config-reloader
+  natsBox:
+    enabled: true
+    container:
+      image:
+        repository: quay.io/dremio/natsio/nats-box
+
+telemetry:
+  enabled: true
+  image:
+    repository: quay.io/dremio/otel/opentelemetry-collector-contrib
+

@@ -54,14 +54,14 @@ coordinator:
     volume:
       size: 64Gi
   count: 0
-  volumeSize: 512Gi
+  volumeSize: 1024Gi
   storageClass: dremio-coordinator
   logStorageClass: dremio-logs
   serviceAccount: dremio-coordinator
   serviceAccountAnnotations: {}
   autoUpgrade: true
   nodeSelector:
-    karpenter.sh/nodepool: dremio-coordinator
+    agentpool: dremiocoord
   kvstore:
     type: "RocksDB"
   web:
@@ -166,7 +166,7 @@ engine:
       maximumDuration: PT12H
   operator:
     nodeSelector:
-      karpenter.sh/nodepool: dremio-common
+      agentpool: dremiocommon
     image:
       repository: quay.io/dremio/dremio-engine-operator
       tag: 26.0.2
@@ -182,13 +182,15 @@ engine:
         pvc:
           storageClass: dremio-logs
       default:
-        type: "emptyDir"
-        emptyDir:
-          sizeLimit: "300Gi"
+       type: "hostPath"
+       hostPath:
+         path: "/mnt/dremio-cache"
+         type: "DirectoryOrCreate"
       c3:
-        type: "emptyDir"
-        emptyDir:
-          sizeLimit: "300Gi"
+       type: "hostPath"
+       hostPath:
+         path: "/mnt/dremio-c3"
+         type: "DirectoryOrCreate"
 
 zookeeper:
   image:
@@ -196,7 +198,7 @@ zookeeper:
     tag: 3.8.4-jre-17
     pullPolicy: IfNotPresent
   nodeSelector:
-    karpenter.sh/nodepool: dremio-common
+    agentpool: dremiocommon
   resources:
     requests:
       cpu: "1"
@@ -209,17 +211,19 @@ zookeeper:
   serviceAccount: zookeeper
   serviceAccountAnnotations: {}
 
-
 distStorage:
-  type: "aws"
-  aws:
-    bucketName: "NOT_SET"
+  type: "azureStorage"
+  azureStorage:
+    accountName: "NOT_SET"
+    authentication: "accessKey"
+    filesystem: "NOT_SET"
     path: "/"
-    authentication: "accessKeySecret"
     credentials:
-      awsProfileName: default
       accessKey: "NOT_SET"
-      secret: "NOT_SET"
+      #clientId: "Azure Application Client ID"
+      #tokenEndpoint: "Azure Entra ID Token Endpoint"
+      #clientSecret: "Azure Application Client Secret"
+
 initResources:
   requests:
     cpu: 10m
@@ -236,10 +240,7 @@ extraEnvs: []
 
 service:
   type: LoadBalancer
-  annotations:
-    service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
-    service.beta.kubernetes.io/aws-load-balancer-listener-attributes.TCP-31010: tcp.idle_timeout.seconds=3600
-    service.beta.kubernetes.io/aws-load-balancer-listener-attributes.TCP-32010: tcp.idle_timeout.seconds=3600
+  internalLoadBalancer: true
 
 ddc:
   allowCollectOnAllPods: true
@@ -255,7 +256,7 @@ catalog:
   serviceAccount: dremio-catalog-server
   serviceAccountAnnotations: {}
   nodeSelector:
-    karpenter.sh/nodepool: dremio-common
+    agentpool: dremiocommon
   extraEnv: []
   extraVolumeMounts: []
   extraVolumes: []
@@ -267,14 +268,13 @@ catalog:
       cpu: "2"
       memory: "8Gi"
   storage:
-    location: NOT_SET
-    type: S3
-    s3:
-      region: eu-central-1
-      useAccessKeys: true
-      secretName: catalog-server-s3-storage-creds
-      roleArn: "NOT_SET"
-      userArn: "NOT_SET"
+    location: abfss://<container_name>@<storage_account>.dfs.core.windows.net/<path>
+    type: azure
+    azure:
+      tenantId: <Your Azure's directory tenant Id>
+      secretName: catalog-server-azure-storage-creds
+      multiTenantAppName: ~
+      useClientSecrets: true
   externalAccess:
     enabled: true
     image:
@@ -289,12 +289,12 @@ catalog:
       enabled: false
       secret: dremio-tls-secret-catalog
     nodeSelector:
-      karpenter.sh/nodepool: dremio-common
+      agentpool: dremiocommon
 
 catalogservices:
   enabled: true
   nodeSelector:
-    karpenter.sh/nodepool: dremio-common
+    agentpool: dremiocommon
   image:
     repository: quay.io/dremio/dremio-catalog-services-server
     tag: 26.0.2
@@ -331,7 +331,7 @@ mongodb:
   labels: { }
   annotations: { }
   nodeSelector:
-    karpenter.sh/nodepool: dremio-common
+    agentpool: dremiocommon
   affinity: { }
   topologySpreadConstraints: [ ]
   storageClass: dremio-mongodb
@@ -370,7 +370,7 @@ mongodbOperator:
       cpu: 100m
       memory: 128Mi
   nodeSelector:
-    karpenter.sh/nodepool: dremio-common
+    agentpool: dremiocommon
   tolerations:
     - key: "dremio"
       operator: "Exists"
@@ -379,7 +379,7 @@ mongodbOperator:
 opensearchOperator:
   useRoleBindings: true
   nodeSelector:
-    karpenter.sh/nodepool: dremio-common
+    agentpool: dremiocommon
   manager:
     image:
       repository: quay.io/dremio/dremio-opensearch-operator
@@ -400,7 +400,7 @@ opensearch:
   serviceAccount: opensearch-cluster
   serviceAccountAnnotations: { }
   nodeSelector:
-    karpenter.sh/nodepool: dremio-common
+    agentpool: dremiocommon
   image:
     repository: quay.io/dremio/dremio-search-opensearch
     tag: 26.0.2
@@ -427,7 +427,7 @@ opensearch:
 
   oidcProxy:
     nodeSelector:
-      karpenter.sh/nodepool: dremio-common
+      agentpool: dremiocommon
     resources:
       requests:
         cpu: "100m"
@@ -441,7 +441,7 @@ opensearch:
       repository: quay.io/dremio/dremio-search-init
       tag: 26.0.2
     nodeSelector:
-      karpenter.sh/nodepool: dremio-common
+      agentpool: dremiocommon
     serviceAccountAnnotations: {}
   enableHttpBasicAuth: true
 
@@ -458,7 +458,7 @@ nats:
     merge:
       spec:
         nodeSelector:
-          karpenter.sh/nodepool: dremio-common
+          agentpool: dremiocommon
         tolerations:
           - key: "dremio"
             operator: "Exists"
@@ -539,7 +539,7 @@ telemetry:
       memory: "2Gi"
   extraEnvs: []
   nodeSelector:
-    karpenter.sh/nodepool: dremio-common
+    agentpool: dremiocommon
   clusterId:
     serviceAccountAnnotations: {}
 

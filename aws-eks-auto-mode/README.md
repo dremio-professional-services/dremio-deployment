@@ -6,9 +6,10 @@ Following disks are provisioned by default:
 - 1x Coordinator disk: 512GB io2 with 6000 IOPS
 - 3x MongoDB disk: 256GB io2 with 6000 IOPS
 - 3x OpenSearch disk: 256GB io2 with 6000 IOPS
-- 3x Zookeeper disk: 16GB gp3
-- 3x NATS disk: 16GB gp3
-- <n>x logs disk: 16GB gp3
+- 3x Zookeeper disk: 8GB gp3
+- 3x NATS disk: 8GB gp3
+- 1x coordinator logs disk: 64GB gp3
+- <n>x logs disk: 8GB gp3
 
 Graviton instance types:
 - General: 3x m6g.4xlarge (NATS, Zookeeper, MongoDB, OpenSearch)
