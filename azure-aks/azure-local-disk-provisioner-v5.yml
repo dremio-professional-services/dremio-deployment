@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: azure-local-disk-provisioner
+spec:
+  selector:
+    matchLabels:
+      name: azure-local-disk-provisioner
+  template:
+    metadata:
+      labels:
+        name: azure-local-disk-provisioner
+    spec:
+      nodeSelector:
+        agentpool: "dremioexec"
+      tolerations:
+        - key: "dremio"
+          operator: "Exists"
+          effect: "NoExecute"
+      automountServiceAccountToken: true
+      hostPID: true
+      volumes:
+        - name: host-root
+          hostPath:
+            path: /
+            type: Directory
+      containers:
+        - name: set-dremio-ownership
+          image: busybox:1.37.0-glibc
+          volumeMounts:
+            - name: host-root
+              mountPath: /host
+              readOnly: false
+#          args:
+#            - sleep
+#            - infinity
+          command: ["/bin/sh"]
+          args:
+          - -c
+          - |
+            set -o errexit
+            set -o nounset
+            set -o pipefail
+            mkdir -p /host/mnt/dremio-cache
+            mkdir -p /host/mnt/dremio-spill
+            chown -R 999:999 /host/mnt/dremio-cache
+            chown -R 999:999 /host/mnt/dremio-spill
+            echo "Script completed!"
+            sleep infinity
+          resources:
+            requests:
+              cpu: 1m
+              memory: 1Mi
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            privileged: true
+
+

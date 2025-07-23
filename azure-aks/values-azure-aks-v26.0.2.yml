@@ -135,11 +135,11 @@ engine:
       defaultCapacity: 16C
     resourceAllocationOffsets:
       offsets:
-        - name: reserve-1-8
+        - name: reserve-1-12
           cpu: 1
-          memory: 8Gi
+          memory: 12Gi
           action: Reserve
-      defaultOffset: reserve-1-8
+      defaultOffset: reserve-1-12
     storage:
       spillStorageSizes:
         - name: 300GB
@@ -184,12 +184,12 @@ engine:
       default:
        type: "hostPath"
        hostPath:
-         path: "/mnt/dremio-cache"
+         path: "/mnt/dremio-spill"
          type: "DirectoryOrCreate"
       c3:
        type: "hostPath"
        hostPath:
-         path: "/mnt/dremio-c3"
+         path: "/mnt/dremio-cache"
          type: "DirectoryOrCreate"
 
 zookeeper:
