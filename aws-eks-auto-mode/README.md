@@ -12,9 +12,14 @@ Following disks are provisioned by default:
 - <n>x logs disk: 8GB gp3
 
 Graviton instance types:
-- General: 3x m6g.4xlarge (NATS, Zookeeper, MongoDB, OpenSearch)
+- General: 4x m6g.2xlarge (NATS, Zookeeper, MongoDB, OpenSearch)
 - Coordinator: 1x r6gd.4xlarge or m6gd.8xlarge
 - Executor: <n>x r6gd.4xlarge or m6gd.8xlarge
+
+Intel x86 instance types:
+- General: 4x m5.2xlarge (NATS, Zookeeper, MongoDB, OpenSearch)
+- Coordinator: 1x m5.4xlarge or m5.8xlarge
+- Executor: <n>x r5d.4xlarge or m5d.8xlarge
 
 If the customer prefers x86 intel use: aws-eks-auto-mode-node-pools-x86.yml
 Generally, Graviton instances provide a better cost and performance ratio.

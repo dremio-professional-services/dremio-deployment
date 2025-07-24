@@ -12,7 +12,7 @@ The option "Node pool with ARM - 16x CPUs" is recommended, if you do not have an
 
 ## Node pool with ARM - 16x CPUs (recommended)
 
-- General: 3x Standard_D8s_v5 (NATS, Zookeeper, MongoDB, OpenSearch)
+- General: 4x Standard_D8s_v5 (NATS, Zookeeper, MongoDB, OpenSearch)
 - Coordinator: 1x Standard_D16ps_v5
 - Executor: n-x Standard_E16pds_v5
 
@@ -31,7 +31,7 @@ az aks nodepool add --resource-group carsten-rg --cluster-name carsten-aks --nam
 
 ## Node pool with ARM - 32x CPUs
 
-- General: 3x Standard_D8s_v5 (NATS, Zookeeper, MongoDB, OpenSearch)
+- General: 4x Standard_D8s_v5 (NATS, Zookeeper, MongoDB, OpenSearch)
 - Coordinator: 1x Standard_D16ps_v5
 - Executor: n-x Standard_D32pds_v5
 
@@ -43,7 +43,7 @@ az aks nodepool add --resource-group carsten-rg --cluster-name carsten-aks --nam
 
 ## Node pool with Intel - 16x CPUs
 
-- General: 3x Standard_D8s_v5 (NATS, Zookeeper, MongoDB, OpenSearch)
+- General: 4x Standard_D8s_v5 (NATS, Zookeeper, MongoDB, OpenSearch)
 - Coordinator: 1x Standard_D16s_v5
 - Executor: n-x Standard_E16ds_v5
 
@@ -55,7 +55,7 @@ az aks nodepool add --resource-group carsten-rg --cluster-name carsten-aks --nam
 
 ## Node pool with Intel - 32x CPUs
 
-- General: 3x Standard_D8s_v5 (NATS, Zookeeper, MongoDB, OpenSearch)
+- General: 4x Standard_D8s_v5 (NATS, Zookeeper, MongoDB, OpenSearch)
 - Coordinator: 1x Standard_D16s_v5
 - Executor: n-x Standard_D32ds_v5
 
