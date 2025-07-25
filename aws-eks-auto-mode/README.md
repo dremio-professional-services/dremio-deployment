@@ -1,6 +1,17 @@
 # AWS EKS Auto Mode Deployment
 
-Use the CloudFormation templates to do an EKS cluster deployment.
+Use the CloudFormation templates to do an EKS cluster deployment.You could deploy using either AWS console or cli. Sammple command for deploying usign cli:
+
+aws cloudformation deploy \  --template-file eks-auto-mode-existing-vpc.yml \
+  --stack-name dremio-eks-cluster \
+  --capabilities CAPABILITY_NAMED_IAM \
+  --parameter-overrides \
+    UseSubnets='<subnetid1>,<subnetid2>' \
+    EksVersion="1.32" \
+    EksServiceIpv4Cidr="<vpc-cidr>" \
+    EksPublicEndpoint="true"
+
+
 
 Following disks are provisioned by default:
 - 1x Coordinator disk: 512GB io2 with 6000 IOPS
@@ -13,7 +24,7 @@ Following disks are provisioned by default:
 
 Graviton instance types:
 - General: 4x m6g.2xlarge (NATS, Zookeeper, MongoDB, OpenSearch)
-- Coordinator: 1x r6gd.4xlarge or m6gd.8xlarge
+- Coordinator: 1x r6g.4xlarge or m6g.8xlarge
 - Executor: <n>x r6gd.4xlarge or m6gd.8xlarge
 
 Intel x86 instance types:
@@ -25,12 +36,20 @@ If the customer prefers x86 intel use: aws-eks-auto-mode-node-pools-x86.yml
 Generally, Graviton instances provide a better cost and performance ratio.
     
 Run the following commands to deploy the storage classes and node pools. 
-Please change the zone in before applying it: `aws-eks-auto-mode-node-pools-graviton.yml`
+Please change the availabilityzone in before applying it: `aws-eks-auto-mode-node-pools-graviton.yml`
 
 ```
 kubectl apply -f aws-eks-auto-mode-node-pools-graviton.yml
 kubectl apply -f aws-eks-auto-mode-storage-classes.yml
 ```
+
+Prerequisites to update alues-aws-eks-auto-mode-v26.0.2-override.yml file.
+
+* License  - https://docs.dremio.com/current/deploy-dremio/configuring-kubernetes/#license
+* Pull Secret - https://docs.dremio.com/current/deploy-dremio/configuring-kubernetes/#pull-secret
+* Coordinator's Distributed Storage - https://docs.dremio.com/current/deploy-dremio/configuring-kubernetes/#coordinators-distributed-storage
+* Enterprise Catalog - https://docs.dremio.com/current/deploy-dremio/configuring-kubernetes/#enterprise-catalog
+
 
 Create the catalog secret:
 ```
