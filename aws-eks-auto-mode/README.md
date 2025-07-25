@@ -2,6 +2,11 @@
 
 Use the CloudFormation templates to do an EKS cluster deployment.You could deploy using either AWS console or cli. Sammple command for deploying usign cli:
 
+## EKS Auto Mode Cluster deployment
+
+Deployment via shell or AWS console.
+
+```shell
 aws cloudformation deploy \  --template-file eks-auto-mode-existing-vpc.yml \
   --stack-name dremio-eks-cluster \
   --capabilities CAPABILITY_NAMED_IAM \
@@ -10,8 +15,9 @@ aws cloudformation deploy \  --template-file eks-auto-mode-existing-vpc.yml \
     EksVersion="1.32" \
     EksServiceIpv4Cidr="<vpc-cidr>" \
     EksPublicEndpoint="true"
+```
 
-
+## Helm Chart deployment in an EKS Auto Mode cluster
 
 Following disks are provisioned by default:
 - 1x Coordinator disk: 512GB io2 with 6000 IOPS
