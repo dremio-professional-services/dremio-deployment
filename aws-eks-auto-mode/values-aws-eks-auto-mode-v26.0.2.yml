@@ -97,6 +97,10 @@ coordinator:
     enabled: false
     replicas: 2
 
+executor:
+  cloudCache:
+    enabled: true
+
 # Conduit Service
 conduit:
   port: 45679
