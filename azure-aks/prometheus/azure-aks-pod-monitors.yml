@@ -1,0 +1,26 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: zookeeper-pod-monitor
+spec:
+  selector:
+    matchLabels:
+      app: zk
+  podMetricsEndpoints:
+    - path: /metrics
+      interval: 5s
+      port: metrics
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: dremio-pod-monitor
+spec:
+  selector:
+    matchLabels:
+      role: dremio-cluster-pod
+  podMetricsEndpoints:
+    - path: /metrics
+      interval: 5s
+      port: metrics
