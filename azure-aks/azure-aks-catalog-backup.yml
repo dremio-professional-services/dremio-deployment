@@ -1,0 +1,97 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: dremio-catalog-backups
+spec:
+  storageClassName: azurefile-csi
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 512Gi
+---
+
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: dremio-catalog-backup
+spec:
+  schedule: "0 2 * * *"  # Daily at 2:00 AM
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          tolerations:
+            - key: "dremio"
+              operator: "Exists"
+              effect: "NoExecute"
+          nodeSelector:
+            agentpool: dremiocommon
+          securityContext:
+            fsGroup: 1001
+          containers:
+          - name: mongodb-backup
+            image: quay.io/dremio/percona/percona-server-mongodb:8.0.4-1-multi
+            securityContext:
+              privileged: false
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              runAsNonRoot: true
+              runAsUser: 1001
+              runAsGroup: 1001
+              capabilities:
+                drop:
+                - ALL
+            command:
+            - "/bin/sh"
+            - "-c"
+            - |
+              mongodump \
+                --username "$(MONGODB_BACKUP_USER)" \
+                --password "$(MONGODB_BACKUP_PASSWORD)" \
+                --uri "$(MONGODB_URI)" \
+                --gzip --db dremio --authenticationDatabase admin \
+                --out /backups/mongo_backup_$(date -u +'%Y%d%m_%H%M%S') || exit 1
+              find /backups/mongo_backup_* -type d -maxdepth 0 | sort -r | \
+                tail -n +$(($MAX_BACKUPS + 1)) | \
+                while read folder; do
+                  echo "deleting old backup: $folder..."
+                  rm -rf "$folder"
+                done
+              echo backups:
+              ls -lh /backups
+              echo "backup completed successfully"
+            resources:
+              requests:
+                cpu: "100m"
+                memory: "256Mi"
+              limits:
+                cpu: "100m"
+                memory: "256Mi"
+            env:
+            - name: NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: MAX_BACKUPS
+              value: "10"
+            - name: MONGODB_URI
+              value: "mongodb+srv://dremio-mongodb-rs0.$(NAMESPACE).svc.cluster.local/?ssl=false"
+            - name: MONGODB_BACKUP_USER
+              valueFrom:
+                secretKeyRef:
+                  name: dremio-mongodb-system-users
+                  key: MONGODB_BACKUP_USER
+            - name: MONGODB_BACKUP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: dremio-mongodb-system-users
+                  key: MONGODB_BACKUP_PASSWORD
+            volumeMounts:
+            - name: mongodb-backups
+              mountPath: /backups
+          restartPolicy: OnFailure
+          volumes:
+          - name: mongodb-backups
+            persistentVolumeClaim:
+              claimName: dremio-catalog-backups

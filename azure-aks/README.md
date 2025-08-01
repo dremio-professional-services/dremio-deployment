@@ -99,7 +99,7 @@ kubectl create secret generic catalog-server-azure-storage-creds --namespace def
 A daemonset is required to the correct hostPath permissions on the executors:
 ```shell
 # WARNING:  This requires an Azure v5 instance!
-kubectl apply -f azure-local-disk-provisioner-v5.yml
+kubectl apply -f azure-aks-local-disk-provisioner-v5.yml
 ```
 
 Copy and use the following file `values-azure-aks-v26.0.2-override.yml` as a template. Do NOT modify `values-azure-aks-v26.0.2.yml`.
@@ -117,7 +117,7 @@ nodepool: dremioexec
 ## Carsten's commands
 ```
 kubectl apply -f .\dremio-deployment\azure-aks\azure-aks-storage-classes-lrs.yml
-kubectl apply -f .\dremio-deployment\azure-aks\azure-local-disk-provisioner-v5.yml
+kubectl apply -f .\dremio-deployment\azure-aks\azure-aks-local-disk-provisioner-v5.yml
 helm upgrade --install dremio oci://quay.io/dremio/dremio-helm:3.1.0 -f .\dremio-deployment\azure-aks\values-azure-aks-v26.0.2.yml -f dremio-deployment\my\values-azure-aks-v26.0.2-override.yml
 ```
 
