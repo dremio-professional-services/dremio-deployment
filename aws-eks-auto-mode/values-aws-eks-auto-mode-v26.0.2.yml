@@ -505,6 +505,8 @@ nats:
       merge:
         spec:
           serviceAccountName: dremio-nats
+          nodeSelector:
+            karpenter.sh/nodepool: dremio-common
     serviceAccount:
       name: dremio-nats
       annotations: {}
