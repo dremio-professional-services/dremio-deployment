@@ -3,7 +3,7 @@ imagePullSecrets: []
 writeLogsToFile: true
 
 dremio:
-  trialImagePullCredentials: "NOT_SET"
+#  trialImagePullCredentials: "NOT_SET"
   license: "NOT_SET"
   image:
     repository: quay.io/dremio/dremio-enterprise
