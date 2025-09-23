@@ -49,7 +49,7 @@ kubectl apply -f aws-eks-auto-mode-node-pools-graviton.yml
 kubectl apply -f aws-eks-auto-mode-storage-classes.yml
 ```
 
-Prerequisites to update alues-aws-eks-auto-mode-v26.0.2-override.yml file.
+Prerequisites to update alues-aws-eks-auto-mode-<helm version>-override.yml file.
 
 * License  - https://docs.dremio.com/current/deploy-dremio/configuring-kubernetes/#license
 * Pull Secret - https://docs.dremio.com/current/deploy-dremio/configuring-kubernetes/#pull-secret
@@ -64,10 +64,10 @@ export AWS_SECRET_ACCESS_KEY=<secret-key>
 kubectl create secret generic catalog-server-s3-storage-creds --namespace $NAMESPACE --from-literal awsAccessKeyId=$AWS_ACCESS_KEY_ID --from-literal awsSecretAccessKey=$AWS_SECRET_ACCESS_KEY
 ```
 
-Copy and use the following file `values-aws-eks-auto-mode-v26.0.2-override.yml` as a template. Do NOT modify `values-aws-eks-auto-mode-v26.0.2.yml`.
+Copy and use the following file `values-aws-eks-auto-mode-<helm version>-override.yml` as a template. Do NOT modify `values-aws-eks-auto-mode-<helm version>.yml`.
 
 ```
-helm upgrade --install dremio oci://quay.io/dremio/dremio-helm:3.1.0 -f values-aws-eks-auto-mode-v26.0.2.yml -f values-aws-eks-auto-mode-v26.0.2-override.yml
+helm upgrade --install dremio oci://quay.io/dremio/dremio-helm:<helm version> -f values-aws-eks-auto-mode-<helm version>.yml -f values-aws-eks-auto-mode-<helm version>-override.yml
 ```
 
 ## Add engines via UI and set the node selector:

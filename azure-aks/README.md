@@ -102,10 +102,10 @@ A daemonset is required to the correct hostPath permissions on the executors:
 kubectl apply -f azure-aks-local-disk-provisioner-v5.yml
 ```
 
-Copy and use the following file `values-azure-aks-v26.0.2-override.yml` as a template. Do NOT modify `values-azure-aks-v26.0.2.yml`.
+Copy and use the following file `values-azure-aks-<helm version>-override.yml` as a template. Do NOT modify `values-azure-aks-<helm version>.yml`.
 
 ```
-helm upgrade --install dremio oci://quay.io/dremio/dremio-helm:3.1.0 -f values-azure-aks-v26.0.2.yml -f values-azure-aks-v26.0.2-override.yml
+helm upgrade --install dremio oci://quay.io/dremio/dremio-helm:<helm version> -f values-azure-aks-<helm version>.yml -f values-azure-aks-<helm version>-override.yml
 ```
 
 ## Add engines via UI and set the node selector:
