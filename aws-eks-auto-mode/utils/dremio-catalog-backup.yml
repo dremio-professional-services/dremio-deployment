@@ -1,0 +1,81 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: dremio-catalog-backups
+spec:
+  storageClassName: dremio-backup
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 512Gi
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: dremio-catalog-backups
+spec:
+  schedule: "0 2 * * *"  # Daily at 2:00 AM
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          nodeSelector:
+            karpenter.sh/nodepool: dremio-common
+          imagePullSecrets:
+            - name: dremio-trial-image-pull-credentials
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1001
+            runAsGroup: 1001
+            fsGroup: 0
+            seccompProfile:
+              type: RuntimeDefault
+          containers:
+          # Note can be used to copy it somewhere else and use another image like aws-cli
+          - name: mongodb-backup-list
+            image: quay.io/dremio/percona/percona-server-mongodb:8.0.12-4
+            command:
+            - "/bin/sh"
+            - "-c"
+            - |
+              ls -lart /backups
+            volumeMounts:
+              - name: backup-storage
+                mountPath: /backups
+          initContainers:
+          - name: mongodb-backup
+            image: quay.io/dremio/percona/percona-server-mongodb:8.0.12-4
+            command:
+            - "/bin/sh"
+            - "-c"
+            - |
+              mongodump \
+                --host "$(MONGODB_HOST)" \
+                --username "$(MONGODB_USER)" \
+                --password "$(MONGODB_PASSWORD)" \
+                --authenticationDatabase admin \
+                --db dremio \
+                --gzip \
+                --out /backups/backup_$(date -u +'%Y%m%d_%H%M%S')
+            env:
+            - name: MONGODB_HOST
+              value: "dremio-mongodb-rs0:27017"
+            - name: MONGODB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: dremio-mongodb-system-users
+                  key: MONGODB_BACKUP_USER
+            - name: MONGODB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: dremio-mongodb-system-users
+                  key: MONGODB_BACKUP_PASSWORD
+            volumeMounts:
+            - name: backup-storage
+              mountPath: /backups
+          restartPolicy: OnFailure
+          volumes:
+          - name: backup-storage
+            persistentVolumeClaim:
+              claimName: dremio-catalog-backups
