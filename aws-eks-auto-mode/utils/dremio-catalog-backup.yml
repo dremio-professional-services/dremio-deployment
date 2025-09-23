@@ -33,6 +33,7 @@ spec:
               type: RuntimeDefault
           containers:
           # Note can be used to copy it somewhere else and use another image like aws-cli
+          # Example s3 persistent volume claim: https://github.com/awslabs/mountpoint-s3-csi-driver/blob/main/examples/kubernetes/static_provisioning/static_provisioning.yaml
           - name: mongodb-backup-list
             image: quay.io/dremio/percona/percona-server-mongodb:8.0.12-4
             command:
