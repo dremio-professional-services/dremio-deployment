@@ -54,7 +54,7 @@ coordinator:
     -Xms31g -Xmx31g -XX:+AlwaysPreTouch -XX:MaxDirectMemorySize=16g
   log:
     volume:
-      size: 64Gi
+      size: 128Gi
   count: 0
   volumeSize: 1024Gi
   storageClass: dremio-coordinator

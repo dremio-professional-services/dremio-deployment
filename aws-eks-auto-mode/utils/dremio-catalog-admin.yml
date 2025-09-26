@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: catalog-mongodb-admin
+spec:
+  nodeSelector:
+    karpenter.sh/nodepool: dremio-common
+  imagePullSecrets:
+    - name: dremio-trial-image-pull-credentials
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1001
+    runAsGroup: 1001
+    fsGroup: 0
+    seccompProfile:
+      type: RuntimeDefault
+  containers:
+  - name: mongodb-restore
+    image: quay.io/dremio/percona/percona-server-mongodb:8.0.12-4
+    command: ["sleep", "infinity"]
+    resources:
+      requests:
+        cpu: "100m"
+        memory: "256Mi"
+      limits:
+        cpu: "100m"
+        memory: "256Mi"
+    env:
+    - name: MONGODB_HOST
+      value: "dremio-mongodb-rs0:27017"
+    - name: MONGODB_USER
+      valueFrom:
+        secretKeyRef:
+          name: dremio-mongodb-system-users
+          key: MONGODB_BACKUP_USER
+    - name: MONGODB_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: dremio-mongodb-system-users
+          key: MONGODB_BACKUP_PASSWORD
+    volumeMounts:
+    - name: backup-storage
+      mountPath: /backups
+  restartPolicy: Never
+  volumes:
+  - name: backup-storage
+    persistentVolumeClaim:
+      claimName: dremio-catalog-backups
