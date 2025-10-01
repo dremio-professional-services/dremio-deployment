@@ -28,12 +28,12 @@ spec:
     env:
     - name: MONGODB_HOST
       value: "dremio-mongodb-rs0:27017"
-    - name: MONGODB_USER
+    - name: MONGODB_BACKUP_USER
       valueFrom:
         secretKeyRef:
           name: dremio-mongodb-system-users
           key: MONGODB_BACKUP_USER
-    - name: MONGODB_PASSWORD
+    - name: MONGODB_BACKUP_PASSWORD
       valueFrom:
         secretKeyRef:
           name: dremio-mongodb-system-users

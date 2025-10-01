@@ -60,13 +60,13 @@ spec:
             - |
               mongodump \
                 --host "$(MONGODB_HOST)" \
-                --username "$(MONGODB_USER)" \
-                --password "$(MONGODB_PASSWORD)" \
+                --username "$(MONGODB_BACKUP_USER)" \
+                --password "$(MONGODB_BACKUP_PASSWORD)" \
                 --authenticationDatabase admin \
                 --db dremio \
                 --gzip \
                 --out /backups/backup_$(date -u +'%Y%m%d_%H%M%S') || exit 1
-              find /backups/mongo_backup_* -type d -maxdepth 0 | sort -r | \
+              find /backups/backup_* -type d -maxdepth 0 | sort -r | \
                 tail -n +$(($MAX_BACKUPS + 1)) | \
                 while read folder; do
                   echo "deleting old backup: $folder..."
@@ -84,12 +84,12 @@ spec:
             env:
             - name: MONGODB_HOST
               value: "dremio-mongodb-rs0:27017"
-            - name: MONGODB_USER
+            - name: MONGODB_BACKUP_USER
               valueFrom:
                 secretKeyRef:
                   name: dremio-mongodb-system-users
                   key: MONGODB_BACKUP_USER
-            - name: MONGODB_PASSWORD
+            - name: MONGODB_BACKUP_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: dremio-mongodb-system-users
