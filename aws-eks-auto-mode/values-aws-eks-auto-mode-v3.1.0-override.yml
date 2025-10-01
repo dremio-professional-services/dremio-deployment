@@ -77,6 +77,7 @@ catalog:
     s3:
       region: "PLEASE_SET"
       useAccessKeys: true
+      skipSts: true
       secretName: catalog-server-s3-storage-creds
       roleArn: "PLEASE_SET"
       userArn: "PLEASE_SET"
