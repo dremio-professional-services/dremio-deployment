@@ -7,13 +7,17 @@ dremio:
   image:
     repository: quay.io/dremio/dremio-enterprise
 
+cluster:
+  # prod or non-prod
+  type: prod
+
 busyBox:
   image:
     repository: quay.io/dremio/busybox
 
-k8s:
+utils:
   image:
-    repository: quay.io/dremio/alpine/k8s
+    repository: quay.io/dremio/dremio-ee-utils
 
 coordinator:
   resources:
@@ -104,9 +108,6 @@ opensearchOperator:
   manager:
     image:
       repository: quay.io/dremio/dremio-opensearch-operator
-  kubeRbacProxy:
-    image:
-      repository: quay.io/dremio/kubebuilder/kube-rbac-proxy
 
 opensearch:
   enabled: true
@@ -126,11 +127,6 @@ nats:
     enabled: true
     image:
       repository: quay.io/dremio/natsio/nats-server-config-reloader
-  natsBox:
-    enabled: true
-    container:
-      image:
-        repository: quay.io/dremio/natsio/nats-box
 
 telemetry:
   enabled: true

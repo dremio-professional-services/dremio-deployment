@@ -1,10 +1,30 @@
-# https://docs.dremio.com/current/deploy-dremio/configuring-kubernetes/#recommended-resources-configuration
+#
+# Copyright (C) 2017-2019 Dremio Corporation. This file is confidential and private property.
+#
+
+
+
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#                     ____ _____ ___  ____  _                         #
+#                    / ___|_   _/ _ \|  _ \| |                        #
+#                    \___ \ | || | | | |_) | |                        #
+#                     ___) || || |_| |  __/|_|                        #
+#                    |____/ |_| \___/|_|   (_)                        #
+#                                                                     #
+#           !!!   DO NOT DIRECTLY EDIT THIS FILE   !!!                #
+# !!!   create a separate file to override values in this file   !!!  #
+#                                                                     #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+
+
 imagePullSecrets: []
 writeLogsToFile: true
 
 dremio:
-  trialImagePullCredentials: "NOT_SET"
-  license: "NOT_SET"
+  trialImagePullCredentials: ""
+  license: ""
   image:
     repository: quay.io/dremio/dremio-enterprise
     tag: 26.0.2
@@ -18,7 +38,7 @@ dremio:
   log:
     enabled: true
     volume:
-      size: 8Gi
+      size: 16Gi
 
 busyBox:
   image:
@@ -54,7 +74,7 @@ coordinator:
     -Xms31g -Xmx31g -XX:+AlwaysPreTouch -XX:MaxDirectMemorySize=16g
   log:
     volume:
-      size: 128Gi
+      size: 512Gi
   count: 0
   volumeSize: 1024Gi
   storageClass: dremio-coordinator
@@ -208,11 +228,11 @@ zookeeper:
   resources:
     requests:
       cpu: "1"
-      memory: "2Gi"
+      memory: "1Gi"
     limits:
-      memory: "2Gi"
+      memory: "1Gi"
   count: 3
-  volumeSize: 8Gi
+  volumeSize: 16Gi
   storageClass: dremio-zk
   serviceAccount: zookeeper
   serviceAccountAnnotations: {}
@@ -429,7 +449,7 @@ opensearch:
 
   tlsCertsSecretName: opensearch-tls-certs
   disableTlsCertGeneration: false
-  initialAdminPassword: "NOT_SET"
+  initialAdminPassword: admin
 
   oidcProxy:
     nodeSelector:
@@ -474,7 +494,7 @@ nats:
       enabled: true
       fileStore:
         pvc:
-          size: 8Gi
+          size: 16Gi
           storageClassName: dremio-nats
     cluster:
       enabled: true

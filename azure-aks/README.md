@@ -71,10 +71,10 @@ Following disks are provisioned by default:
 - 1x Coordinator disk: 1024GB managed premium (5000 IOPS + 200 MB/s)
 - 3x MongoDB disk: 1024GB managed premium (5000 IOPS + 200 MB/s)
 - 3x OpenSearch disk: 512GB managed premium (2300 IOPS + 150 MB/s)
-- 3x Zookeeper disk: 8GB standard (500 IOPS + 100 MB/s)
-- 3x NATS disk: 8GB standard (500 IOPS + 100 MB/s)
-- 1x coordinator logs disk: 64GB standard (500 IOPS + 100 MB/s)
-- n-x logs disk: 8GB standard  (500 IOPS + 100 MB/s)
+- 3x Zookeeper disk: 16GB standard (500 IOPS + 100 MB/s)
+- 3x NATS disk: 16GB standard (500 IOPS + 100 MB/s)
+- 1x coordinator logs disk: 512GB standard (500 IOPS + 100 MB/s)
+- n-x logs disk: 16GB standard  (500 IOPS + 100 MB/s)
 
 There are two types of storage classes:
 - Zone-redudant storage classes (ZRS) -> azure-aks-storage-classes-zrs.yml
