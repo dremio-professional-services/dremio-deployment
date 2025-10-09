@@ -25,7 +25,7 @@ coordinator:
     auth:
       enabled: true
       type: "internal"
-    port: 9047
+    port: 443
     tls:
       enabled: false
       secret: dremio-tls-secret-ui
