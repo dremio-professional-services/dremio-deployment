@@ -1,0 +1,768 @@
+#
+# Copyright (C) 2017-2019 Dremio Corporation. This file is confidential and private property.
+#
+
+
+
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#                     ____ _____ ___  ____  _                         #
+#                    / ___|_   _/ _ \|  _ \| |                        #
+#                    \___ \ | || | | | |_) | |                        #
+#                     ___) || || |_| |  __/|_|                        #
+#                    |____/ |_| \___/|_|   (_)                        #
+#                                                                     #
+#           !!!   DO NOT DIRECTLY EDIT THIS FILE   !!!                #
+# !!!   create a separate file to override values in this file   !!!  #
+#                                                                     #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+
+imagePullSecrets: []
+useOpenShiftRoles: false
+writeLogsToFile: true
+
+dremio:
+  trialImagePullCredentials: ""
+  license: ""
+  image:
+    repository: quay.io/dremio/dremio-enterprise
+    tag: 26.0.7
+    pullPolicy: IfNotPresent
+  dremioConfExtraOptions: {}
+  advancedConfigs: {}
+  hive2ConfigFiles: {}
+  hive3ConfigFiles: {}
+  configFiles: {}
+  configBinaries: {}
+  log:
+    enabled: true
+    volume:
+      size: 16Gi
+
+cluster:
+  type: prod
+
+busyBox:
+  image:
+    repository: quay.io/dremio/busybox
+    tag: 1.37.0-glibc
+    pullPolicy: IfNotPresent
+
+utils:
+  image:
+    repository: quay.io/dremio/dremio-ee-utils
+    tag: 26.0.7
+    pullPolicy: IfNotPresent
+
+annotations: {}
+podAnnotations: {}
+labels: {}
+podLabels: {}
+nodeSelector: {}
+
+tolerations:
+  - key: "dremio"
+    operator: "Exists"
+    effect: "NoExecute"
+
+# Default security contexts used by dremio.podSecurityContext and dremio.containerSecurityContext helpers
+podSecurityContext:
+  fsGroup: 999
+  fsGroupChangePolicy: OnRootMismatch
+
+containerSecurityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+  privileged: false
+  readOnlyRootFilesystem: false
+  runAsGroup: 999
+  runAsNonRoot: true
+  runAsUser: 999
+  seccompProfile:
+    type: RuntimeDefault
+
+coordinator:
+  resources:
+    requests:
+      cpu: "15"
+      memory: "56Gi"
+    limits:
+      memory: "56Gi"
+  extraStartParams:
+    -Xms31g -Xmx31g -XX:+AlwaysPreTouch -XX:MaxDirectMemorySize=16g
+  log:
+    volume:
+      size: 512Gi
+  count: 0
+  volumeSize: 512Gi
+  storageClass: dremio-coordinator
+  logStorageClass: dremio-logs
+  serviceAccount: dremio-coordinator
+  serviceAccountAnnotations: {}
+  autoUpgrade: true
+  nodeSelector:
+    karpenter.sh/nodepool: dremio-coordinator
+  kvstore:
+    type: "RocksDB"
+  web:
+    auth:
+      enabled: true
+      type: "internal"
+    port: 9047
+    tls:
+      enabled: false
+      secret: dremio-tls-secret-ui
+  client:
+    port: 31010
+    tls:
+      enabled: false
+      secret: dremio-tls-secret-client
+  flight:
+    port: 32010
+    tls:
+      enabled: false
+      secret: dremio-tls-secret-flight
+  startupProbe:
+    failureThreshold: 30
+    periodSeconds: 10
+  livenessProbe:
+    failureThreshold: 30
+    periodSeconds: 10
+  readinessProbe:
+    failureThreshold: 12
+    periodSeconds: 10
+
+executor:
+  resources:
+    requests:
+      cpu: "14"
+      memory: "120Gi"
+    limits:
+      memory: "120Gi"
+  log:
+    volume:
+      size: 64Gi
+  engines: []
+  count: 3
+  volumeSize: 256Gi
+  serviceAccount: dremio-executor
+  cloudCache:
+    enabled: true
+    quota:
+      fs_pct: 70
+    volumes:
+      - size: 256Gi
+
+engine:
+  options:
+    sizes:
+      - name: 2XSmall
+        cpuScaleFactor: 0.5
+        pods: 1
+        memory: 64Gi
+      - name: XSmall
+        pods: 1
+        memory: 128Gi
+      - name: Small
+        pods: 2
+        memory: 128Gi
+      - name: Medium
+        pods: 4
+        memory: 128Gi
+      - name: Large
+        pods: 8
+        memory: 128Gi
+      - name: XLarge
+        pods: 12
+        memory: 128Gi
+      - name: 2XLarge
+        pods: 16
+        memory: 128Gi
+      - name: 3XLarge
+        pods: 24
+        memory: 128Gi
+      - name: 4XLarge
+        pods: 32
+        memory: 128Gi
+    targetCpuCapacities:
+      capacities:
+        - name: 16C
+          cpu: 16
+        - name: 32C
+          cpu: 32
+      defaultCapacity: 16C
+    resourceAllocationOffsets:
+      offsets:
+        - name: reserve-1-12
+          cpu: 1
+          memory: 12Gi
+          action: Reserve
+      defaultOffset: reserve-1-12
+    storage:
+      spillStorageSizes:
+        - name: 300GB
+          storage: 300Gi
+        - name: 600GB
+          storage: 600Gi
+      defaultSpillStorageSize: 300GB
+      c3StorageSizes:
+        - name: 300GB
+          storage: 300Gi
+        - name: 600GB
+          storage: 600Gi
+      defaultC3StorageSize: 300GB
+    idleTimeouts:
+      durations:
+        - PT2H
+        - PT1H30M
+        - PT1H
+        - PT30M
+        - PT15M
+        - PT10M
+        - PT5M
+      defaultDuration: PT15M
+      maximumDuration: PT12H
+  operator:
+    nodeSelector:
+      karpenter.sh/nodepool: dremio-common
+    image:
+      repository: quay.io/dremio/dremio-engine-operator
+      tag: 26.0.7
+      pullPolicy: IfNotPresent
+    serviceAccount: dremio-engine-operator
+    serviceAccountAnnotations: {}
+    podSecurityContext:
+      fsGroup: 999
+      fsGroupChangePolicy: OnRootMismatch
+    containerSecurityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - ALL
+      privileged: false
+      readOnlyRootFilesystem: false
+      runAsGroup: 999
+      runAsNonRoot: true
+      runAsUser: 999
+      seccompProfile:
+        type: RuntimeDefault
+  executor:
+    serviceAccount: dremio-engine-executor
+    serviceAccountAnnotations: {}
+    volumes:
+      log:
+        size: 8Gi
+        pvc:
+          storageClass: dremio-logs
+      default:
+        type: "emptyDir"
+        emptyDir:
+          sizeLimit: "300Gi"
+      c3:
+        type: "emptyDir"
+        emptyDir:
+          sizeLimit: "300Gi"
+    probes:
+      startup:
+        initialDelaySeconds: 10
+        periodSeconds: 5
+        failureThreshold: 36
+      liveness:
+        failureThreshold: 30
+        periodSeconds: 10
+
+zookeeper:
+  image:
+    repository: quay.io/dremio/zookeeper
+    tag: 3.8.4-jre-17
+    pullPolicy: IfNotPresent
+  nodeSelector:
+    karpenter.sh/nodepool: dremio-common
+  resources:
+    requests:
+      cpu: "1"
+      memory: "1Gi"
+    limits:
+      memory: "1Gi"
+  count: 3
+  volumeSize: 16Gi
+  storageClass: dremio-zk
+  serviceAccount: zookeeper
+  serviceAccountAnnotations: {}
+  podSecurityContext:
+    runAsUser: 1000
+    fsGroup: 1000
+  containerSecurityContext:
+    privileged: false
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: false
+    runAsNonRoot: true
+    runAsUser: 1000
+    runAsGroup: 1000
+    capabilities:
+      drop:
+        - ALL
+
+distStorage:
+  type: "aws"
+  aws:
+    bucketName: "NOT_SET"
+    path: "/"
+    authentication: "accessKeySecret"
+    credentials:
+      awsProfileName: default
+      accessKey: "NOT_SET"
+      secret: "NOT_SET"
+
+  azureStorage:
+    accountName: ""
+    authentication: "accessKey"
+    filesystem: ""
+    path: "/"
+
+initResources:
+  requests:
+    cpu: 10m
+    memory: 10Mi
+  limits:
+    cpu: 2000m
+    memory: 512Mi
+
+extraVolumes: []
+
+extraVolumeMounts: []
+
+extraEnvs: []
+
+extraInitContainers: []
+
+extraStartParams: ""
+
+service:
+  type: LoadBalancer
+
+ddc:
+  allowCollectOnAllPods: true
+  namespaceDiagnostics: true
+  k8sClusterDiagnostic: false
+
+catalog:
+  image:
+    repository: quay.io/dremio/dremio-catalog-server
+    tag: 26.0.7
+    pullPolicy: IfNotPresent
+  replicas: 1
+  serviceAccount: dremio-catalog-server
+  serviceAccountAnnotations: {}
+  nodeSelector:
+    karpenter.sh/nodepool: dremio-common
+  extraEnv: []
+  extraVolumeMounts: []
+  extraVolumes: []
+  extraInitContainers: []
+  extraStartParams: ""
+  resources:
+    requests:
+      cpu: "2"
+      memory: "8Gi"
+    limits:
+      cpu: "2"
+      memory: "8Gi"
+  externalAccess:
+    enabled: true
+    image:
+      repository: quay.io/dremio/dremio-catalog-server-external
+      tag: 26.0.7
+      pullPolicy: IfNotPresent
+    replicas: 1
+    authentication:
+      authServerHostname: dremio-master-0.dremio-cluster-pod.{{ .Release.Namespace }}.svc.cluster.local
+      disableHostnameVerification: false
+    tls:
+      enabled: false
+      secret: dremio-tls-secret-catalog
+    nodeSelector:
+      karpenter.sh/nodepool: dremio-common
+  storage:
+    location: NOT_SET
+    type: s3
+    s3:
+      region: eu-central-1
+      useAccessKeys: true
+      secretName: catalog-server-s3-storage-creds
+      roleArn: "NOT_SET"
+      userArn: "NOT_SET"
+
+catalogservices:
+  enabled: true
+  nodeSelector:
+    karpenter.sh/nodepool: dremio-common
+  image:
+    repository: quay.io/dremio/dremio-catalog-services-server
+    tag: 26.0.7
+    pullPolicy: IfNotPresent
+  serviceAccount: dremio-catalog-services
+  serviceAccountAnnotations: {}
+  replicas: 1
+  resources:
+    requests:
+      cpu: "2"
+      memory: "8Gi"
+    limits:
+      cpu: "2"
+      memory: "8Gi"
+  extraEnvs: []
+  extraVolumeMounts: []
+  extraVolumes: []
+  extraInitContainers: []
+  extraStartParams: ""
+
+mongodb:
+  image:
+    repository: quay.io/dremio/percona/percona-server-mongodb
+    tag: 8.0.12-4
+    pullPolicy: IfNotPresent
+  metrics:
+    image:
+      repository: quay.io/dremio/percona/mongodb_exporter
+      tag: 0.47.1
+      pullPolicy: IfNotPresent
+  serviceAccount: dremio-mongodb
+  serviceAccountAnnotations: {}
+  replicaCount: 3
+  labels: {}
+  annotations: {}
+  nodeSelector:
+    karpenter.sh/nodepool: dremio-common
+  affinity: {}
+  topologySpreadConstraints: []
+  storageClass: dremio-mongodb
+  tolerations:
+    - key: "dremio"
+      operator: "Exists"
+      effect: "NoExecute"
+  priorityClassName: ~ # high-priority
+  podDisruptionBudget: {}
+  podSecurityContext:
+    runAsNonRoot: true
+    runAsUser: 1001
+    runAsGroup: 1001
+    fsGroup: 0
+    seccompProfile:
+      type: RuntimeDefault
+  containerSecurityContext:
+    allowPrivilegeEscalation: false
+    privileged: false
+    readOnlyRootFilesystem: false
+    runAsNonRoot: true
+    capabilities:
+      drop:
+        - ALL
+  resources:
+    requests:
+      cpu: 2
+      memory: 2Gi
+    limits:
+      cpu: 4
+      memory: 2Gi
+  enableVolumeExpansion: true
+  storage:
+    annotations: {}
+    labels: {}
+    resources:
+      requests:
+        storage: 512Gi
+    accessModes:
+    - ReadWriteOnce
+  backup:
+    enabled: false
+    image:
+      repository: quay.io/dremio/percona/percona-backup-mongodb
+      tag: 2.11.0
+    serviceAccount: dremio-mongodb
+    serviceAccountAnnotations: {}
+    containerSecurityContext:
+      allowPrivilegeEscalation: false
+      privileged: false
+      readOnlyRootFilesystem: false
+      runAsNonRoot: true
+      capabilities:
+        drop:
+          - ALL
+    resources:
+      requests:
+        cpu: 300m
+        memory: 1Gi
+      limits:
+        cpu: 300m
+        memory: 1Gi
+    configuration: {}
+    # https://docs.percona.com/percona-operator-for-mongodb/backups-storage.html
+    storages:
+      dremio-mongodb-backups:
+        type: s3
+        main: true
+        s3:
+          credentialsSecret: dremio-mongodb-backups
+          bucket: dremio-mongodb-backups
+          region: us-west-2
+          prefix: ~
+          endpointUrl: ~
+          forcePathStyle: ~
+          maxUploadParts: ~
+          uploadPartSize: ~
+          storageClass: ~
+          serverSideEncryption: {}
+          retryer: {}
+        azure:
+          credentialsSecret: dremio-mongodb-backups
+          container: dremio-mongodb-backups
+          prefix: ~
+          endpointUrl: ~
+    # https://docs.percona.com/percona-operator-for-mongodb/backups-scheduled.html
+    tasks:
+      - name: dremio-mongodb-backup
+        enabled: true
+        storageName: dremio-mongodb-backups
+        type: physical
+        schedule: "0 0 * * *"
+        keep: 3
+        # https://docs.percona.com/percona-backup-mongodb/usage/compression.html
+        compressionType: gzip
+        compressionLevel: 1
+    # https://docs.percona.com/percona-operator-for-mongodb/backups-pitr.html
+    pitr:
+      enabled: true
+      oplogSpanMin: 10
+      oplogOnly: false
+      compressionType: gzip
+      compressionLevel: 1
+
+mongodbOperator:
+  image:
+    repository: quay.io/dremio/dremio-mongodb-operator
+    tag: 1.20.1-dremio-20250903185516-13d2ecb3
+  fullnameOverride: "dremio-mongodb-operator"
+  podSecurityContext:
+    runAsNonRoot: true
+    runAsUser: 1001
+    runAsGroup: 1001
+    fsGroup: 1001
+    fsGroupChangePolicy: "OnRootMismatch"
+  securityContext:
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+    seccompProfile:
+      type: RuntimeDefault
+  serviceAccount:
+    create: false
+    annotations: {}
+  annotations: {}
+  labels: {}
+  podAnnotations: {}
+  podLabels: {}
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  nodeSelector:
+    karpenter.sh/nodepool: dremio-common
+  tolerations:
+    - key: "dremio"
+      operator: "Exists"
+      effect: "NoExecute"
+  affinity: {}
+
+opensearchOperator:
+  useRoleBindings: true
+  nodeSelector:
+    karpenter.sh/nodepool: dremio-common
+  manager:
+    image:
+      repository: quay.io/dremio/dremio-opensearch-operator
+      tag: "2.7.0-dremio-20250924151814-aa53c11"
+  serviceAccount:
+    create: false
+    name: dremio-opensearch-operator
+    annotations: {}
+  kubeRbacProxy:
+    enable: false
+
+opensearch:
+  enabled: true
+  clusterName: "opensearch-cluster"
+  serviceName: "opensearch-cluster"
+  serviceAccount: opensearch-cluster
+  serviceAccountAnnotations: {}
+  nodeSelector:
+    karpenter.sh/nodepool: dremio-common
+  podSecurityContext: {}
+  securityContext:
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+    seccompProfile:
+      type: RuntimeDefault
+  image:
+    repository: quay.io/dremio/dremio-search-opensearch
+    tag: 26.0.7
+  version: "2.19.2"
+  replicas: 3
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchLabels:
+              opensearch.cluster.name: "opensearch-cluster"
+          topologyKey: "kubernetes.io/hostname"
+  volumeSize: "256Gi"
+  storageClass: dremio-opensearch
+  opensearchJavaOpts: "-Xms10g -Xmx10g"
+  # This can be disabled to prevent privileged container, in that
+  # case vm.max_map_count must be set on the host: https://opensearch.org/docs/1.0/opensearch/install/important-settings
+  setVMMaxMapCount: true
+  resources:
+    requests:
+      memory: "16Gi"
+      cpu: "2"
+    limits:
+      memory: "16Gi"
+      cpu: "2"
+
+  tlsCertsSecretName: opensearch-tls-certs
+  disableTlsCertGeneration: false
+  initialAdminPassword: "NOT_SET"
+
+  oidcProxy:
+    nodeSelector:
+      karpenter.sh/nodepool: dremio-common
+    resources:
+      requests:
+        cpu: "100m"
+        memory: "128Mi"
+      limits:
+        cpu: "500m"
+        memory: "256Mi"
+
+  preInstallJob:
+    image:
+      repository: quay.io/dremio/dremio-search-init
+      tag: 26.0.7
+    nodeSelector:
+      karpenter.sh/nodepool: dremio-common
+    serviceAccountAnnotations: {}
+  enableHttpBasicAuth: true
+  bootstrap:
+    nodeSelector:
+      karpenter.sh/nodepool: dremio-common
+    tolerations: []
+    resources:
+      requests:
+        cpu: "2"
+        memory: "4Gi"
+      limits:
+        cpu: "2"
+        memory: "4Gi"
+
+nats:
+  enabled: true
+  # The topologySpreadConstraints ensures NATS pods are distributed evenly across nodes
+  # maxSkew: 1 means the difference between nodes with most and least pods can't exceed 1
+  # whenUnsatisfiable: DoNotSchedule prevents pod scheduling if constraint can't be met
+  podTemplate:
+    topologySpreadConstraints:
+      kubernetes.io/hostname:
+        maxSkew: 1
+        whenUnsatisfiable: DoNotSchedule
+    merge:
+      spec:
+        serviceAccountName: dremio-nats
+        nodeSelector:
+          karpenter.sh/nodepool: dremio-common
+        tolerations:
+          - key: "dremio"
+            operator: "Exists"
+            effect: "NoExecute"
+  config:
+    jetstream:
+      enabled: true
+      fileStore:
+        pvc:
+          size: 16Gi
+          storageClassName: dremio-nats
+    cluster:
+      enabled: true
+      replicas: 3
+  container:
+    image:
+      repository: quay.io/dremio/nats
+      tag: 2.11.8-alpine
+      pullPolicy: IfNotPresent
+    merge:
+      resources:
+        requests:
+          cpu: "500m"
+          memory: "1024Mi"
+          ephemeral-storage: "50Mi"
+        limits:
+          cpu: "750m"
+          memory: "1536Mi"
+          ephemeral-storage: "8Gi"
+
+
+telemetry:
+  enabled: true
+  endpoint: observability.dremio.com:443
+  bodySizeLimit: 10MiB
+  sendBatchMaxSize: 8192
+  metrics:
+    scrapeInterval:
+      cluster: 5m
+      app: 1m
+
+  image:
+    repository: quay.io/dremio/otel/opentelemetry-collector-contrib
+    tag: 0.133.0
+    pullPolicy: IfNotPresent
+  goMemLimit: "1638MiB"
+  resources:
+    requests:
+      cpu: "1"
+      memory: "1Gi"
+    limits:
+      cpu: "2"
+      memory: "2Gi"
+  extraEnvs: []
+  nodeSelector:
+    karpenter.sh/nodepool: dremio-common
+  serviceAccountAnnotations: {}
+  clusterId:
+    serviceAccountAnnotations: {}
+
+mongodbHooks:
+  serviceAccountAnnotations: {}
+  nodeSelector:
+    karpenter.sh/nodepool: dremio-common
+  podSecurityContext:
+    fsGroup: 65534
+    seccompProfile:
+      type: RuntimeDefault
+  containerSecurityContext:
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+    readOnlyRootFilesystem: true
+    runAsNonRoot: true
+    privileged: false
+    runAsGroup: 65534
+    runAsUser: 65534
