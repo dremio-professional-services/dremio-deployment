@@ -114,9 +114,6 @@ opensearchOperator:
   manager:
     image:
       repository: quay.io/dremio/dremio-opensearch-operator
-  kubeRbacProxy:
-    image:
-      repository: quay.io/dremio/kubebuilder/kube-rbac-proxy
 
 opensearch:
   enabled: true
@@ -132,10 +129,6 @@ nats:
   container:
     image:
       repository: quay.io/dremio/nats
-  reloader:
-    enabled: true
-    image:
-      repository: quay.io/dremio/natsio/nats-server-config-reloader
 
 telemetry:
   enabled: true
