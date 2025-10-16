@@ -717,7 +717,10 @@ nats:
           cpu: "750m"
           memory: "1536Mi"
           ephemeral-storage: "8Gi"
-
+  natsBox:
+    enabled: false
+  reloader:
+    enabled: false
 
 telemetry:
   enabled: true
