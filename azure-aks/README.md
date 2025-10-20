@@ -111,7 +111,7 @@ helm upgrade --install dremio oci://quay.io/dremio/dremio-helm:<helm version> -f
 ## Add engines via UI and set the node selector:
 
 ```
-nodepool: dremioexec
+agentpool: dremioexec
 ```
 
 ## Carsten's commands
