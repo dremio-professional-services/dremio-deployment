@@ -51,6 +51,7 @@ engine:
       repository: quay.io/dremio/dremio-engine-operator
 
 zookeeper:
+  count: 3
   image:
     repository: quay.io/dremio/zookeeper
 
@@ -92,10 +93,12 @@ catalog:
     replicas: 1
 
 catalogservices:
+  enabled: true
   image:
     repository: quay.io/dremio/dremio-catalog-services-server
 
 mongodb:
+  replicaCount: 3
   image:
     repository: quay.io/dremio/percona/percona-server-mongodb
   metrics:
@@ -107,6 +110,7 @@ mongodb:
       repository: quay.io/dremio/percona/percona-backup-mongodb
 
 mongodbOperator:
+  replicaCount: 1
   image:
     repository: quay.io/dremio/dremio-mongodb-operator
 

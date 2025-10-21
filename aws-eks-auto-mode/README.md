@@ -17,7 +17,14 @@ aws cloudformation deploy \  --template-file eks-auto-mode-existing-vpc.yml \
     EksPublicEndpoint="true"
 ```
 
-## Helm Chart deployment in an EKS Auto Mode cluster
+## Deployment Modes
+
+There are three modes of deployment:
+- Full: Deployment including all Dremio components with production sizing
+- Light: Classic deployment without semantic search and without Dremio Catalog
+- Minimal: Full Dremio deployment with all Dremio components, but with the minimum sizing
+
+## Helm Chart deployment in an EKS Auto Mode cluster (Full deployment)
 
 Following disks are provisioned by default:
 - 1x Coordinator disk: 512GB io2 with 6000 IOPS
@@ -38,14 +45,14 @@ Intel x86 instance types:
 - Coordinator: 1x m5.4xlarge or m5.8xlarge
 - Executor: <n>x r5d.4xlarge or m5d.8xlarge
 
-If the customer prefers x86 intel use: aws-eks-auto-mode-node-pools-x86.yml
+If the customer prefers x86 intel use: aws-eks-auto-mode-node-pools-x86-full.yml
 Generally, Graviton instances provide a better cost and performance ratio.
     
 Run the following commands to deploy the storage classes and node pools. 
 Please change the <ins>**availability zone (e.g. us-east-1a)**</ins> in before applying it: `aws-eks-auto-mode-node-pools-graviton.yml`
 
 ```
-kubectl apply -f aws-eks-auto-mode-node-pools-graviton.yml
+kubectl apply -f aws-eks-auto-mode-node-pools-graviton-full.yml
 kubectl apply -f aws-eks-auto-mode-storage-classes.yml
 ```
 
