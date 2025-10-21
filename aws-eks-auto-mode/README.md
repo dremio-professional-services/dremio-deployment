@@ -19,10 +19,9 @@ aws cloudformation deploy \  --template-file eks-auto-mode-existing-vpc.yml \
 
 ## Deployment Modes
 
-There are three modes of deployment:
+There are two modes of deployment:
 - Full: Deployment including all Dremio components with production sizing
 - Light: Classic deployment without semantic search and without Dremio Catalog
-- Minimal: Full Dremio deployment with all Dremio components, but with the minimum sizing
 
 ## Helm Chart deployment in an EKS Auto Mode cluster (Full deployment)
 
