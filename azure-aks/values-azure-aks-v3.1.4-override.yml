@@ -84,7 +84,7 @@ catalog:
       multiTenantAppName: ~
       useClientSecrets: true
   externalAccess:
-    enabled: false
+    enabled: true
     image:
       repository: quay.io/dremio/dremio-catalog-server-external
     replicas: 1

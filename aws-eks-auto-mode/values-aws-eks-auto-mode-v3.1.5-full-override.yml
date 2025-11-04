@@ -87,7 +87,7 @@ catalog:
       roleArn: "PLEASE_SET"
       userArn: "PLEASE_SET"
   externalAccess:
-    enabled: false
+    enabled: true
     image:
       repository: quay.io/dremio/dremio-catalog-server-external
     replicas: 1
