@@ -71,6 +71,10 @@ service:
     service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
     service.beta.kubernetes.io/aws-load-balancer-listener-attributes.TCP-31010: tcp.idle_timeout.seconds=3600
     service.beta.kubernetes.io/aws-load-balancer-listener-attributes.TCP-32010: tcp.idle_timeout.seconds=3600
+#    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: 443, 31010, 32010
+#    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:eu-west-1:xxxx:certificate/xxx
+#    # Only HTTP2Optional works on all three ports! Without this annotation Arrow Flight with TLS does not work!
+#    service.beta.kubernetes.io/aws-load-balancer-alpn-policy: HTTP2Optional
 
 catalog:
   image:
