@@ -93,6 +93,10 @@ coordinator:
       memory: "56Gi"
   extraStartParams:
     -Xms31g -Xmx31g -XX:+AlwaysPreTouch -XX:MaxDirectMemorySize=16g
+    -Ddremio.debug.sysopt.auth.personal-access-tokens.enabled=true
+    -Ddremio.debug.sysopt.planner.width.max_per_node=12
+    -Ddremio.debug.sysopt.exec.heap.monitoring.aggressive.lower.bound=64
+    -Ddremio.debug.sysopt.exec.heap.monitoring.low_mem.percentage=65
   log:
     volume:
       size: 256Gi
