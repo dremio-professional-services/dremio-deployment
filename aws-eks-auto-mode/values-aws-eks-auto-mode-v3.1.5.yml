@@ -97,6 +97,8 @@ coordinator:
     -Ddremio.debug.sysopt.planner.width.max_per_node=12
     -Ddremio.debug.sysopt.exec.heap.monitoring.aggressive.lower.bound=64
     -Ddremio.debug.sysopt.exec.heap.monitoring.low_mem.percentage=65
+    -Ddremio.debug.sysopt.dremio.automated_backups.enabled=true
+
   log:
     volume:
       size: 256Gi
