@@ -95,7 +95,7 @@ coordinator:
     -Xms31g -Xmx31g -XX:+AlwaysPreTouch -XX:MaxDirectMemorySize=16g
   log:
     volume:
-      size: 512Gi
+      size: 256Gi
   count: 0
   volumeSize: 512Gi
   storageClass: dremio-coordinator
@@ -471,7 +471,7 @@ mongodb:
     labels: {}
     resources:
       requests:
-        storage: 512Gi
+        storage: 256Gi
     accessModes:
     - ReadWriteOnce
   backup:

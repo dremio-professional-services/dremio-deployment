@@ -28,10 +28,10 @@ There are two modes of deployment:
 Following disks are provisioned by default:
 - 1x Coordinator disk: 512GB io2 with 6000 IOPS
 - 3x MongoDB disk: 256GB io2 with 6000 IOPS
-- 3x OpenSearch disk: 256GB io2 with 6000 IOPS
+- 3x OpenSearch disk: 256GB gp3 with 6000 IOPS
 - 3x Zookeeper disk: 16GB gp3
 - 3x NATS disk: 16GB gp3
-- 1x coordinator logs disk: 512GB gp3
+- 1x coordinator logs disk: 256GB gp3
 - <n>x logs disk: 16GB gp3
 
 Graviton instance types:
