@@ -108,7 +108,9 @@ mongodb:
     image:
       repository: quay.io/dremio/percona/mongodb_exporter
   backup:
-    enabled: false
+    enabled: true
+    schedule: "0 0 * * *"
+    keep: 28
     image:
       repository: quay.io/dremio/percona/percona-backup-mongodb
 
