@@ -449,7 +449,6 @@ opensearch:
 
   tlsCertsSecretName: opensearch-tls-certs
   disableTlsCertGeneration: false
-  initialAdminPassword: "NOT_SET"
 
   oidcProxy:
     nodeSelector:

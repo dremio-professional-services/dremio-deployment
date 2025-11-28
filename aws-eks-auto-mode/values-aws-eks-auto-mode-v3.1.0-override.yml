@@ -114,7 +114,6 @@ opensearch:
   enabled: true
   image:
     repository: quay.io/dremio/dremio-search-opensearch
-  initialAdminPassword: "PLEASE_SET"
   preInstallJob:
     image:
       repository: quay.io/dremio/dremio-search-init
