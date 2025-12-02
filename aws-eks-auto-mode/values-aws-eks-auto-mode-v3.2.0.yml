@@ -526,11 +526,11 @@ mongodb:
       type: RuntimeDefault
   resources:
     requests:
-      cpu: 2
-      memory: 2Gi
-    limits:
       cpu: 4
-      memory: 2Gi
+      memory: 8Gi
+    limits:
+      cpu: 8
+      memory: 8Gi
   enableVolumeExpansion: true
   storage:
     annotations: {}
