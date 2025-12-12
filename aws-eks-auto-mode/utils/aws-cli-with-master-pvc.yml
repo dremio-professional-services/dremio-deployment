@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: aws-cli
+spec:
+  serviceName: "aws-cli"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aws-cli
+  template:
+    metadata:
+      labels:
+        app: aws-cli
+    spec:
+#       serviceAccountName: dremio-coordinator
+#       automountServiceAccountToken: true
+      terminationGracePeriodSeconds: 0
+#      nodeSelector:
+#        karpenter.sh/nodepool: dremio-executor
+      volumes:
+      - name: data-coord-disk-test
+        persistentVolumeClaim:
+          claimName: dremio-master-volume-dremio-master-0
+      containers:
+      - name: aws-cli
+        image: amazon/aws-cli
+        command: ["sleep", "infinity"]
+        volumeMounts:
+        - name: data-coord-disk-test
+          mountPath: /opt/dremio/data
+

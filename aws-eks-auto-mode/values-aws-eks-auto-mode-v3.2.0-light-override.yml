@@ -5,7 +5,7 @@ dremio:
   trialImagePullCredentials: "PLEASE_SET"
   license: "PLEASE_SET"
   image:
-    repository: quay.io/dremio/dremio-enterprise
+    repository: quay.io/dremio/dremio-enterprise-jdk21
 
 cluster:
   # prod or non-prod
