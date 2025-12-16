@@ -6,7 +6,7 @@ Parameters:
   EksVersion:
     Type: String
     Description: "AWS EKS Version."
-    Default: "1.32"
+    Default: "1.34"
   EksServiceIpv4Cidr:
     Type: String
     Description: "AWS EKS Service CIDR."
@@ -68,7 +68,6 @@ Resources:
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPullOnly
         - arn:aws:iam::aws:policy/AmazonEKSWorkerNodeMinimalPolicy
-        - arn:aws:iam::aws:policy/AmazonS3FullAccess
       MaxSessionDuration: 3600
       RoleName: !Join ["-", ["AmazonEKSAutoNodeRole", !Ref "AWS::StackName"]]
       Description: Allows EKS nodes to connect to EKS Auto Mode clusters and to pull
@@ -139,6 +138,23 @@ Resources:
           - BucketKeyEnabled: true
             ServerSideEncryptionByDefault:
               SSEAlgorithm: AES256
+  S3BucketDremioCatalog:
+    Type: AWS::S3::Bucket
+    Properties:
+      PublicAccessBlockConfiguration:
+        RestrictPublicBuckets: true
+        IgnorePublicAcls: true
+        BlockPublicPolicy: true
+        BlockPublicAcls: true
+      BucketName: !Join [ "-", [ !Ref "AWS::StackName", "catalog" ] ]
+      OwnershipControls:
+        Rules:
+          - ObjectOwnership: BucketOwnerEnforced
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - BucketKeyEnabled: true
+            ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
 Outputs:
   ClusterName:
     Description: EKS cluster name
@@ -149,3 +165,6 @@ Outputs:
   DremioDistributedStorageBucket:
     Description: Dremio distributed storage bucket name (please put into Helm values.yml)
     Value: !Sub ${AWS::StackName}-dist
+  DremioCatalogStorageBucket:
+    Description: Dremio catalog storage bucket name (please put into Helm values.yml)
+    Value: !Sub ${AWS::StackName}-catalog
