@@ -33,6 +33,11 @@ Parameters:
     Description: "AWS EKS Public Endpoint"
     Default: true
     AllowedValues: [true, false]
+  KubernetesNamespaceDremio:
+    Type: String
+    Description: "Kubernetes Namespace Dremio is deployed in."
+    Default: "default"
+
 Metadata:
   AWS::CloudFormation::Interface:
     ParameterGroups:
@@ -354,9 +359,30 @@ Resources:
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
-          - Effect: Allow
+          - Sid: AllowEksAuthToAssumeRoleForPodIdentity
+            Effect: Allow
             Principal:
               Service: pods.eks.amazonaws.com
+            Action:
+              - sts:AssumeRole
+              - sts:TagSession
+                
+  IAMRoleAmazonEKSDremioCatalogRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Path: /
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonS3FullAccess
+      MaxSessionDuration: 3600
+      RoleName: !Join [ "-", [ !Ref "AWS::StackName", "DremioCatalogRole" ] ]
+      Description: Allows the Dremio deployment to access all buckets. In production should be more fine-grained.
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: AllowRoleToAssumeItself
+            Effect: Allow
+            Principal:
+              AWS: !Sub 'arn:aws:iam::${AWS::AccountId}:role/${AWS::StackName}-DremioPodIdentityRole'
             Action:
               - sts:AssumeRole
               - sts:TagSession
@@ -455,49 +481,55 @@ Resources:
     Type: AWS::EKS::PodIdentityAssociation
     Properties:
       ClusterName: !Ref EKSCluster
-      Namespace: dremio
+      Namespace: !Ref KubernetesNamespaceDremio
       ServiceAccount: dremio-catalog-services
       RoleArn: !GetAtt IAMRoleAmazonEKSDremioPodIdentityRole.Arn
+      DisableSessionTags: true
 
   PodIdentityAssociationEngineExecutor:
     Type: AWS::EKS::PodIdentityAssociation
     Properties:
       ClusterName: !Ref EKSCluster
-      Namespace: dremio
+      Namespace: !Ref KubernetesNamespaceDremio
       ServiceAccount: dremio-engine-executor
       RoleArn: !GetAtt IAMRoleAmazonEKSDremioPodIdentityRole.Arn
+      DisableSessionTags: true
 
   PodIdentityAssociationMongoDBOperator:
     Type: AWS::EKS::PodIdentityAssociation
     Properties:
       ClusterName: !Ref EKSCluster
-      Namespace: dremio
+      Namespace: !Ref KubernetesNamespaceDremio
       ServiceAccount: dremio-mongodb-operator
       RoleArn: !GetAtt IAMRoleAmazonEKSDremioPodIdentityRole.Arn
+      DisableSessionTags: true
 
   PodIdentityAssociationCatalogServer:
     Type: AWS::EKS::PodIdentityAssociation
     Properties:
       ClusterName: !Ref EKSCluster
-      Namespace: dremio
+      Namespace: !Ref KubernetesNamespaceDremio
       ServiceAccount: dremio-catalog-server
       RoleArn: !GetAtt IAMRoleAmazonEKSDremioPodIdentityRole.Arn
+      DisableSessionTags: true
 
   PodIdentityAssociationMongoDB:
     Type: AWS::EKS::PodIdentityAssociation
     Properties:
       ClusterName: !Ref EKSCluster
-      Namespace: dremio
+      Namespace: !Ref KubernetesNamespaceDremio
       ServiceAccount: dremio-mongodb
       RoleArn: !GetAtt IAMRoleAmazonEKSDremioPodIdentityRole.Arn
+      DisableSessionTags: true
 
   PodIdentityAssociationCoordinator:
     Type: AWS::EKS::PodIdentityAssociation
     Properties:
       ClusterName: !Ref EKSCluster
-      Namespace: dremio
+      Namespace: !Ref KubernetesNamespaceDremio
       ServiceAccount: dremio-coordinator
       RoleArn: !GetAtt IAMRoleAmazonEKSDremioPodIdentityRole.Arn
+      DisableSessionTags: true
 
 Outputs:
   ClusterName:
