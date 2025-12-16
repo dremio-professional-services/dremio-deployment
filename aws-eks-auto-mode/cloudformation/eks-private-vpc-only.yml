@@ -51,7 +51,7 @@ Resources:
       EnableDnsHostnames: true
       Tags:
       - Key: Name
-        Value: !Sub '${AWS::StackName}-vpc'
+        Value: !Sub '${AWS::StackName}'
 
   InternetGateway:
     Type: "AWS::EC2::InternetGateway"
@@ -288,11 +288,37 @@ Resources:
 
 Outputs:
   SubnetIds:
-    Description: Subnets IDs in the VPC
+    Description: All Subnets IDs in the VPC
     Value: !Join [ ",", [ !Ref PublicSubnet01, !Ref PublicSubnet02, !Ref PrivateSubnet01, !Ref PrivateSubnet02 ] ]
+
+  PrivateSubnetIds:
+    Description: Private Subnet IDs (use these for EKS cluster deployment - nodes and pods)
+    Value: !Join [ ",", [ !Ref PrivateSubnet01, !Ref PrivateSubnet02 ] ]
+
+  PublicSubnetIds:
+    Description: Public Subnet IDs (used for NAT Gateways and internet-facing load balancers)
+    Value: !Join [ ",", [ !Ref PublicSubnet01, !Ref PublicSubnet02 ] ]
+
   SecurityGroups:
     Description: Security group for the cluster control plane communication with worker nodes
     Value: !Join [ ",", [ !Ref ControlPlaneSecurityGroup ] ]
+
   VpcID:
     Description: The VPC ID
     Value: !Ref VPC
+
+  NatGateway01:
+    Description: NAT Gateway in AZ1 (provides outbound internet access for PrivateSubnet01)
+    Value: !Ref NatGateway01
+
+  NatGateway02:
+    Description: NAT Gateway in AZ2 (provides outbound internet access for PrivateSubnet02)
+    Value: !Ref NatGateway02
+
+  NatGatewayEIP1:
+    Description: Elastic IP for NAT Gateway 01 (outbound IP address for PrivateSubnet01)
+    Value: !Ref NatGatewayEIP1
+
+  NatGatewayEIP2:
+    Description: Elastic IP for NAT Gateway 02 (outbound IP address for PrivateSubnet02)
+    Value: !Ref NatGatewayEIP2

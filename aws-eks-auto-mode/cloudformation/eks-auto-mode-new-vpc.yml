@@ -366,9 +366,10 @@ Resources:
             Action:
               - sts:AssumeRole
               - sts:TagSession
-                
+
   IAMRoleAmazonEKSDremioCatalogRole:
     Type: AWS::IAM::Role
+    DependsOn: IAMRoleAmazonEKSDremioPodIdentityRole
     Properties:
       Path: /
       ManagedPolicyArns:

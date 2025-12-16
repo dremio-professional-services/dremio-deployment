@@ -9,7 +9,7 @@ Parameters:
     Default: "1.34"
   EksServiceIpv4Cidr:
     Type: String
-    Description: "AWS EKS Service CIDR."
+    Description: "AWS EKS Service CIDR. (use the default if unclear)"
     Default: "10.100.0.0/16"
   EksPublicEndpoint:
     Type: String
@@ -127,6 +127,7 @@ Resources:
 
   IAMRoleAmazonEKSDremioCatalogRole:
     Type: AWS::IAM::Role
+    DependsOn: IAMRoleAmazonEKSDremioPodIdentityRole
     Properties:
       Path: /
       ManagedPolicyArns:
