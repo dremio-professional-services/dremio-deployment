@@ -48,10 +48,20 @@ Resources:
         - arn:aws:iam::aws:policy/AmazonEKSBlockStoragePolicy
         - arn:aws:iam::aws:policy/AmazonEKSLoadBalancingPolicy
         - arn:aws:iam::aws:policy/AmazonEKSComputePolicy
+        - arn:aws:iam::aws:policy/service-role/AmazonEFSCSIDriverPolicy
       MaxSessionDuration: 3600
-      RoleName: !Join ["-", ["AmazonEKSAutoClusterRole", !Ref "AWS::StackName"]]
+      RoleName: !Join ["-", [!Ref "AWS::StackName", "AmazonEKSAutoClusterRole"]]
       Description: Allows access to other AWS service resources that are required to
         operate Auto Mode clusters managed by EKS.
+      Policies:
+        - PolicyName: EKSPodIdentityPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - eks-auth:AssumeRoleForPodIdentity
+                Resource: '*'
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -68,10 +78,21 @@ Resources:
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPullOnly
         - arn:aws:iam::aws:policy/AmazonEKSWorkerNodeMinimalPolicy
+        - arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy
+        - arn:aws:iam::aws:policy/service-role/AmazonEFSCSIDriverPolicy
       MaxSessionDuration: 3600
-      RoleName: !Join ["-", ["AmazonEKSAutoNodeRole", !Ref "AWS::StackName"]]
+      RoleName: !Join ["-", [!Ref "AWS::StackName", "AmazonEKSAutoNodeRole"]]
       Description: Allows EKS nodes to connect to EKS Auto Mode clusters and to pull
         container images from ECR.
+      Policies:
+        - PolicyName: EKSPodIdentityPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - eks-auth:AssumeRoleForPodIdentity
+                Resource: '*'
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -79,6 +100,24 @@ Resources:
             Effect: Allow
             Principal:
               Service: ec2.amazonaws.com
+  IAMRoleAmazonEKSDremioPodIdentityRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Path: /
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonS3FullAccess
+      MaxSessionDuration: 3600
+      RoleName: !Join [ "-", [ !Ref "AWS::StackName", "DremioPodIdentityRole" ] ]
+      Description: Allows the Dremio deployment to access all buckets. In production should be more fine-grained.
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: pods.eks.amazonaws.com
+            Action:
+              - sts:AssumeRole
+              - sts:TagSession
   EKSCluster:
     Type: AWS::EKS::Cluster
     Properties:
@@ -155,6 +194,55 @@ Resources:
           - BucketKeyEnabled: true
             ServerSideEncryptionByDefault:
               SSEAlgorithm: AES256
+
+  PodIdentityAssociationCatalogServices:
+    Type: AWS::EKS::PodIdentityAssociation
+    Properties:
+      ClusterName: !Ref EKSCluster
+      Namespace: dremio
+      ServiceAccount: dremio-catalog-services
+      RoleArn: !GetAtt IAMRoleAmazonEKSDremioPodIdentityRole.Arn
+
+  PodIdentityAssociationEngineExecutor:
+    Type: AWS::EKS::PodIdentityAssociation
+    Properties:
+      ClusterName: !Ref EKSCluster
+      Namespace: dremio
+      ServiceAccount: dremio-engine-executor
+      RoleArn: !GetAtt IAMRoleAmazonEKSDremioPodIdentityRole.Arn
+
+  PodIdentityAssociationMongoDBOperator:
+    Type: AWS::EKS::PodIdentityAssociation
+    Properties:
+      ClusterName: !Ref EKSCluster
+      Namespace: dremio
+      ServiceAccount: dremio-mongodb-operator
+      RoleArn: !GetAtt IAMRoleAmazonEKSDremioPodIdentityRole.Arn
+
+  PodIdentityAssociationCatalogServer:
+    Type: AWS::EKS::PodIdentityAssociation
+    Properties:
+      ClusterName: !Ref EKSCluster
+      Namespace: dremio
+      ServiceAccount: dremio-catalog-server
+      RoleArn: !GetAtt IAMRoleAmazonEKSDremioPodIdentityRole.Arn
+
+  PodIdentityAssociationMongoDB:
+    Type: AWS::EKS::PodIdentityAssociation
+    Properties:
+      ClusterName: !Ref EKSCluster
+      Namespace: dremio
+      ServiceAccount: dremio-mongodb
+      RoleArn: !GetAtt IAMRoleAmazonEKSDremioPodIdentityRole.Arn
+
+  PodIdentityAssociationCoordinator:
+    Type: AWS::EKS::PodIdentityAssociation
+    Properties:
+      ClusterName: !Ref EKSCluster
+      Namespace: dremio
+      ServiceAccount: dremio-coordinator
+      RoleArn: !GetAtt IAMRoleAmazonEKSDremioPodIdentityRole.Arn
+
 Outputs:
   ClusterName:
     Description: EKS cluster name
@@ -168,3 +256,9 @@ Outputs:
   DremioCatalogStorageBucket:
     Description: Dremio catalog storage bucket name (please put into Helm values.yml)
     Value: !Sub ${AWS::StackName}-catalog
+  DremioPodIdentityRoleArn:
+    Description: Dremio pod identity role
+    Value: !GetAtt IAMRoleAmazonEKSDremioPodIdentityRole.Arn
+  DremioPodIdentityRoleName:
+    Description: Dremio pod identity role
+    Value: !Ref IAMRoleAmazonEKSDremioPodIdentityRole

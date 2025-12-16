@@ -13,15 +13,15 @@ spec:
       labels:
         app: aws-cli
     spec:
+      serviceAccountName: dremio-coordinator
+      automountServiceAccountToken: true
       tolerations:
         - key: dremio
           operator: Exists
           effect: NoExecute
       terminationGracePeriodSeconds: 0
       nodeSelector:
-        karpenter.sh/nodepool: dremio-general
-#      hostNetwork: false
-      dnsPolicy: ClusterFirstWithHostNet
+        karpenter.sh/nodepool: dremio-common
       containers:
       - name: aws-cli
         image: amazon/aws-cli

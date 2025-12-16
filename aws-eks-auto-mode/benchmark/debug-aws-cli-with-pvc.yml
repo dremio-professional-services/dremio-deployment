@@ -20,7 +20,7 @@ spec:
           effect: NoExecute
       terminationGracePeriodSeconds: 0
       nodeSelector:
-        karpenter.sh/nodepool: dremio-general
+        karpenter.sh/nodepool: dremio-common
 #      hostNetwork: false
       dnsPolicy: ClusterFirstWithHostNet
       containers:
