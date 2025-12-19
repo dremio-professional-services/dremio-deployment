@@ -86,7 +86,6 @@ karpenter.sh/nodepool: dremio-executor
 ```
 kubectl apply -f dremio-deployment\aws-eks-auto-mode\aws-eks-auto-mode-node-pools.yml
 kubectl apply -f dremio-deployment\aws-eks-auto-mode\aws-eks-auto-mode-storage-classes.yml
-helm upgrade --install dremio helm-charts-v3\charts\dremio\ -f dremio-deployment\aws-eks-auto-mode\values-aws-eks-auto-mode-v3.20.yml -f dremio-deployment\my\values-aws-eks-auto-mode-v3.2.0-full-carsten-eks.yml
 helm upgrade --install dremio oci://quay.io/dremio/dremio-helm:3.2.0 -f dremio-deployment\aws-eks-auto-mode\values-aws-eks-auto-mode-v3.2.0.yml -f dremio-deployment\my\values-aws-eks-auto-mode-v3.2.0-full-carsten-eks.yml
 helm upgrade dremio oci://quay.io/dremio/dremio-helm:3.2.0 -f dremio-deployment\aws-eks-auto-mode\values-aws-eks-auto-mode-v3.2.0.yml -f dremio-deployment\my\values-aws-eks-auto-mode-v3.2.0-full-carsten-eks.yml --set DremioAdmin=true --set catalog.replicas=0 --set catalog.externalAccess.replicas=0 --set catalogservices.replicas=0
 ```

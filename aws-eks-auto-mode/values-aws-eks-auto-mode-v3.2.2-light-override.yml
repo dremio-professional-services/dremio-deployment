@@ -1,0 +1,143 @@
+# https://docs.dremio.com/current/deploy-dremio/configuring-kubernetes/#recommended-resources-configuration
+imagePullSecrets: []
+
+dremio:
+  trialImagePullCredentials: "PLEASE_SET"
+  license: "PLEASE_SET"
+  image:
+    repository: quay.io/dremio/dremio-enterprise-jdk21
+
+cluster:
+  # prod or non-prod
+  type: prod
+
+busyBox:
+  image:
+    repository: quay.io/dremio/busybox
+
+utils:
+  image:
+    repository: quay.io/dremio/dremio-ee-utils
+
+coordinator:
+  resources:
+    requests:
+      # use 15 or 30
+      cpu: "15"
+  volumeSize: 512Gi
+  web:
+    auth:
+      enabled: true
+      type: "internal"
+    port: 443
+    tls:
+      enabled: false
+      secret: dremio-tls-secret-ui
+  client:
+    port: 31010
+    tls:
+      enabled: false
+      secret: dremio-tls-secret-client
+  flight:
+    port: 32010
+    tls:
+      enabled: false
+      secret: dremio-tls-secret-flight
+
+engine:
+  operator:
+    image:
+      repository: quay.io/dremio/dremio-engine-operator
+
+zookeeper:
+  count: 3
+  image:
+    repository: quay.io/dremio/zookeeper
+
+distStorage:
+  aws:
+    bucketName: "PLEASE_SET"
+    path: "/"
+    authentication: "podIdentity"
+    region: "<your-bucket-region>"
+
+service:
+  type: LoadBalancer
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+    service.beta.kubernetes.io/aws-load-balancer-listener-attributes.TCP-31010: tcp.idle_timeout.seconds=3600
+    service.beta.kubernetes.io/aws-load-balancer-listener-attributes.TCP-32010: tcp.idle_timeout.seconds=3600
+#    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: 443, 31010, 32010, 8181
+#    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:eu-west-1:xxxx:certificate/xxx
+#    # Only HTTP2Optional works on all three ports! Without this annotation Arrow Flight with TLS does not work!
+#    service.beta.kubernetes.io/aws-load-balancer-alpn-policy: HTTP2Optional
+
+catalog:
+  image:
+    repository: quay.io/dremio/dremio-catalog-server
+  replicas: 0
+  storage:
+    location: "PLEASE_SET"
+    type: s3
+    s3:
+      region: "PLEASE_SET"
+      useAccessKeys: true
+      skipSts: true
+      secretName: catalog-server-s3-storage-creds
+      roleArn: "PLEASE_SET"
+      userArn: "PLEASE_SET"
+  externalAccess:
+    enabled: false
+    image:
+      repository: quay.io/dremio/dremio-catalog-server-external
+    replicas: 1
+    tls:
+      enabled: false
+      secret: dremio-tls-secret-catalog
+
+catalogservices:
+  enabled: false
+  image:
+    repository: quay.io/dremio/dremio-catalog-services-server
+
+mongodb:
+  replicaCount: 3
+  image:
+    repository: quay.io/dremio/percona/percona-server-mongodb
+  metrics:
+    image:
+      repository: quay.io/dremio/percona/mongodb_exporter
+  backup:
+    enabled: false
+    image:
+      repository: quay.io/dremio/percona/percona-backup-mongodb
+
+mongodbOperator:
+  replicaCount: 0
+  image:
+    repository: quay.io/dremio/dremio-mongodb-operator
+
+opensearchOperator:
+  manager:
+    image:
+      repository: quay.io/dremio/dremio-opensearch-operator
+
+opensearch:
+  enabled: false
+  image:
+    repository: quay.io/dremio/dremio-search-opensearch
+  preInstallJob:
+    image:
+      repository: quay.io/dremio/dremio-search-init
+
+nats:
+  enabled: false
+  container:
+    image:
+      repository: quay.io/dremio/nats
+
+telemetry:
+  enabled: false
+  image:
+    repository: quay.io/dremio/otel/opentelemetry-collector-contrib
+
