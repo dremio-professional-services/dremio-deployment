@@ -1,0 +1,142 @@
+# https://docs.dremio.com/current/deploy-dremio/configuring-kubernetes/#recommended-resources-configuration
+imagePullSecrets: []
+
+dremio:
+  trialImagePullCredentials: "PLEASE_SET"
+  license: "PLEASE_SET"
+  image:
+    repository: quay.io/dremio/dremio-enterprise-jdk21
+
+cluster:
+  # prod or non-prod
+  type: prod
+
+busyBox:
+  image:
+    repository: quay.io/dremio/busybox
+
+utils:
+  image:
+    repository: quay.io/dremio/dremio-ee-utils
+
+coordinator:
+  resources:
+    requests:
+      # change to 30 if you have more CPUs selected.
+      cpu: "15"
+  volumeSize: 1024Gi
+  web:
+    auth:
+      enabled: true
+      type: "internal"
+    port: 443
+    tls:
+      enabled: false
+      secret: dremio-tls-secret-ui
+  client:
+    port: 31010
+    tls:
+      enabled: false
+      secret: dremio-tls-secret-client
+  flight:
+    port: 32010
+    tls:
+      enabled: false
+      secret: dremio-tls-secret-flight
+
+engine:
+  operator:
+    image:
+      repository: quay.io/dremio/dremio-engine-operator
+
+zookeeper:
+  count: 3
+  image:
+    repository: quay.io/dremio/zookeeper
+
+distStorage:
+  azureStorage:
+    accountName: "NOT_SET"
+    # entraID or accessKey
+    authentication: "accessKey"
+    filesystem: "NOT_SET"
+    path: "/"
+    credentials:
+      accessKey: "NOT_SET"
+      #clientId: "Azure Application Client ID"
+      #tokenEndpoint: "Azure Entra ID Token Endpoint"
+      #clientSecret: "Azure Application Client Secret"
+
+service:
+  type: LoadBalancer
+  internalLoadBalancer: true
+  annotations: {}
+
+catalog:
+  image:
+    repository: quay.io/dremio/dremio-catalog-server
+  replicas: 1
+  storage:
+    location: abfss://<container_name>@<storage_account>.dfs.core.windows.net/<path>
+    azure:
+      tenantId: <Your Azure's directory tenant Id>
+      secretName: catalog-server-azure-storage-creds
+      multiTenantAppName: ~
+      useClientSecrets: true
+  externalAccess:
+    enabled: true
+    image:
+      repository: quay.io/dremio/dremio-catalog-server-external
+    replicas: 1
+    tls:
+      enabled: false
+      secret: dremio-tls-secret-catalog
+
+catalogservices:
+  enabled: true
+  image:
+    repository: quay.io/dremio/dremio-catalog-services-server
+
+mongodb:
+  replicaCount: 3
+  image:
+    repository: quay.io/dremio/percona/percona-server-mongodb
+  metrics:
+    image:
+      repository: quay.io/dremio/percona/mongodb_exporter
+  backup:
+    enabled: true
+    schedule: "0 0 * * *"
+    keep: 28
+    image:
+      repository: quay.io/dremio/percona/percona-backup-mongodb
+
+mongodbOperator:
+  replicaCount: 1
+  image:
+    repository: quay.io/dremio/dremio-mongodb-operator
+
+opensearchOperator:
+  manager:
+    image:
+      repository: quay.io/dremio/dremio-opensearch-operator
+
+opensearch:
+  enabled: true
+  image:
+    repository: quay.io/dremio/dremio-search-opensearch
+  preInstallJob:
+    image:
+      repository: quay.io/dremio/dremio-search-init
+
+nats:
+  enabled: true
+  container:
+    image:
+      repository: quay.io/dremio/nats
+
+telemetry:
+  enabled: true
+  image:
+    repository: quay.io/dremio/otel/opentelemetry-collector-contrib
+
