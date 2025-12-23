@@ -673,16 +673,16 @@ opensearch:
           topologyKey: "kubernetes.io/hostname"
   volumeSize: "256Gi"
   storageClass: dremio-opensearch
-  opensearchJavaOpts: "-Xms10g -Xmx10g"
+  opensearchJavaOpts: "-Xms8g -Xmx8g"
   # This can be disabled to prevent privileged container, in that
   # case vm.max_map_count must be set on the host: https://opensearch.org/docs/1.0/opensearch/install/important-settings
   setVMMaxMapCount: true
   resources:
     requests:
-      memory: "16Gi"
+      memory: "10Gi"
       cpu: "2"
     limits:
-      memory: "16Gi"
+      memory: "10Gi"
       cpu: "2"
 
   tlsCertsSecretName: opensearch-tls-certs
