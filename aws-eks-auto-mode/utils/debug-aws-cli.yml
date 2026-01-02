@@ -13,7 +13,7 @@ spec:
       labels:
         app: aws-cli
     spec:
-      serviceAccountName: dremio-coordinator
+      serviceAccountName: default
       automountServiceAccountToken: true
       tolerations:
         - key: dremio
