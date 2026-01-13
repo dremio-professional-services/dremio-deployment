@@ -292,6 +292,9 @@ Outputs:
   DremioPodIdentityRoleArn:
     Description: Dremio pod identity role
     Value: !GetAtt IAMRoleAmazonEKSDremioPodIdentityRole.Arn
+  DremioCatalogRoleArn:
+    Description: Dremio catalog role
+    Value: !GetAtt IAMRoleAmazonEKSDremioCatalogRole.Arn
   DremioPodIdentityRoleName:
     Description: Dremio pod identity role
     Value: !Ref IAMRoleAmazonEKSDremioPodIdentityRole
