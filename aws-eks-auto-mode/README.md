@@ -63,11 +63,15 @@ Prerequisites to update alues-aws-eks-auto-mode-<helm version>-override.yml file
 * Enterprise Catalog - https://docs.dremio.com/current/deploy-dremio/configuring-kubernetes/#enterprise-catalog
 
 
-Create the catalog secret:
+Create pod identity associations
 ```
-export AWS_ACCESS_KEY_ID=<access-key> 
-export AWS_SECRET_ACCESS_KEY=<secret-key> 
-kubectl create secret generic catalog-server-s3-storage-creds --namespace $NAMESPACE --from-literal awsAccessKeyId=$AWS_ACCESS_KEY_ID --from-literal awsSecretAccessKey=$AWS_SECRET_ACCESS_KEY
+aws eks create-pod-identity-association --cluster-name dremio-eks --namespace default --service-account dremio-catalog-services --role-arn arn:aws:iam::<AWS Account ID>:role/dremio-pod-identity --no-cli-pager --disable-session-tags
+aws eks create-pod-identity-association --cluster-name dremio-eks --namespace default --service-account dremio-engine-executor --role-arn arn:aws:iam::<AWS Account ID>:role/dremio-pod-identity  --no-cli-pager --disable-session-tags
+aws eks create-pod-identity-association --cluster-name dremio-eks --namespace default --service-account dremio-mongodb-operator --role-arn arn:aws:iam::<AWS Account ID>:role/dremio-pod-identity --no-cli-pager --disable-session-tags
+aws eks create-pod-identity-association --cluster-name dremio-eks --namespace default --service-account dremio-catalog-server --role-arn arn:aws:iam::<AWS Account ID>:role/dremio-pod-identity --no-cli-pager --disable-session-tags
+aws eks create-pod-identity-association --cluster-name dremio-eks --namespace default --service-account dremio-mongodb --role-arn arn:aws:iam::<AWS Account ID>:role/dremio-pod-identity --no-cli-pager --disable-session-tags
+aws eks create-pod-identity-association --cluster-name dremio-eks --namespace default --service-account dremio-coordinator --role-arn arn:aws:iam::<AWS Account ID>:role/dremio-pod-identity --no-cli-pager --disable-session-tags
+aws eks list-pod-identity-associations --cluster-name dremio-eks --no-cli-pager
 ```
 
 Copy and use the following file `values-aws-eks-auto-mode-<helm version>-override.yml` as a template. Do NOT modify `values-aws-eks-auto-mode-<helm version>.yml`.
