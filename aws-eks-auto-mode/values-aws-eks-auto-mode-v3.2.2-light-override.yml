@@ -77,15 +77,12 @@ catalog:
     repository: quay.io/dremio/dremio-catalog-server
   replicas: 0
   storage:
-    location: "PLEASE_SET"
+    location: "s3://PLEASE_SET"
     type: s3
     s3:
       region: "PLEASE_SET"
-      useAccessKeys: true
-      skipSts: true
-      secretName: catalog-server-s3-storage-creds
+      useAccessKeys: false
       roleArn: "PLEASE_SET"
-      userArn: "PLEASE_SET"
   externalAccess:
     enabled: false
     image:
