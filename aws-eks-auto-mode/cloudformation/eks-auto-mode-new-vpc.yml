@@ -551,6 +551,9 @@ Outputs:
   DremioPodIdentityRoleName:
     Description: Dremio pod identity role
     Value: !Ref IAMRoleAmazonEKSDremioPodIdentityRole
+  DremioCatalogRoleArn:
+    Description: Dremio catalog role
+    Value: !GetAtt IAMRoleAmazonEKSDremioCatalogRole.Arn
   SubnetIds:
     Description: Subnets IDs in the VPC
     Value: !Join [ ",", [ !Ref PublicSubnet01, !Ref PublicSubnet02, !Ref PrivateSubnet01, !Ref PrivateSubnet02 ] ]
