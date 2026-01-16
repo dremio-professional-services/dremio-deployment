@@ -203,19 +203,19 @@ engine:
         pods: 4
         memory: 128Gi
       - name: Large
-        pods: 8
+        pods: 6
         memory: 128Gi
       - name: XLarge
-        pods: 12
+        pods: 8
         memory: 128Gi
       - name: 2XLarge
-        pods: 16
+        pods: 10
         memory: 128Gi
       - name: 3XLarge
-        pods: 24
+        pods: 12
         memory: 128Gi
       - name: 4XLarge
-        pods: 32
+        pods: 16
         memory: 128Gi
     targetCpuCapacities:
       capacities:
