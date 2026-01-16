@@ -19,7 +19,7 @@ coordinator:
   resources:
     requests:
       # change to 30 if you have more CPUs selected.
-      cpu: "15"
+      cpu: "30"
   volumeSize: 1024Gi
   web:
     auth:

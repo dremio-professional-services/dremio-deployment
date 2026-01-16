@@ -25,7 +25,7 @@ The option "Node pool with ARM - 16x CPUs" is recommended, if you do not have an
 
 ```shell
 az aks nodepool add --resource-group carsten-rg --cluster-name carsten-aks --name dremiocommon --mode User --node-count 1 --min-count 0 --max-count 5 --enable-cluster-autoscaler --node-vm-size Standard_D8ps_v5 --node-osdisk-type Managed --node-osdisk-size 128 --os-type Linux --os-sku AzureLinux --zones 1 2 3
-az aks nodepool add --resource-group carsten-rg --cluster-name carsten-aks --name dremiocoord --mode User --node-count 1 --min-count 0 --max-count 5 --enable-cluster-autoscaler --node-vm-size Standard_D16ps_v5 --node-osdisk-type Managed --node-osdisk-size 128 --os-type Linux --os-sku AzureLinux --zones 1 2 3
+az aks nodepool add --resource-group carsten-rg --cluster-name carsten-aks --name dremiocoord --mode User --node-count 1 --min-count 0 --max-count 5 --enable-cluster-autoscaler --node-vm-size Standard_D32ps_v5 --node-osdisk-type Managed --node-osdisk-size 128 --os-type Linux --os-sku AzureLinux --zones 1 2 3
 az aks nodepool add --resource-group carsten-rg --cluster-name carsten-aks --name dremioexec --mode User --node-count 1 --min-count 0 --max-count 100 --enable-cluster-autoscaler --node-vm-size Standard_E16pds_v5 --node-osdisk-type Managed --node-osdisk-size 128 --os-type Linux --os-sku AzureLinux --zones 1 2 3
 ```
 
@@ -37,7 +37,7 @@ az aks nodepool add --resource-group carsten-rg --cluster-name carsten-aks --nam
 
 ```shell
 az aks nodepool add --resource-group carsten-rg --cluster-name carsten-aks --name dremiocommon --mode User --node-count 1 --min-count 0 --max-count 5 --enable-cluster-autoscaler --node-vm-size Standard_D8ps_v5 --node-osdisk-type Managed --node-osdisk-size 128 --os-type Linux --os-sku AzureLinux --zones 1 2 3
-az aks nodepool add --resource-group carsten-rg --cluster-name carsten-aks --name dremiocoord --mode User --node-count 1 --min-count 0 --max-count 5 --enable-cluster-autoscaler --node-vm-size Standard_D16ps_v5 --node-osdisk-type Managed --node-osdisk-size 128 --os-type Linux --os-sku AzureLinux --zones 1 2 3
+az aks nodepool add --resource-group carsten-rg --cluster-name carsten-aks --name dremiocoord --mode User --node-count 1 --min-count 0 --max-count 5 --enable-cluster-autoscaler --node-vm-size Standard_D32ps_v5 --node-osdisk-type Managed --node-osdisk-size 128 --os-type Linux --os-sku AzureLinux --zones 1 2 3
 az aks nodepool add --resource-group carsten-rg --cluster-name carsten-aks --name dremioexec --mode User --node-count 1 --min-count 0 --max-count 100 --enable-cluster-autoscaler --node-vm-size Standard_D32pds_v5 --node-osdisk-type Managed --node-osdisk-size 128 --os-type Linux --os-sku AzureLinux --zones 1 2 3
 ```
 
@@ -49,7 +49,7 @@ az aks nodepool add --resource-group carsten-rg --cluster-name carsten-aks --nam
 
 ```shell
 az aks nodepool add --resource-group carsten-rg --cluster-name carsten-aks --name dremiocommon --mode User --node-count 1 --min-count 0 --max-count 5 --enable-cluster-autoscaler --node-vm-size Standard_D8as_v5 --node-osdisk-type Managed --node-osdisk-size 128 --os-type Linux --os-sku AzureLinux --zones 1 2 3
-az aks nodepool add --resource-group carsten-rg --cluster-name carsten-aks --name dremiocoord --mode User --node-count 1 --min-count 0 --max-count 5 --enable-cluster-autoscaler --node-vm-size Standard_D16as_v5 --node-osdisk-type Managed --node-osdisk-size 128 --os-type Linux --os-sku AzureLinux --zones 1 2 3
+az aks nodepool add --resource-group carsten-rg --cluster-name carsten-aks --name dremiocoord --mode User --node-count 1 --min-count 0 --max-count 5 --enable-cluster-autoscaler --node-vm-size Standard_D32as_v5 --node-osdisk-type Managed --node-osdisk-size 128 --os-type Linux --os-sku AzureLinux --zones 1 2 3
 az aks nodepool add --resource-group carsten-rg --cluster-name carsten-aks --name dremioexec --mode User --node-count 1 --min-count 0 --max-count 100 --enable-cluster-autoscaler --node-vm-size Standard_E16ads_v5 --node-osdisk-type Managed --node-osdisk-size 128 --os-type Linux --os-sku AzureLinux --zones 1 2 3
 ```
 

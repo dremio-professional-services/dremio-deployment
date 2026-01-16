@@ -19,7 +19,7 @@ spec:
       requirements:
         - key: "node.kubernetes.io/instance-type"
           operator: In
-          values: [ "c6g.large" ]
+          values: [ "c8g.large" ]
         - key: "topology.kubernetes.io/zone"
           operator: In
           values: [ "eu-central-1c" ]
@@ -54,7 +54,7 @@ spec:
       requirements:
         - key: "node.kubernetes.io/instance-type"
           operator: In
-          values: [ "m6g.4xlarge", "m6g.8xlarge" ]
+          values: [ "m8g.4xlarge", "m8g.8xlarge" ]
         - key: "topology.kubernetes.io/zone"
           operator: In
           values: [ "eu-central-1c" ]
@@ -91,7 +91,7 @@ spec:
       requirements:
         - key: "node.kubernetes.io/instance-type"
           operator: In
-          values: [ "r6gd.4xlarge", "m6gd.8xlarge" ]
+          values: [ "r8gd.4xlarge", "m8gd.8xlarge" ]
         - key: "topology.kubernetes.io/zone"
           operator: In
           values: [ "eu-central-1a", "eu-central-1b", "eu-central-1c"]

@@ -23,7 +23,7 @@ coordinator:
   resources:
     requests:
       # use 15 or 30
-      cpu: "15"
+      cpu: "30"
   volumeSize: 1024Gi
   web:
     auth:

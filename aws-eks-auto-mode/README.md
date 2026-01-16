@@ -35,9 +35,9 @@ Following disks are provisioned by default:
 - <n>x logs disk: 16GB gp3
 
 Graviton instance types:
-- General: 4x m6g.2xlarge (NATS, Zookeeper, MongoDB, OpenSearch)
-- Coordinator: 1x r6g.4xlarge or m6g.8xlarge
-- Executor: <n>x r6gd.4xlarge or m6gd.8xlarge
+- General: 4x m8g.2xlarge (NATS, Zookeeper, MongoDB, OpenSearch)
+- Coordinator: 1x r8g.4xlarge or m8g.8xlarge
+- Executor: <n>x r8gd.4xlarge or m8gd.8xlarge
 
 Intel x86 instance types:
 - General: 4x m5.2xlarge (NATS, Zookeeper, MongoDB, OpenSearch)

@@ -86,7 +86,7 @@ containerSecurityContext:
 coordinator:
   resources:
     requests:
-      cpu: "15"
+      cpu: "30"
       memory: "56Gi"
     limits:
       memory: "56Gi"
