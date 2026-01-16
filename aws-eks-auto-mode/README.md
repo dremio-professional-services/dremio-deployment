@@ -77,7 +77,7 @@ aws eks list-pod-identity-associations --cluster-name dremio-eks --no-cli-pager
 Copy and use the following file `values-aws-eks-auto-mode-<helm version>-override.yml` as a template. Do NOT modify `values-aws-eks-auto-mode-<helm version>.yml`.
 
 ```
-helm upgrade --install dremio oci://quay.io/dremio/dremio-helm:<helm version> -f values-aws-eks-auto-mode-v<helm version>-full-override.yml -f values-aws-eks-auto-mode-v<helm version>-override.yml
+helm upgrade --install dremio oci://quay.io/dremio/dremio-helm:<helm version> -f values-aws-eks-auto-mode-v<helm version>.yml -f values-aws-eks-auto-mode-v<helm version>-full-override.yml
 ```
 
 ## Add engines via UI and set the node selector:
