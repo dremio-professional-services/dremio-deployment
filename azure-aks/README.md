@@ -44,7 +44,7 @@ az aks nodepool add --resource-group carsten-rg --cluster-name carsten-aks --nam
 ## Node pool with AMD - 16x CPUs
 
 - General: 4x Standard_D8as_v5 (NATS, Zookeeper, MongoDB, OpenSearch)
-- Coordinator: 1x Standard_D16as_v5
+- Coordinator: 1x Standard_D32as_v5
 - Executor: n-x Standard_E16ads_v5
 
 ```shell
@@ -56,12 +56,12 @@ az aks nodepool add --resource-group carsten-rg --cluster-name carsten-aks --nam
 ## Node pool with AMD - 32x CPUs
 
 - General: 4x Standard_D8s_v5 (NATS, Zookeeper, MongoDB, OpenSearch)
-- Coordinator: 1x Standard_D16s_v5
+- Coordinator: 1x Standard_D32s_v5
 - Executor: n-x Standard_D32ds_v5
 
 ```shell
 az aks nodepool add --resource-group carsten-rg --cluster-name carsten-aks --name dremiocommon --mode User --node-count 1 --min-count 0 --max-count 5 --enable-cluster-autoscaler --node-vm-size Standard_D8as_v5 --node-osdisk-type Managed --node-osdisk-size 128 --os-type Linux --os-sku AzureLinux --zones 1 2 3
-az aks nodepool add --resource-group carsten-rg --cluster-name carsten-aks --name dremiocoord --mode User --node-count 1 --min-count 0 --max-count 5 --enable-cluster-autoscaler --node-vm-size Standard_D16as_v5 --node-osdisk-type Managed --node-osdisk-size 128 --os-type Linux --os-sku AzureLinux --zones 1 2 3
+az aks nodepool add --resource-group carsten-rg --cluster-name carsten-aks --name dremiocoord --mode User --node-count 1 --min-count 0 --max-count 5 --enable-cluster-autoscaler --node-vm-size Standard_D32as_v5 --node-osdisk-type Managed --node-osdisk-size 128 --os-type Linux --os-sku AzureLinux --zones 1 2 3
 az aks nodepool add --resource-group carsten-rg --cluster-name carsten-aks --name dremioexec --mode User --node-count 1 --min-count 0 --max-count 100 --enable-cluster-autoscaler --node-vm-size Standard_D32ads_v5 --node-osdisk-type Managed --node-osdisk-size 128 --os-type Linux --os-sku AzureLinux --zones 1 2 3
 ```
 
