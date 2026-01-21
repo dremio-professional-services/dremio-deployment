@@ -26,21 +26,21 @@ There are two modes of deployment:
 ## Helm Chart deployment in an EKS Auto Mode cluster (Full deployment)
 
 Following disks are provisioned by default:
-- 1x Coordinator disk: 512GB io2 with 6000 IOPS
-- 3x MongoDB disk: 256GB io2 with 6000 IOPS
-- 3x OpenSearch disk: 256GB gp3 with 6000 IOPS
+- 1x Coordinator disk: 512GB gp3 with 5000 IOPS
+- 3x MongoDB disk: 256GB gp3 with 5000 IOPS
+- 3x OpenSearch disk: 256GB gp3 with 5000 IOPS
 - 3x Zookeeper disk: 16GB gp3
 - 3x NATS disk: 16GB gp3
 - 1x coordinator logs disk: 256GB gp3
 - <n>x logs disk: 16GB gp3
 
 Graviton instance types:
-- General: 4x m8g.2xlarge (NATS, Zookeeper, MongoDB, OpenSearch)
+- Common: 4x m8g.2xlarge (NATS, Zookeeper, MongoDB, OpenSearch)
 - Coordinator: 1x r8g.4xlarge or m8g.8xlarge
 - Executor: <n>x r8gd.4xlarge or m8gd.8xlarge
 
 Intel x86 instance types:
-- General: 4x m5.2xlarge (NATS, Zookeeper, MongoDB, OpenSearch)
+- Common: 4x m5.2xlarge (NATS, Zookeeper, MongoDB, OpenSearch)
 - Coordinator: 1x m5.4xlarge or m5.8xlarge
 - Executor: <n>x r5d.4xlarge or m5d.8xlarge
 
