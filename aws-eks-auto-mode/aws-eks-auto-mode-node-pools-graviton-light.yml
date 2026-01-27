@@ -30,8 +30,10 @@ spec:
           operator: In
           values: [ "on-demand" ]
   disruption:
-    consolidationPolicy: WhenEmpty
-    consolidateAfter: 30s
+    budgets:
+      - nodes: 10%
+    consolidateAfter: 10m
+    consolidationPolicy: WhenEmptyOrUnderutilized
 
 ---
 apiVersion: karpenter.sh/v1
