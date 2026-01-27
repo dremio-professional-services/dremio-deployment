@@ -65,10 +65,8 @@ spec:
           operator: In
           values: [ "on-demand" ]
   disruption:
-    budgets:
-      - nodes: 10%
+    consolidationPolicy: WhenEmpty
     consolidateAfter: 30s
-    consolidationPolicy: WhenEmptyOrUnderutilized
 
 ---
 apiVersion: karpenter.sh/v1
@@ -102,7 +100,5 @@ spec:
           operator: In
           values: [ "on-demand" ]
   disruption:
-    budgets:
-      - nodes: 10%
+    consolidationPolicy: WhenEmpty
     consolidateAfter: 30s
-    consolidationPolicy: WhenEmptyOrUnderutilized
