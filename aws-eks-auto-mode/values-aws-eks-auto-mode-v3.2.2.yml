@@ -168,7 +168,7 @@ executor:
     #     cloudCache:
     #       enabled: false
     quota:
-      fs_pct: 70
+      fs_pct: 50
     volumes:
       - size: 256Gi
 
@@ -234,17 +234,17 @@ engine:
       defaultOffset: reserve-1-12
     storage:
       spillStorageSizes:
-        - name: 300GB
-          storage: 300Gi
-        - name: 600GB
-          storage: 600Gi
-      defaultSpillStorageSize: 300GB
+        - name: 950GB
+          storage: 950Gi
+        - name: 1900GB
+          storage: 1900Gi
+      defaultSpillStorageSize: 1900GB
       c3StorageSizes:
-        - name: 300GB
-          storage: 300Gi
-        - name: 600GB
-          storage: 600Gi
-      defaultC3StorageSize: 300GB
+        - name: 950GB
+          storage: 950Gi
+        - name: 1900GB
+          storage: 1900Gi
+      defaultC3StorageSize: 950GB
     idleTimeouts:
       durations:
         - PT2H
