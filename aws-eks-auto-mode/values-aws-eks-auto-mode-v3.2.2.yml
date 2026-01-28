@@ -244,7 +244,7 @@ engine:
           storage: 950Gi
         - name: 1900GB
           storage: 1900Gi
-      defaultC3StorageSize: 950GB
+      defaultC3StorageSize: 1900GB
     idleTimeouts:
       durations:
         - PT2H
