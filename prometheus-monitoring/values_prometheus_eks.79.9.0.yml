@@ -52,7 +52,7 @@ alertmanager:
     storage:
       volumeClaimTemplate:
         spec:
-          storageClassName: managed
+          storageClassName: dremio-logs
           accessModes: ["ReadWriteOnce"]
           resources:
             requests:
@@ -80,7 +80,7 @@ grafana:
     annotations:
       "helm.sh/resource-policy": keep
     enabled: true
-    storageClassName: managed
+    storageClassName: dremio-logs
     accessModes: ["ReadWriteOnce"]
     size: 32Gi
   nodeSelector:
@@ -119,7 +119,7 @@ prometheus:
     storageSpec:
       volumeClaimTemplate:
         spec:
-          storageClassName: managed-premium
+          storageClassName: dremio-logs
           accessModes: ["ReadWriteOnce"]
           resources:
             requests:
