@@ -1,4 +1,4 @@
-# Helm command: helm upgrade --install prometheus prometheus-community/kube-prometheus-stack -n monitoring --version 75.15.1 -f values_prometheus.hc.75.15.1.yml
+# Helm command: helm upgrade --install prometheus prometheus-community/kube-prometheus-stack -n monitoring --version 55.7.0 -f values_prometheus.hc.55.7.0.yml
 global:
   imageRegistry: ""
 
@@ -58,7 +58,7 @@ alertmanager:
             requests:
               storage: 32Gi
     nodeSelector:
-      agentpool: dremiocommon
+      karpenter.sh/nodepool: dremio-common
     resources:
       requests:
         cpu: 100m
@@ -84,7 +84,7 @@ grafana:
     accessModes: ["ReadWriteOnce"]
     size: 32Gi
   nodeSelector:
-    agentpool: dremiocommon
+    karpenter.sh/nodepool: dremio-common
   ingress:
     enabled: false
     ingressClassName: nginx
@@ -109,7 +109,7 @@ prometheus:
     enabled: false
   prometheusSpec:
     nodeSelector:
-      agentpool: dremiocommon
+      karpenter.sh/nodepool: dremio-common
     retention: 30d
     retentionSize: "256GiB"
     replicas: 1
@@ -141,14 +141,14 @@ prometheusOperator:
   # because control-plane managed by AWS cannot communicate with pods' IP CIDR and admission webhooks are not working
   hostNetwork: false
   nodeSelector:
-    agentpool: dremiocommon
+    karpenter.sh/nodepool: dremio-common
 
 kubeStateMetrics:
   enabled: true
 
 kube-state-metrics:
   nodeSelector:
-    agentpool: dremiocommon
+    karpenter.sh/nodepool: dremio-common
 
 kubernetesServiceMonitors:
   enabled: true
