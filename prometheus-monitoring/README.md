@@ -9,11 +9,12 @@ Create a Namespace for monitoring:
 
 #### Install Metrics Server
 In order to use the default scaling metrics of CPU and memory usage, [metrics server](https://github.com/kubernetes-sigs/metrics-server) will need to be installed
-This step is not required for Azure Kubernetes Service (AKS).
+This step is NOT required for Azure Kubernetes Service (AKS) and NOT required for EKS Auto Mode.
 
 ```
 # Add the kubernetes-sigs repo
 helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
+helm repo update
 
 # Install Metrics Server
 helm install  metrics-server metrics-server/metrics-server -n monitoring
