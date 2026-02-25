@@ -1,0 +1,67 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "200m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+  annotations:
+    # Specify the load balancer scheme (internal or internet-facing)
+    service.beta.kubernetes.io/aws-load-balancer-scheme: internal
+    
+    # Explicitly specify the subnets to use for the load balancer
+    service.beta.kubernetes.io/aws-load-balancer-subnets: subnet-06121ea63bd495801,subnet-036561458b944d638
+    
+    # Use IP mode for target type (default in EKS Auto Mode)
+    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
+    
+    # Optional: Enable cross-zone load balancing
+    service.beta.kubernetes.io/aws-load-balancer-attributes: load_balancing.cross_zone.enabled=true
+    
+    # Optional: Add custom tags to the load balancer
+    service.beta.kubernetes.io/aws-load-balancer-additional-resource-tags: Environment=dev,Application=nginx
+    
+    # Optional: Health check configuration
+    service.beta.kubernetes.io/aws-load-balancer-healthcheck-protocol: HTTP
+    service.beta.kubernetes.io/aws-load-balancer-healthcheck-path: /
+    service.beta.kubernetes.io/aws-load-balancer-healthcheck-port: traffic-port
+spec:
+  type: LoadBalancer
+  # For EKS Auto Mode, this is the default and can be omitted
+  loadBalancerClass: eks.amazonaws.com/nlb
+  selector:
+    app: nginx
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+      protocol: TCP
+  sessionAffinity: None
+

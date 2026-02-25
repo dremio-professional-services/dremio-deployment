@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluent-bit-config
+  namespace: dremio
+data:
+  fluent-bit.conf: |
+    [SERVICE]
+        Flush         5
+        Log_Level     info
+        Daemon        off
+        Parsers_File  parsers.conf
+
+    [INPUT]
+        Name              tail
+        Path              /var/log/dremio/server.log
+        Tag               dremio.server.log
+        DB                /tmp/flb_server.db
+        Mem_Buf_Limit     5MB
+        Skip_Long_Lines   On
+        Refresh_Interval  10
+
+    [INPUT]
+        Name              tail
+        Path              /var/log/dremio/server.out
+        Tag               dremio.server.out
+        DB                /tmp/flb_server_out.db
+        Mem_Buf_Limit     5MB
+        Skip_Long_Lines   On
+        Refresh_Interval  10
+
+    [OUTPUT]
+        Name                cloudwatch_logs
+        Match               dremio.server.log
+        region              eu-central-1
+        log_group_name      /eks/dremio-dev
+        log_stream_name     dremio-master-0/server.log
+        auto_create_group   true
+
+    [OUTPUT]
+        Name                cloudwatch_logs
+        Match               dremio.server.out
+        region              eu-central-1
+        log_group_name      /eks/dremio-dev
+        log_stream_name     dremio-master-0/server.out
+        auto_create_group   true
+
+  parsers.conf: |
+    [PARSER]
+        Name   json
+        Format json
+        Time_Key time
+        Time_Format %Y-%m-%dT%H:%M:%S.%L
+        Time_Keep On

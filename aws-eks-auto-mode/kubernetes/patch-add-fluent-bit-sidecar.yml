@@ -1,0 +1,28 @@
+spec:
+  template:
+    spec:
+      containers:
+      - name: fluent-bit
+        image: amazon/aws-for-fluent-bit:latest
+        env:
+          - name: AWS_REGION
+            value: "eu-central-1"
+          - name: AWS_STS_REGIONAL_ENDPOINTS
+            value: "regional"
+        volumeMounts:
+          - name: dremio-log-volume
+            mountPath: /var/log/dremio
+            readOnly: true
+          - name: fluent-bit-config
+            mountPath: /fluent-bit/etc/
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 200m
+            memory: 200Mi
+      volumes:
+      - name: fluent-bit-config
+        configMap:
+          name: fluent-bit-config
