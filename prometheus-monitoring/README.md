@@ -23,7 +23,7 @@ helm install  metrics-server metrics-server/metrics-server -n monitoring
 In order to have the required Custom Resource Definitions (CRD), we will need 
 [Prometheus Stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack) installed.
 
-Use the Prometheus stack template file values_prometheus_<K8s type>.79.9.0.yml and create a copy.
+Use the Prometheus stack template file values_prometheus_<K8s type>.82.4.0.yml and create a copy.
 Walk through the file and replace all values which are marked with a 'TODO'. This includes node selectors, storage classes and hostnames.
 
 ```
@@ -32,7 +32,7 @@ helm repo add prometheus-community https://prometheus-community.github.io/helm-c
 helm repo update
 
 # Install kube-prometheus-stack
-helm upgrade --install prometheus prometheus-community/kube-prometheus-stack -n monitoring --version 79.9.0 -f values_prometheus.79.9.0.yml
+helm upgrade --install prometheus prometheus-community/kube-prometheus-stack -n monitoring --version 82.4.0 -f values_prometheus_<type>.82.4.0.yml
 ```
 
 #### Add pod monitors
