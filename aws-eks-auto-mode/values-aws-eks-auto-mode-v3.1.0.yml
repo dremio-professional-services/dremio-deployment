@@ -167,18 +167,15 @@ engine:
           action: Reserve
       defaultOffset: reserve-1-12
     storage:
+      # Note: We always set it to 2000GB because, because this is the pod termination limit for emptyDir which we never want to hit!
       spillStorageSizes:
-        - name: 300GB
-          storage: 300Gi
-        - name: 600GB
-          storage: 600Gi
-      defaultSpillStorageSize: 300GB
+        - name: 2000GB
+          storage: 2000Gi
+      defaultSpillStorageSize: 2000GB
       c3StorageSizes:
-        - name: 300GB
-          storage: 300Gi
-        - name: 600GB
-          storage: 600Gi
-      defaultC3StorageSize: 300GB
+        - name: 2000GB
+          storage: 2000Gi
+      defaultC3StorageSize: 2000GB
     idleTimeouts:
       durations:
         - PT2H
@@ -207,14 +204,15 @@ engine:
         size: 8Gi
         pvc:
           storageClass: dremio-logs
+      # Note: We always set it to 2000Gi because, because this is the pod termination limit for emptyDir which we never want to hit!
       default:
         type: "emptyDir"
         emptyDir:
-          sizeLimit: "300Gi"
+          sizeLimit: "2000Gi"
       c3:
         type: "emptyDir"
         emptyDir:
-          sizeLimit: "300Gi"
+          sizeLimit: "2000Gi"
 
 zookeeper:
   image:
