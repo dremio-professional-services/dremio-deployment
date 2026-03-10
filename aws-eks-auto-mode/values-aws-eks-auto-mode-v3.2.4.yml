@@ -199,6 +199,10 @@ engine:
         pattern: "-XX:+UseStringDeduplication"
         applyByDefault: true
     sizes:
+      - name: 2XSmall
+        cpuScaleFactor: 0.5
+        pods: 1
+        memory: 64Gi
       - name: XSmall
         pods: 1
         memory: 128Gi

@@ -91,7 +91,7 @@ spec:
       requirements:
         - key: "node.kubernetes.io/instance-type"
           operator: In
-          values: [ "r8gd.4xlarge", "m8gd.8xlarge" ]
+          values: [ "r8gd.2xlarge", "m8gd.4xlarge", "r8gd.4xlarge", "m8gd.8xlarge" ]
         - key: "topology.kubernetes.io/zone"
           operator: In
           values: [ "eu-central-1a", "eu-central-1b", "eu-central-1c"]
