@@ -44,4 +44,4 @@ kubectl apply -n <dremio namespace> -f dremio-pod-monitors.yaml
 
 #### Install the Grafana Dashboard
 
-Login into Grafana and click the '+' icon at the top right and select "Import dashboard". Upload the file from this repository: [Dremio_Monitoring.json](./grafana/Dremio_Monitoring.json).
+Login into Grafana and click the '+' icon at the top right and select "Import dashboard". Upload the file from this repository: [Dremio_Grafana_Dashboard.json](./grafana/Dremio_Monitoring.json).
