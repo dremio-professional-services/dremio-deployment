@@ -130,7 +130,7 @@ coordinator:
       enabled: false
       secret: dremio-tls-secret-flight
   startupProbe:
-    failureThreshold: 30
+    failureThreshold: 120
     periodSeconds: 10
   livenessProbe:
     failureThreshold: 30
