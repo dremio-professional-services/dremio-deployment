@@ -31,7 +31,12 @@ spec:
           values: [ "on-demand" ]
   disruption:
     budgets:
-      - nodes: 10%
+      - duration: 24h
+        nodes: "0"
+        reasons:
+          - Drifted
+        schedule: 0 1 * * *
+      - nodes: "10%"
     consolidateAfter: 10m
     consolidationPolicy: WhenEmptyOrUnderutilized
 
@@ -67,8 +72,14 @@ spec:
           operator: In
           values: [ "on-demand" ]
   disruption:
+    budgets:
+      - duration: 24h
+        nodes: "0"
+        reasons:
+          - Drifted
+        schedule: 0 1 * * *
+    consolidateAfter: 10m
     consolidationPolicy: WhenEmpty
-    consolidateAfter: 30s
 
 ---
 apiVersion: karpenter.sh/v1
@@ -102,5 +113,11 @@ spec:
           operator: In
           values: [ "on-demand" ]
   disruption:
+    budgets:
+      - duration: 24h
+        nodes: "0"
+        reasons:
+          - Drifted
+        schedule: 0 1 * * *
+    consolidateAfter: 10m
     consolidationPolicy: WhenEmpty
-    consolidateAfter: 30s
