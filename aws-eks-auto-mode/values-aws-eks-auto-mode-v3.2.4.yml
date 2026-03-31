@@ -65,10 +65,11 @@ podAnnotations: {}
 labels: {}
 podLabels: {}
 nodeSelector: {}
-tolerations:
-  - key: "dremio"
-    operator: "Exists"
-    effect: "NoExecute"
+tolerations: []
+#tolerations:
+#  - key: "dremio"
+#    operator: "Exists"
+#    effect: "NoExecute"
 
 # Default security contexts used by dremio.podSecurityContext and dremio.containerSecurityContext helpers
 podSecurityContext:
