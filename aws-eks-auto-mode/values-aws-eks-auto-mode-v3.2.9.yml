@@ -863,7 +863,7 @@ nats:
               runAsUser: 0
             command: ["sh", "-c", "mkdir -p /data/jetstream && chown 0:0 /data /data/jetstream && chmod 755 /data && chmod 755 /data/jetstream"]
             volumeMounts:
-              - name: dremio-nats-js
+              - name: "{{ .Release.Name }}-nats-js"
                 mountPath: /data
         nodeSelector:
           karpenter.sh/nodepool: dremio-common
