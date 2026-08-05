@@ -100,14 +100,14 @@ catalogservices:
 mongodb:
   replicaCount: 3
   image:
-    repository: quay.io/dremio/percona/percona-server-mongodb
+    repository: quay.io/dremio/dremio-percona-server-mongodb
   metrics:
     image:
-      repository: quay.io/dremio/percona/mongodb_exporter
+      repository: quay.io/dremio/prometheus/mongodb_exporter
   backup:
     enabled: false
     image:
-      repository: quay.io/dremio/percona/percona-backup-mongodb
+      repository: quay.io/dremio/dremio-percona-backup-mongodb
 
 mongodbOperator:
   replicaCount: 0
