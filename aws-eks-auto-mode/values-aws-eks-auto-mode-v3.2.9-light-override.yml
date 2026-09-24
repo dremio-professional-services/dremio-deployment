@@ -139,5 +139,5 @@ nats:
 telemetry:
   enabled: false
   image:
-    repository: quay.io/dremio/otel/opentelemetry-collector-contrib
+    repository: quay.io/dremio/opentelemetry-collector-contrib
 
